@@ -995,7 +995,7 @@ function initProcessSnakeFlow() {
   const conn56 = stage.querySelector('.connector-5-6');
   const card6 = stage.querySelector('.snake-card-6');
 
-  const isDesktop = window.innerWidth > 920;
+  const isDesktop = window.innerWidth > 768;
 
   if (isDesktop) {
     // Master Snake Choreography: 01 -> 02 -> 03 -> turn -> 04 -> 05 -> 06
@@ -1105,26 +1105,23 @@ function initProcessSnakeFlow() {
       );
     }
   } else {
-    // Mobile / Tablet: Serpentine Flow Choreography without Horizontal Jitter (Zero-Displacement Standard)
+    // Mobile 2x3 Grid Entrance: Smooth, responsive, vertical emergence (Zero Horizontal Displacement)
     const mobileTl = gsap.timeline({
       scrollTrigger: {
         trigger: stage,
-        start: 'top 82%',
+        start: 'top 85%',
         toggleActions: 'play none none none'
       }
     });
 
-    if (card1) mobileTl.fromTo(card1, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
-    if (conn12) mobileTl.fromTo(conn12, { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.2');
-    if (card2) mobileTl.fromTo(card2, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.15');
-    if (conn23) mobileTl.fromTo(conn23, { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.2');
-    if (card3) mobileTl.fromTo(card3, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.15');
-    if (turn) mobileTl.fromTo(turn, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(1.4)' }, '-=0.1');
-    if (card4) mobileTl.fromTo(card4, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.1');
-    if (conn45) mobileTl.fromTo(conn45, { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.2');
-    if (card5) mobileTl.fromTo(card5, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.15');
-    if (conn56) mobileTl.fromTo(conn56, { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.2');
-    if (card6) mobileTl.fromTo(card6, { opacity: 0, y: 18, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.3)' }, '-=0.15');
+    const orderedCards = [card1, card2, card3, card4, card5, card6].filter(Boolean);
+    orderedCards.forEach((card, idx) => {
+      mobileTl.fromTo(card, 
+        { opacity: 0, y: 20 }, 
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, 
+        idx === 0 ? 0 : '-=0.28'
+      );
+    });
   }
 
   // Tactile 3D Tilt Micro-Interaction on mousemove
