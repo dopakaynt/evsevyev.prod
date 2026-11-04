@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
-  <title>Evsevyev prod. — Креативный видеопродакшн по Reels</title>
-  <meta name="description" content="Креативный видеопродакшн на Урале. Свет киноуровня, студийный звук, суфлёр и команда на площадке.">
+  <title>Евсевьев прод. — Видеопроизводство рилсов под ключ</title>
+  <meta name="description" content="Видеопроизводство полного цикла для бизнеса и экспертов. Свет киноуровня, студийный звук, суфлёр и команда на площадке.">
   
-  <!-- Fonts -->
+  <!-- Fonts: Soviet Cinema Monuments (Forum, Cormorant Garamond, Oswald, JetBrains Mono) + Editorial Body -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Forum&family=JetBrains+Mono:wght@400;500;700&family=Oswald:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Kinescope Video CDN Preconnects for High-Speed Loading -->
   <link rel="preconnect" href="https://kinescope.io">
@@ -22,18 +22,23 @@
   <link rel="dns-prefetch" href="https://edge-ams-1.kinescopecdn.net">
   <link rel="dns-prefetch" href="https://static.kinescopecdn.net">
   
-  <link rel="stylesheet" href="styles.css?v=10.0">
+  <link rel="stylesheet" href="styles.css?v=12.0">
 </head>
 <body>
 
-  <!-- Full-viewport Fixed 3D Realistic Cosmic Canvas -->
+  <!-- Authentic 35mm Analog Film Grain Overlay & Projector Aperture Vignette -->
+  <div class="film-grain-overlay" aria-hidden="true"></div>
+  <div class="cinema-gate-vignette" aria-hidden="true"></div>
+
+  <!-- Full-viewport Fixed 3D Realistic Cosmic Canvas (Warm Optical Dust & Stars) -->
   <canvas id="webglCanvas" class="webgl-canvas-fixed"></canvas>
 
-  <!-- Subtle Ambient Space Glows -->
+  <!-- Atmospheric Projector Beam & Warm Studio Lamp Glows -->
+  <div class="projector-beam-effect" aria-hidden="true"></div>
   <div class="ambient-glow glow-top"></div>
   <div class="ambient-glow glow-center"></div>
 
-  <!-- Header -->
+  <!-- Header: Original Brand Identity & Clean Navigation -->
   <header class="site-header" id="top">
     <div class="container header-container">
       <a href="#top" class="brand-logo">
@@ -42,19 +47,17 @@
       </a>
 
       <nav class="nav-menu" id="navMenu">
-        <a href="#clients" class="nav-link">Клиенты</a>
         <a href="#cases" class="nav-link">Кейсы</a>
-        <a href="#pricing" class="nav-link">Форматы работы</a>
+        <a href="#clients" class="nav-link">Клиенты</a>
+        <a href="#pricing" class="nav-link">Тарифы</a>
         <a href="#process" class="nav-link">Процесс</a>
         <a href="#contacts" class="nav-link">Контакты</a>
       </nav>
 
       <div class="header-actions">
-        <a href="https://t.me/evsevyev" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
-          <svg class="icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-          </svg>
-          <span>Telegram</span>
+        <a href="https://t.me/evsevyev" target="_blank" rel="noopener" class="btn btn-outline btn-sm soviet-header-btn">
+          <span class="btn-rec-dot"></span>
+          <span>Обсудить проект</span>
         </a>
         <button class="mobile-toggle" id="mobileToggle" aria-label="Меню">
           <span></span><span></span><span></span>
@@ -63,13 +66,23 @@
     </div>
   </header>
 
-  <!-- Hero Section: Clean Copywriting + Interactive iPhone Reels Showcase -->
+  <!-- Hero Section: Soviet Cinema Grandeur + 35mm Film Showcase -->
   <section class="hero-section" id="hero">
     <div class="container hero-layout">
       
       <!-- Left Column: Copywriting & Actions -->
       <div class="hero-content">
-        <h1 class="hero-title reveal">
+        
+        <!-- Soviet Title Slate Badge (Classic Double Line & Corner Brackets) -->
+        <div class="soviet-title-badge reveal">
+          <span class="badge-corner corner-tl">⌜</span>
+          <span class="badge-tag">КИНОПРОИЗВОДСТВО 35ММ</span>
+          <span class="badge-separator">•</span>
+          <span class="badge-text">СВЕТ КИНОУРОВНЯ & ЗВУК</span>
+          <span class="badge-corner corner-tr">⌝</span>
+        </div>
+
+        <h1 class="hero-title reveal soviet-hero-title">
           Снимаем рилсы для <span class="highlight">бизнеса</span> и личных брендов
         </h1>
 
@@ -78,169 +91,192 @@
         </p>
 
         <div class="hero-cta-group reveal">
-          <a href="#cases" class="btn btn-secondary btn-lg" data-magnetic="true">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
+          <a href="#cases" class="btn btn-secondary btn-lg soviet-btn-secondary" data-magnetic="true">
+            <span class="btn-film-icon">✦</span>
             <span>Смотреть кейсы</span>
           </a>
-          <a href="#pricing" class="btn btn-primary btn-lg" data-magnetic="true">
-            <span>Форматы работы</span>
-            <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor">
-              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
-            </svg>
+          <a href="#pricing" class="btn btn-primary btn-lg soviet-btn-primary" data-magnetic="true">
+            <span>Тарифы и форматы</span>
+            <span class="btn-arrow">→</span>
           </a>
         </div>
 
-        <!-- Quick Stats Row (Ultra-clean, architectural metrics) -->
-        <div class="hero-stats-bar reveal">
-          <div class="stat-metric-card">
-            <div class="stat-metric-val">
-              <span class="stat-counter" data-target="50">0</span>
-              <span class="stat-accent">M+</span>
+        <!-- Interactive Micro-Widgets: Soviet Cinema Equipment Deck -->
+        <div class="hero-stats-deck reveal" id="heroStatsDeck">
+          
+          <!-- Widget 1: Optical Soundtrack & Views -->
+          <div class="hero-widget-card widget-reach">
+            <div class="widget-top">
+              <div class="widget-badge live-pulse">
+                <span class="live-indicator-dot"></span>
+                <span class="live-text">ПРОСМОТРЫ</span>
+              </div>
+              <div class="widget-equalizer" aria-hidden="true" title="Оптический звук">
+                <span class="eq-bar eq-bar-1"></span>
+                <span class="eq-bar eq-bar-2"></span>
+                <span class="eq-bar eq-bar-3"></span>
+                <span class="eq-bar eq-bar-4"></span>
+                <span class="eq-bar eq-bar-5"></span>
+              </div>
             </div>
-            <span class="stat-metric-label">просмотров роликов</span>
+            <div class="widget-metric">
+              <span class="stat-counter" data-target="50">0</span><span class="stat-suffix">M+</span>
+            </div>
+            <div class="widget-label">суммарные просмотры</div>
+            <div class="widget-footer-tag">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="#e5a93c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>охваты роликов</span>
+            </div>
           </div>
 
-          <div class="stat-metric-divider"></div>
-
-          <div class="stat-metric-card">
-            <div class="stat-metric-val">
-              <span class="stat-counter" data-target="60">0</span>
-              <span class="stat-accent">+</span>
+          <!-- Widget 2: 3D Film Archive & Completed Reels Deck -->
+          <div class="hero-widget-card widget-cases">
+            <div class="widget-top">
+              <span class="widget-category-tag">ПОРТФОЛИО</span>
+              <div class="mini-deck-stack" aria-hidden="true">
+                <span class="deck-card deck-card-back">Brand</span>
+                <span class="deck-card deck-card-mid">Reels</span>
+                <span class="deck-card deck-card-front">B2B</span>
+              </div>
             </div>
-            <span class="stat-metric-label">готовых кейсов</span>
+            <div class="widget-metric">
+              <span class="stat-counter" data-target="60">0</span><span class="stat-suffix">+</span>
+            </div>
+            <div class="widget-label">выпущенных рилсов</div>
+            <div class="widget-footer-tag">
+              <span class="dot-accent"></span>
+              <span>проектов под ключ</span>
+            </div>
           </div>
 
-          <div class="stat-metric-divider"></div>
-
-          <div class="stat-metric-card">
-            <div class="stat-metric-val">
-              <span class="stat-counter" data-target="4">0</span>
-              <span class="stat-accent">ч</span>
+          <!-- Widget 3: Soviet Studio Precision Stopwatch Dial -->
+          <div class="hero-widget-card widget-velocity">
+            <div class="widget-top">
+              <span class="widget-category-tag">СМЕНА</span>
+              <div class="mini-shutter-dial" aria-hidden="true" title="Секундомер студии">
+                <svg width="22" height="22" viewBox="0 0 32 32">
+                  <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(240,202,130,0.18)" stroke-width="2"/>
+                  <circle cx="16" cy="16" r="13" fill="none" stroke="var(--accent-gold)" stroke-width="2.5" stroke-dasharray="81.68" stroke-dashoffset="54.45" stroke-linecap="round" transform="rotate(-90 16 16)"/>
+                  <line x1="16" y1="16" x2="22" y2="12" stroke="#f5f0e6" stroke-width="2" stroke-linecap="round" class="shutter-hand"/>
+                </svg>
+              </div>
             </div>
-            <span class="stat-metric-label">в месяц на съемке</span>
+            <div class="widget-metric">
+              <span class="stat-counter" data-target="4">0</span><span class="stat-suffix">ч</span>
+            </div>
+            <div class="widget-label">в месяц на площадке</div>
+            <div class="widget-footer-tag">
+              <span class="dot-accent"></span>
+              <span>команда делает остальное</span>
+            </div>
           </div>
+
         </div>
       </div>
 
-      <!-- Right Column: Flagship iPhone 16 Pro Showcase (Sleek, Centered, Luxury Dark Frame) -->
+      <!-- Right Column: Vintage Soviet CRT Television («РУБИН Ц-202») -->
       <div class="hero-visual reveal" id="heroVisual">
-        <div class="hero-showcase-stage" id="heroShowcaseStage">
+        <div class="soviet-tv-stage" id="heroShowcaseStage">
           
-          <!-- Ambient Luxury Backdrop Halo -->
-          <div class="showcase-ambient-halo"></div>
+          <!-- Ambient Warm Backlight Halo -->
+          <div class="tv-ambient-halo"></div>
 
-          <!-- iPhone 16 Pro Titanium Device -->
-          <div class="iphone-flagship-wrapper" id="iphone3D">
-            <div class="iphone-device">
-              <div class="iphone-titanium-rim">
-                <div class="iphone-inner-bezel">
+          <!-- Chrome Telescopic Rabbit-Ear Antennas -->
+          <div class="tv-antennas" aria-hidden="true">
+            <div class="antenna antenna-left"></div>
+            <div class="antenna antenna-right"></div>
+            <div class="antenna-mount"></div>
+          </div>
+
+          <!-- Walnut Wooden Television Cabinet -->
+          <div class="soviet-tv-cabinet" id="cinemaReelFrame">
+            
+            <!-- CRT Screen Tube Section -->
+            <div class="tv-screen-section">
+              <div class="tv-crt-bezel">
+                <div class="tv-screen-glass">
                   
-                  <!-- Dynamic Island -->
-                  <div class="dynamic-island">
-                    <div class="island-camera"></div>
-                    <div class="island-sensor"></div>
+                  <!-- Full-Bleed Video Stream Viewport -->
+                  <div class="tv-video-viewport" id="heroReelMedia">
+                    <iframe 
+                      id="heroReelIframe"
+                      src="https://kinescope.io/embed/psqw8T1BitivaccPA2fWq5?autoplay=1&muted=1&loop=1&controls=0&preload=auto" 
+                      allow="autoplay; fullscreen"
+                      class="cinema-reel-iframe tv-crt-iframe"
+                      title="Evsevyev prod. Showreel"
+                      allowtransparency="true"
+                      style="background-color: #000000 !important; color-scheme: dark !important;"
+                    ></iframe>
+                    <img 
+                      src="https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg" 
+                      alt="Evsevyev prod. Reel" 
+                      class="cinema-reel-poster tv-crt-poster"
+                      id="heroReelPoster"
+                    >
+                    <!-- CRT Phosphor Scanlines & Convex Glass Reflections -->
+                    <div class="tv-crt-scanlines" aria-hidden="true"></div>
+                    <div class="tv-crt-curve-vignette" aria-hidden="true"></div>
+                    <div class="tv-glass-glare" aria-hidden="true"></div>
                   </div>
 
-                  <!-- Phone Screen Interior -->
-                  <div class="iphone-screen ios-screen" id="heroScreenContainer">
-                    
-                    <!-- Kinescope High-Speed Video Stream -->
-                    <div class="iphone-reel-media" id="heroReelMedia">
-                      <iframe 
-                        id="heroReelIframe"
-                        src="https://kinescope.io/embed/psqw8T1BitivaccPA2fWq5?autoplay=1&muted=1&loop=1&controls=0&preload=auto" 
-                        allow="autoplay; fullscreen"
-                        class="iphone-reel-iframe"
-                        title="Evsevyev prod. Showreel"
-                      ></iframe>
-                      <img 
-                        src="https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg" 
-                        alt="Evsevyev prod. Reel" 
-                        class="iphone-reel-poster"
-                        id="heroReelPoster"
-                      >
-                      <div class="iphone-reel-overlay"></div>
-                    </div>
-
-                    <!-- iOS Status Bar -->
-                    <div class="ios-status-bar">
-                      <span class="ios-time" id="iosLiveTime">09:41</span>
-                      <div class="ios-status-icons">
-                        <svg class="ios-signal" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                          <rect x="2" y="16" width="3" height="6" rx="1"/>
-                          <rect x="7" y="12" width="3" height="10" rx="1"/>
-                          <rect x="12" y="8" width="3" height="14" rx="1"/>
-                          <rect x="17" y="4" width="3" height="18" rx="1"/>
-                        </svg>
-                        <span class="ios-network">5G</span>
-                        <div class="ios-battery">
-                          <div class="ios-battery-level"></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Sound Toggle Button (Bottom-Left) -->
-                    <button class="reel-sound-pill" id="heroSoundToggle" aria-label="Включить звук">
-                      <svg class="sound-icon-muted" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27l4.73 4.73H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                      </svg>
-                      <svg class="sound-icon-unmuted" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="display:none;">
-                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                      </svg>
-                      <span class="sound-pill-text">Включить звук</span>
-                    </button>
-
-                    <!-- Right Rail: Clean Minimal Action Buttons -->
-                    <div class="reels-actions-rail">
-                      <div class="reel-action-btn like-btn" id="heroLikeBtn" title="Нравится">
-                        <div class="action-icon-wrap" id="heroHeartWrap">
-                          <svg viewBox="0 0 24 24" width="22" height="22" fill="#ffffff">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                          </svg>
-                        </div>
-                        <span class="action-count">142K</span>
-                      </div>
-
-                      <div class="reel-action-btn">
-                        <div class="action-icon-wrap">
-                          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                          </svg>
-                        </div>
-                        <span class="action-count">2.4K</span>
-                      </div>
-
-                      <div class="reel-action-btn">
-                        <div class="action-icon-wrap">
-                          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="22" y1="2" x2="11" y2="13"/>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                          </svg>
-                        </div>
-                        <span class="action-count">18.6K</span>
-                      </div>
-
-                      <div class="reels-audio-disc-btn">
-                        <div class="reels-audio-disc">
-                          <img src="https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg" alt="Audio cover">
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- iOS 18 Home Gesture Indicator -->
-                    <div class="ios-home-indicator"></div>
-
-                    <!-- Realistic Specular Glare -->
-                    <div class="screen-specular-glare"></div>
+                  <!-- Channel OSD Badge -->
+                  <div class="tv-channel-osd" aria-hidden="true">
+                    <span class="osd-dot"></span>
+                    <span class="osd-text">1 КАНАЛ • ЦВЕТ</span>
                   </div>
 
                 </div>
               </div>
-              
-              <div class="iphone-shadow-ambient"></div>
             </div>
+
+            <!-- TV Control Panel (Right Side: Speaker Slits, Knobs, Model Badge) -->
+            <div class="tv-control-panel">
+              
+              <!-- Soviet Model Nameplate Badge -->
+              <div class="tv-badge-plate">
+                <span class="tv-badge-brand">РУБИН</span>
+                <span class="tv-badge-model">Ц-202</span>
+              </div>
+
+              <!-- Speaker Acoustic Grille Slats -->
+              <div class="tv-speaker-grille" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+
+              <!-- Rotary Channel Selector (ПТК) -->
+              <div class="tv-control-item">
+                <span class="tv-ctrl-label">КАНАЛ</span>
+                <div class="tv-rotary-knob" id="tvChannelKnob" title="Переключить программу">
+                  <div class="knob-pointer"></div>
+                  <div class="knob-ring"></div>
+                </div>
+              </div>
+
+              <!-- Volume Control / Sound Toggle Button -->
+              <div class="tv-control-item">
+                <span class="tv-ctrl-label">ЗВУК</span>
+                <button class="tv-sound-btn" id="heroSoundToggle" aria-label="Включить звук">
+                  <span class="tv-led-sound"></span>
+                  <span class="sound-pill-text">Звук</span>
+                </button>
+              </div>
+
+              <!-- Power Row: Glowing Ruby Pilot Lamp -->
+              <div class="tv-power-row">
+                <div class="tv-power-lamp" title="Сеть 220V"></div>
+                <span class="tv-power-text">СЕТЬ</span>
+              </div>
+
+            </div>
+
+            <!-- Vintage Tapered Wooden Feet -->
+            <div class="tv-cabinet-legs" aria-hidden="true">
+              <span class="tv-leg leg-left"></span>
+              <span class="tv-leg leg-right"></span>
+            </div>
+
           </div>
 
         </div>
@@ -248,14 +284,14 @@
     </div>
   </section>
 
-  <!-- Section: Clients & Partners (С кем работали — Двойная бегущая строка) -->
+  <!-- Section: Clients & Partners -->
   <section class="section clients-section" id="clients">
     <div class="container">
       <div class="section-header text-center reveal">
-        <span class="eyebrow">Доверие лидеров</span>
-        <h2 class="section-title">С кем мы работали</h2>
+        <span class="eyebrow">✦ НАМ ДОВЕРЯЮТ ✦</span>
+        <h2 class="section-title">С кем мы работаем</h2>
         <p class="section-desc">
-          Создаем вирусный видеоконтент для знаковых заведений, премиальных брендов и лидеров рынка
+          Создаем видеоконтент для лидеров рынка, предпринимателей и ключевых брендов
         </p>
       </div>
     </div>
@@ -333,12 +369,12 @@
     <div class="container">
       
       <div class="section-header text-center reveal">
-        <span class="eyebrow">Портфолио & Кейсы</span>
+        <span class="eyebrow">✦ ПОРТФОЛИО ✦</span>
         <h2 class="section-title">Наши работы</h2>
-        <p class="section-desc">Выберите нишу, чтобы посмотреть реальные результаты наших клиентов</p>
+        <p class="section-desc">Выберите категорию для просмотра реальных кейсов и видеороликов</p>
       </div>
 
-      <!-- Category Filter Tabs -->
+      <!-- Category Filter Tabs styled like vintage cinema archive tags -->
       <div class="filter-tabs-wrapper reveal">
         <div class="filter-tabs" id="portfolioFilter">
           <button class="filter-btn active" data-cat="restaurants">Рестораны</button>
@@ -366,6 +402,7 @@
     <div class="container">
       
       <div class="section-header text-center reveal">
+        <span class="eyebrow">✦ СТОИМОСТЬ ✦</span>
         <h2 class="section-title text-massive">Форматы работы</h2>
         <p class="section-desc text-glow">
           Всё включено: свет киноуровня, студийный звук, суфлёр и команда на площадке
@@ -410,7 +447,7 @@
           </div>
         </div>
 
-        <!-- CARD 2: 3 Месяца (FEATURED / YELLOW) -->
+        <!-- CARD 2: 3 Месяца (FEATURED) -->
         <div class="price-card price-card-featured spotlight-card reveal">
           <div class="featured-badge">ХИТ ВЫБОРА</div>
 
@@ -491,42 +528,42 @@
     <div class="container">
       
       <div class="section-header text-center reveal">
-        <span class="eyebrow">Процесс</span>
+        <span class="eyebrow">✦ ПРОЦЕСС ✦</span>
         <h2 class="section-title">Как мы работаем</h2>
-        <p class="section-desc">Четкий 4-ступенчатый процесс от идеи до готового контента</p>
+        <p class="section-desc">Четыре понятных шага от идеи и сценария до готового пула видеороликов</p>
       </div>
 
       <div class="steps-flow">
         
         <div class="step-card spotlight-card reveal">
-          <div class="step-num">01</div>
-          <h3 class="step-title">Анализ и стратегия</h3>
+          <div class="step-num">КАДР 01</div>
+          <h3 class="step-title">Анализ и смыслы</h3>
           <p class="step-desc">
-            Изучаем вашу нишу, сильные стороны и конкурентов. Формируем рубрикатор, темы и гипотезы воронки.
+            Изучаем вашу нишу, позиционирование и конкурентов. Формируем рубрикатор и темы будущих роликов.
           </p>
         </div>
 
         <div class="step-card spotlight-card reveal">
-          <div class="step-num">02</div>
+          <div class="step-num">КАДР 02</div>
           <h3 class="step-title">Сценарии и хуки</h3>
           <p class="step-desc">
-            Пишем цепляющие первые фразы (хуки), драматургию и смысловую пользу, загружаем текст в профессиональный телесуфлёр.
+            Пишем цепляющие вступительные хуки, раскадровку и полезную часть, загружаем в суфлер.
           </p>
         </div>
 
         <div class="step-card spotlight-card reveal">
-          <div class="step-num">03</div>
-          <h3 class="step-title">Киносъемочный день</h3>
+          <div class="step-num">КАДР 03</div>
+          <h3 class="step-title">Съемочный день</h3>
           <p class="step-desc">
-            Привозим свет киноуровня, петлички студийного класса и суфлёр. Снимаем все 10 роликов за одну комфортную смену 3–4 часа.
+            Привозим свет киноуровня, петлички студийного класса и суфлер. Снимаем все 10 роликов за 3–4 часа.
           </p>
         </div>
 
         <div class="step-card spotlight-card reveal">
-          <div class="step-num">04</div>
-          <h3 class="step-title">Монтаж и сдача</h3>
+          <div class="step-num">КАДР 04</div>
+          <h3 class="step-title">Монтаж и цвет</h3>
           <p class="step-desc">
-            Динамичный монтаж без воды, саунд-дизайн, анимация плашек, субтитры и цветокоррекция. Отдаем готовый пул роликов.
+            Динамичный монтаж, трендовый саунд-дизайн, плашки, субтитры и грейдинг. Отдаем готовый пул роликов.
           </p>
         </div>
 
@@ -539,15 +576,13 @@
     <div class="container">
       <div class="cta-banner spotlight-card reveal">
         <div class="cta-content">
-          <span class="eyebrow">Связаться с нами</span>
-          <h2 class="cta-title">Начать работу над проектом</h2>
-          <p class="cta-desc">Напишите в Telegram. Обсудим ваш бизнес и варианты работы</p>
+          <span class="eyebrow">✦ ОБСУДИТЬ ПРОЕКТ ✦</span>
+          <h2 class="cta-title">Готовы вывести ваши соцсети на новый уровень?</h2>
+          <p class="cta-desc">Напишите в Telegram — обсудим ваши цели, подберем формат и запланируем съемочный день</p>
           
           <div class="cta-buttons">
-            <a href="https://t.me/evsevyev" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-magnetic="true">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-              </svg>
+            <a href="https://t.me/evsevyev" target="_blank" rel="noopener" class="btn btn-primary btn-lg soviet-btn-primary" data-magnetic="true">
+              <span class="btn-rec-dot"></span>
               <span>Написать в Telegram</span>
             </a>
           </div>
@@ -565,14 +600,14 @@
           <span class="logo-badge">PROD.</span>
         </a>
         <p class="footer-copy">© 2026 Evsevyev prod. Все права защищены.</p>
-        <p class="footer-subcopy">Креативный видеопродакшн на Урале: съемка рилсов, подкастов и видеостратегии.</p>
+        <p class="footer-subcopy">Видеопроизводство полного цикла: рилсы под ключ, студийный свет, кинооптика.</p>
       </div>
 
       <div class="footer-links-group">
         <div class="footer-col">
           <h4>Навигация</h4>
           <a href="#cases">Кейсы</a>
-          <a href="#pricing">Форматы работы</a>
+          <a href="#pricing">Тарифы</a>
           <a href="#process">Процесс</a>
         </div>
 

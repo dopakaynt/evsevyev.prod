@@ -120,7 +120,7 @@ const portfolioData = {
 document.addEventListener('DOMContentLoaded', () => {
   initLenisScroll();
   initRealisticCosmos();
-  initIPhoneShowcase();
+  initHeroShowcase();
   initHeroCounters();
   initClientsInteractions();
   initCreativeInteractions();
@@ -137,27 +137,28 @@ function initLenisScroll() {
   if (typeof Lenis === 'undefined') return;
 
   lenisInstance = new Lenis({
-    duration: 1.2,
+    duration: 1.0,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
-    wheelMultiplier: 1.0,
-    touchMultiplier: 1.5
+    wheelMultiplier: 0.9,
+    touchMultiplier: 1.2
   });
 
-  function raf(time) {
-    lenisInstance.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-
+  // Single RAF runner: synchronize with GSAP ticker if available, or native RAF
   if (typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
     lenisInstance.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => {
       lenisInstance.raf(time * 1000);
     });
     gsap.ticker.lagSmoothing(0);
+  } else {
+    function raf(time) {
+      lenisInstance.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
   }
 
   // Smooth scroll for anchor links
@@ -168,7 +169,7 @@ function initLenisScroll() {
       const targetElem = document.querySelector(targetId);
       if (targetElem) {
         e.preventDefault();
-        lenisInstance.scrollTo(targetElem, { offset: -70, duration: 1.2 });
+        lenisInstance.scrollTo(targetElem, { offset: -50, duration: 1.0 });
       }
     });
   });
@@ -196,28 +197,29 @@ function initRealisticCosmos() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0x1a1d2e, 0.8);
+  // Lighting (Warm Soviet Studio Incandescent & Tungsten Spots)
+  const ambientLight = new THREE.AmbientLight(0x1a1512, 0.9);
   scene.add(ambientLight);
 
-  const keyLight = new THREE.DirectionalLight(0xfffaed, 2.2);
+  const keyLight = new THREE.DirectionalLight(0xfffaed, 2.2); // Warm 3200K tungsten lamp
   keyLight.position.set(18, 12, 14);
   scene.add(keyLight);
 
-  const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.9);
+  const rimLight = new THREE.DirectionalLight(0xe5a93c, 0.85); // Warm gold rim
   rimLight.position.set(-18, -10, -8);
   scene.add(rimLight);
 
-  // Deep Space Multi-Spectral Starfield (3,200 stars)
+  // Deep Space Multi-Spectral Starfield (3,200 stars - 35mm Optical Dust & Warm Specks)
   const starCount = 3200;
   const starGeom = new THREE.BufferGeometry();
   const starPositions = new Float32Array(starCount * 3);
   const starColors = new Float32Array(starCount * 3);
 
-  const colorWhite = new THREE.Color(0xffffff);
-  const colorGold = new THREE.Color(0xffe082);
-  const colorBlue = new THREE.Color(0x90caf9);
-  const colorCyan = new THREE.Color(0x80deea);
+  const colorIvory = new THREE.Color(0xf5f0e6);
+  const colorGold = new THREE.Color(0xe5a93c);
+  const colorAmber = new THREE.Color(0xf5cf7a);
+  const colorSepia = new THREE.Color(0xd8c29d);
+  const colorTungsten = new THREE.Color(0xffecd2);
 
   for (let i = 0; i < starCount * 3; i += 3) {
     starPositions[i] = (Math.random() - 0.5) * 120;
@@ -225,10 +227,11 @@ function initRealisticCosmos() {
     starPositions[i + 2] = (Math.random() - 0.5) * 120;
 
     const rnd = Math.random();
-    let col = colorWhite;
-    if (rnd < 0.22) col = colorGold;
-    else if (rnd < 0.48) col = colorBlue;
-    else if (rnd < 0.62) col = colorCyan;
+    let col = colorIvory;
+    if (rnd < 0.28) col = colorGold;
+    else if (rnd < 0.54) col = colorAmber;
+    else if (rnd < 0.74) col = colorSepia;
+    else if (rnd < 0.90) col = colorTungsten;
 
     starColors[i] = col.r;
     starColors[i + 1] = col.g;
@@ -248,13 +251,13 @@ function initRealisticCosmos() {
   const starfield = new THREE.Points(starGeom, starMat);
   scene.add(starfield);
 
-  // Periodic Shooting Meteor Streaks
+  // Periodic Shooting Meteor Streaks (Golden Optical Flare)
   const meteorGeom = new THREE.BufferGeometry();
   const meteorPositions = new Float32Array(6);
   meteorGeom.setAttribute('position', new THREE.BufferAttribute(meteorPositions, 3));
 
   const meteorMat = new THREE.LineBasicMaterial({
-    color: 0xffffff,
+    color: 0xf5cf7a,
     transparent: true,
     opacity: 0,
     blending: THREE.AdditiveBlending,
@@ -343,41 +346,29 @@ function initRealisticCosmos() {
 }
 
 /* =========================================================
-   MODULE 3: Flagship iPhone 16 Pro Showcase Engine
+   MODULE 3: Director's Cinema Showreel Showcase Engine
    (Smooth 3D Parallax, Sound Toggle & Pristine Playback)
    ========================================================= */
-function initIPhoneShowcase() {
-  const iphone = document.getElementById('iphone3D');
+function initHeroShowcase() {
+  const showcaseFrame = document.getElementById('cinemaReelFrame') || document.getElementById('iphone3D');
   const heroSection = document.getElementById('hero');
-  const liveTime = document.getElementById('iosLiveTime');
-  const glare = document.querySelector('.screen-specular-glare');
+  const glare = document.querySelector('.cinema-specular-glare') || document.querySelector('.screen-specular-glare');
   const likeBtn = document.getElementById('heroLikeBtn');
   const heartWrap = document.getElementById('heroHeartWrap');
   const soundToggle = document.getElementById('heroSoundToggle');
   const reelPoster = document.getElementById('heroReelPoster');
   const reelIframe = document.getElementById('heroReelIframe');
 
-  // 1. Live Digital Clock (iOS status bar)
-  function updateTime() {
-    if (!liveTime) return;
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const mins = String(now.getMinutes()).padStart(2, '0');
-    liveTime.textContent = `${hours}:${mins}`;
-  }
-  updateTime();
-  setInterval(updateTime, 10000);
-
-  // 2. Hide poster smoothly once iframe loads video
+  // 1. Hide poster smoothly once iframe loads video
   if (reelIframe && reelPoster) {
     reelIframe.addEventListener('load', () => {
       setTimeout(() => {
         reelPoster.style.opacity = '0';
-      }, 900);
+      }, 700);
     });
   }
 
-  // 3. Sound Toggle Interactivity
+  // 2. Sound Toggle Interactivity
   let isMuted = true;
   if (soundToggle && reelIframe) {
     const iconMuted = soundToggle.querySelector('.sound-icon-muted');
@@ -397,59 +388,78 @@ function initIPhoneShowcase() {
         soundToggle.classList.remove('unmuted');
         if (iconMuted) iconMuted.style.display = 'block';
         if (iconUnmuted) iconUnmuted.style.display = 'none';
-        if (pillText) pillText.textContent = 'Включить звук';
+        if (pillText) pillText.textContent = 'Звук';
       } else {
         soundToggle.classList.add('unmuted');
         if (iconMuted) iconMuted.style.display = 'none';
         if (iconUnmuted) iconUnmuted.style.display = 'block';
-        if (pillText) pillText.textContent = 'Звук включен';
+        if (pillText) pillText.textContent = 'Вкл.';
       }
     });
   }
 
-  // 4. Subtle Like Button Interaction
+  // 2.5 TV Channel Knob Mechanical Rotation Click
+  const tvChannelKnob = document.getElementById('tvChannelKnob');
+  let currentKnobAngle = 0;
+  if (tvChannelKnob) {
+    tvChannelKnob.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentKnobAngle = (currentKnobAngle + 30) % 360;
+      if (typeof gsap !== 'undefined') {
+        gsap.to(tvChannelKnob, {
+          rotate: currentKnobAngle,
+          duration: 0.25,
+          ease: 'back.out(2)'
+        });
+      } else {
+        tvChannelKnob.style.transform = `rotate(${currentKnobAngle}deg)`;
+      }
+    });
+  }
+
+  // 3. Subtle Like Button Interaction
   if (likeBtn && heartWrap) {
     likeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       const countEl = likeBtn.querySelector('.action-count');
       const heartSvg = heartWrap.querySelector('svg');
       if (heartSvg) {
-        heartSvg.setAttribute('fill', '#ff2d55');
+        heartSvg.setAttribute('fill', '#ef4444');
       }
       if (countEl) {
         countEl.textContent = '143K';
       }
       if (typeof gsap !== 'undefined') {
         gsap.fromTo(heartWrap,
-          { scale: 0.7 },
-          { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: 'back.out(3)' }
+          { scale: 0.75 },
+          { scale: 1.3, duration: 0.22, yoyo: true, repeat: 1, ease: 'back.out(3)' }
         );
       }
     });
   }
 
-  // 5. Subtle Organic Floating Sine Hover (Upright & Balanced)
-  if (typeof gsap !== 'undefined' && iphone) {
-    gsap.to(iphone, {
-      y: '+=8',
-      duration: 3.2,
+  // 4. Subtle Organic Floating Sine Hover
+  if (typeof gsap !== 'undefined' && showcaseFrame) {
+    gsap.to(showcaseFrame, {
+      y: '+=6',
+      duration: 3.5,
       yoyo: true,
       repeat: -1,
       ease: 'sine.inOut'
     });
   }
 
-  // 6. Interactive 3D Parallax Tilt on Mouse Move (Subtle, professional)
-  if (heroSection && iphone) {
+  // 5. Interactive 3D Parallax Tilt on Mouse Move (Refined Director's Viewport)
+  if (heroSection && showcaseFrame) {
     heroSection.addEventListener('mousemove', (e) => {
       const rect = heroSection.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
 
       if (typeof gsap !== 'undefined') {
-        gsap.to(iphone, {
-          rotateY: x * 10,
-          rotateX: -y * 8,
+        gsap.to(showcaseFrame, {
+          rotateY: x * 8,
+          rotateX: -y * 6,
           duration: 0.6,
           ease: 'power2.out',
           transformPerspective: 1200
@@ -465,7 +475,7 @@ function initIPhoneShowcase() {
 
     heroSection.addEventListener('mouseleave', () => {
       if (typeof gsap !== 'undefined') {
-        gsap.to(iphone, {
+        gsap.to(showcaseFrame, {
           rotateY: 0,
           rotateX: 0,
           duration: 1.0,
@@ -475,6 +485,7 @@ function initIPhoneShowcase() {
     });
   }
 }
+const initIPhoneShowcase = initHeroShowcase;
 
 /* =========================================================
    MODULE 3.5: Non-Jittery Cinematic Counter Engine
@@ -513,7 +524,7 @@ function initHeroCounters() {
   }
 
   // Trigger strictly when visible
-  const statsContainer = document.querySelector('.hero-stats-bar');
+  const statsContainer = document.getElementById('heroStatsDeck') || document.querySelector('.hero-stats-deck') || document.querySelector('.hero-stats-bar');
   if (statsContainer && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -522,7 +533,7 @@ function initHeroCounters() {
           observer.disconnect();
         }
       });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.15 });
     observer.observe(statsContainer);
   } else {
     runCounters();
@@ -608,22 +619,26 @@ function renderPortfolio(categoryKey) {
     card.className = 'video-card';
     card.setAttribute('data-video-id', video.id);
 
-    // Kinescope CDN poster URL (fetches in ~50-100ms, provides instant dark cinematic cover)
-    const posterUrl = `https://kinescope.io/${video.id}/poster.jpg`;
-
-    card.innerHTML = `
-      <div class="video-ratio-box ${catData.type}">
-        <!-- 1. Real Cinematic Video Poster (Guarantees deep black & photo cover, never white) -->
-        <img 
+    // If real CDN poster is defined, render image; otherwise render dark 35mm cinematic title cover
+    const posterMarkup = video.poster
+      ? `<img 
           class="video-native-poster" 
-          src="${posterUrl}" 
+          src="${video.poster}" 
           alt="${video.title || 'Evsevyev prod.'}" 
           loading="eager" 
           decoding="async"
-          onerror="this.style.opacity='0'"
-        >
+        >`
+      : `<div class="video-native-poster video-cinematic-cover">
+          <div class="cover-badge">35mm • SOVSCOPE</div>
+          <div class="cover-title">${video.title || 'EVSEVYEV PROD.'}</div>
+        </div>`;
 
-        <!-- 2. Minimalist Video Loader: Play Button & Golden Progress Bar Only -->
+    card.innerHTML = `
+      <div class="video-ratio-box ${catData.type}">
+        <!-- 1. Deep Black Canvas & Photographic / Cinematic Cover (Guarantees zero white flash) -->
+        ${posterMarkup}
+
+        <!-- 2. Minimalist Video Loader: Play Button & Golden Progress Bar -->
         <div class="video-loader">
           <div class="loader-content">
             <div class="loader-play-btn">
@@ -637,15 +652,15 @@ function renderPortfolio(categoryKey) {
           </div>
         </div>
 
-        <!-- 3. Kinescope Native Preview Player (With sound icon & auto-loop) -->
+        <!-- 3. Kinescope Dedicated Embed Player (Native black canvas, instant poster thumbnail & controls) -->
         <iframe 
-          src="https://kinescope.io/${video.id}" 
+          src="https://kinescope.io/embed/${video.id}?preload=auto" 
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;" 
           frameborder="0" 
           allowfullscreen 
           loading="eager"
           allowtransparency="true"
-          style="background-color: #000000 !important;">
+          style="background-color: #000000 !important; color-scheme: dark !important;">
         </iframe>
       </div>
     `;
@@ -654,39 +669,74 @@ function renderPortfolio(categoryKey) {
     const loaderLine = card.querySelector('.loader-line');
     const iframe = card.querySelector('iframe');
 
-    // 1. Uniform synchronous progress bar (2.4s) for all cards simultaneously
+    // 1. Kick off golden progress line animation
     requestAnimationFrame(() => {
       setTimeout(() => {
         if (loaderLine) {
           loaderLine.style.width = '100%';
         }
-      }, 40);
+      }, 50);
     });
 
-    // 2. Uniform loader fadeout at 2.4s for ALL cards simultaneously
-    // When loader fades out, the user sees the crisp photographic poster still (never white!)
+    // 2. Synchronized Seamless Reveal Engine:
+    // Ensures iframe is completely rendered & painted dark BEFORE the loader fades out!
+    let isRevealed = false;
+    let minTimeElapsed = false;
+    let iframeHasLoaded = false;
+
+    function completeReveal() {
+      if (isRevealed) return;
+      if (iframeHasLoaded && minTimeElapsed) {
+        isRevealed = true;
+        // Make iframe fully visible underneath the loader
+        if (iframe) {
+          iframe.classList.add('is-ready');
+        }
+        // Microscopic delay (90ms) for browser to paint the iframe frame before loader fades
+        setTimeout(() => {
+          if (loader && loader.parentNode) {
+            loader.classList.add('loaded');
+            // Clean up loader from DOM once CSS transition ends
+            setTimeout(() => {
+              if (loader && loader.parentNode) {
+                loader.remove();
+              }
+            }, 450);
+          }
+        }, 90);
+      }
+    }
+
+    if (iframe) {
+      iframe.addEventListener('load', () => {
+        iframeHasLoaded = true;
+        completeReveal();
+      });
+    }
+
+    // Minimum display time for the progress bar (1.4s) for high-end aesthetic feedback
     setTimeout(() => {
-      if (loader) {
-        loader.classList.add('loaded');
+      minTimeElapsed = true;
+      completeReveal();
+    }, 1400);
+
+    // Guaranteed failsafe fallback (2.4s) in case load event was suppressed by browser
+    setTimeout(() => {
+      if (!isRevealed) {
+        isRevealed = true;
+        if (iframe) {
+          iframe.classList.add('is-ready');
+        }
+        if (loader && loader.parentNode) {
+          loader.classList.add('loaded');
+          setTimeout(() => {
+            if (loader && loader.parentNode) {
+              loader.remove();
+            }
+          }, 450);
+        }
       }
     }, 2400);
-
-    // 3. Smooth crossfade into active playing video with sound toggle
-    // Row 1 (cards 0-3) reveal at 2.5s
-    // Row 2 (cards 4-7) reveal at 3.1s after chunks initialize over poster
-    const iframeRevealDelay = index < 4 ? 2500 : 3100;
-    setTimeout(() => {
-      if (iframe) {
-        iframe.classList.add('is-ready');
-      }
-    }, iframeRevealDelay);
-
-    // Clean up loader element from DOM after transition completes
-    setTimeout(() => {
-      if (loader && loader.parentNode) {
-        loader.remove();
-      }
-    }, 3200);
 
     grid.appendChild(card);
   });
