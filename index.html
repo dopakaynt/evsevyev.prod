@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>Evsevyev prod. — Креативный видеопродакшн по Reels</title>
+  <meta name="description" content="Креативный видеопродакшн на Урале. Свет киноуровня, студийный звук, суфлёр и команда на площадке.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Kinescope Video CDN Preconnects for High-Speed Loading -->
+  <link rel="preconnect" href="https://kinescope.io">
+  <link rel="preconnect" href="https://preview.kinescope.io">
+  <link rel="preconnect" href="https://edge-ams-1.kinescopecdn.net">
+  <link rel="preconnect" href="https://static.kinescopecdn.net">
+  <link rel="dns-prefetch" href="https://kinescope.io">
+  <link rel="dns-prefetch" href="https://preview.kinescope.io">
+  <link rel="dns-prefetch" href="https://edge-ams-1.kinescopecdn.net">
+  <link rel="dns-prefetch" href="https://static.kinescopecdn.net">
+  
+  <link rel="stylesheet" href="styles.css?v=10.0">
+</head>
+<body>
+
+  <!-- Cinematic Studio Background (Velvety dark canvas + dynamic ambient spotlight) -->
+  <div class="cinematic-backdrop">
+    <div class="studio-ambient-spotlight" id="studioSpotlight"></div>
+    <div class="studio-static-glow glow-top"></div>
+    <div class="studio-static-glow glow-bottom"></div>
+    <div class="film-grain-overlay"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="top">
+    <div class="container header-container">
+      <a href="#top" class="brand-logo">
+        <span class="logo-accent">EVSEVYEV</span>
+        <span class="logo-badge">PROD.</span>
+      </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="#clients" class="nav-link">Клиенты</a>
+        <a href="#cases" class="nav-link">Кейсы</a>
+        <a href="#pricing" class="nav-link">Форматы работы</a>
+        <a href="#process" class="nav-link">Процесс</a>
+        <a href="#contacts" class="nav-link">Контакты</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="https://t.me/evsevyev" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+          <svg class="icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+          </svg>
+          <span>Telegram</span>
+        </a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Меню">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section: Clean Copywriting + Interactive iPhone Reels Showcase -->
+  <section class="hero-section" id="hero">
+    <div class="container hero-layout">
+      
+      <!-- Left Column: Copywriting & Actions -->
+      <div class="hero-content">
+        <h1 class="hero-title reveal">
+          Снимаем рилсы для <span class="highlight">бизнеса</span> и личных брендов
+        </h1>
+
+        <p class="hero-subtitle reveal">
+          Всё включено: свет киноуровня, студийный звук, суфлёр и команда на площадке. Создаем контент, который привлекает клиентов и укрепляет статус.
+        </p>
+
+        <div class="hero-cta-group reveal">
+          <a href="#cases" class="btn btn-secondary btn-lg" data-magnetic="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>Смотреть кейсы</span>
+          </a>
+          <a href="#pricing" class="btn btn-primary btn-lg" data-magnetic="true">
+            <span>Форматы работы</span>
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Quick Stats Row (Ultra-clean, architectural metrics) -->
+        <div class="hero-stats-bar reveal">
+          <div class="stat-metric-card">
+            <div class="stat-metric-val">
+              <span class="stat-counter" data-target="50">0</span>
+              <span class="stat-accent">M+</span>
+            </div>
+            <span class="stat-metric-label">просмотров роликов</span>
+          </div>
+
+          <div class="stat-metric-divider"></div>
+
+          <div class="stat-metric-card">
+            <div class="stat-metric-val">
+              <span class="stat-counter" data-target="60">0</span>
+              <span class="stat-accent">+</span>
+            </div>
+            <span class="stat-metric-label">готовых кейсов</span>
+          </div>
+
+          <div class="stat-metric-divider"></div>
+
+          <div class="stat-metric-card">
+            <div class="stat-metric-val">
+              <span class="stat-counter" data-target="4">0</span>
+              <span class="stat-accent">ч</span>
+            </div>
+            <span class="stat-metric-label">в месяц на съемке</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Flagship iPhone 16 Pro Showcase (Sleek, Centered, Luxury Dark Frame) -->
+      <div class="hero-visual reveal" id="heroVisual">
+        <div class="hero-showcase-stage" id="heroShowcaseStage">
+          
+          <!-- Ambient Luxury Backdrop Halo -->
+          <div class="showcase-ambient-halo"></div>
+
+          <!-- iPhone 16 Pro Titanium Device -->
+          <div class="iphone-flagship-wrapper" id="iphone3D">
+            
+            <!-- Hardware Buttons -->
+            <div class="iphone-hardware-btn btn-action"></div>
+            <div class="iphone-hardware-btn btn-vol-up"></div>
+            <div class="iphone-hardware-btn btn-vol-down"></div>
+            <div class="iphone-hardware-btn btn-power"></div>
+
+            <div class="iphone-device">
+              <div class="iphone-titanium-rim">
+                <div class="iphone-inner-bezel">
+                  
+                  <!-- Dynamic Island -->
+                  <div class="dynamic-island">
+                    <div class="island-camera"></div>
+                    <div class="island-sensor"></div>
+                  </div>
+
+                  <!-- Phone Screen Interior -->
+                  <div class="iphone-screen ios-screen" id="heroScreenContainer">
+                    
+                    <!-- Kinescope High-Speed Video Stream -->
+                    <div class="iphone-reel-media" id="heroReelMedia">
+                      <iframe 
+                        id="heroReelIframe"
+                        src="https://kinescope.io/embed/psqw8T1BitivaccPA2fWq5?autoplay=1&muted=1&loop=1&controls=0&preload=auto" 
+                        allow="autoplay; fullscreen"
+                        class="iphone-reel-iframe"
+                        title="Evsevyev prod. Showreel"
+                      ></iframe>
+                      <img 
+                        src="https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg" 
+                        alt="Evsevyev prod. Reel" 
+                        class="iphone-reel-poster"
+                        id="heroReelPoster"
+                      >
+                      <div class="iphone-reel-overlay"></div>
+                    </div>
+
+                    <!-- iOS Status Bar -->
+                    <div class="ios-status-bar">
+                      <span class="ios-time" id="iosLiveTime">09:41</span>
+                      <div class="ios-status-icons">
+                        <svg class="ios-signal" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                          <rect x="2" y="16" width="3" height="6" rx="1"/>
+                          <rect x="7" y="12" width="3" height="10" rx="1"/>
+                          <rect x="12" y="8" width="3" height="14" rx="1"/>
+                          <rect x="17" y="4" width="3" height="18" rx="1"/>
+                        </svg>
+                        <span class="ios-network">5G</span>
+                        <div class="ios-battery">
+                          <div class="ios-battery-level"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Sound Toggle Floating Button -->
+                    <button class="reel-sound-pill" id="heroSoundToggle" aria-label="Включить звук">
+                      <svg class="sound-icon-muted" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27l4.73 4.73H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                      </svg>
+                      <svg class="sound-icon-unmuted" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="display:none;">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                      </svg>
+                      <span class="sound-pill-text">Включить звук</span>
+                    </button>
+
+                    <!-- Right Rail: Clean Minimal Action Buttons -->
+                    <div class="reels-actions-rail">
+                      <div class="reel-action-btn like-btn" id="heroLikeBtn" title="Нравится">
+                        <div class="action-icon-wrap" id="heroHeartWrap">
+                          <svg viewBox="0 0 24 24" width="22" height="22" fill="#ffffff">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                        </div>
+                        <span class="action-count">142K</span>
+                      </div>
+
+                      <div class="reel-action-btn">
+                        <div class="action-icon-wrap">
+                          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                          </svg>
+                        </div>
+                        <span class="action-count">2.4K</span>
+                      </div>
+
+                      <div class="reel-action-btn">
+                        <div class="action-icon-wrap">
+                          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                          </svg>
+                        </div>
+                        <span class="action-count">18.6K</span>
+                      </div>
+
+                      <div class="reels-audio-disc-btn">
+                        <div class="reels-audio-disc">
+                          <img src="https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg" alt="Audio cover">
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Bottom Reel Creator & Production Info -->
+                    <div class="reels-bottom-info">
+                      <div class="reels-author-row">
+                        <div class="reels-author-badge">EP</div>
+                        <span class="reels-author-name">sema.evsevyev</span>
+                        <svg class="reels-verified" viewBox="0 0 24 24" width="13" height="13" fill="#3897f0">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.6l-3.8-3.8 1.4-1.4 2.4 2.4 5.4-5.4 1.4 1.4-6.8 6.8z"/>
+                        </svg>
+                      </div>
+
+                      <p class="reels-caption-text">
+                        Гастробар & Стейкхаус — сочный визуальный сторителлинг
+                      </p>
+
+                      <div class="reels-soundtrack-row">
+                        <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
+                          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                        <span>Оригинальный звук • Evsevyev prod.</span>
+                      </div>
+                    </div>
+
+                    <!-- iOS 18 Home Gesture Indicator -->
+                    <div class="ios-home-indicator"></div>
+
+                    <!-- Realistic Specular Glare -->
+                    <div class="screen-specular-glare"></div>
+                  </div>
+
+                </div>
+              </div>
+              
+              <div class="iphone-shadow-ambient"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Clients & Partners (С кем работали — Двойная бегущая строка) -->
+  <section class="section clients-section" id="clients">
+    <div class="container">
+      <div class="section-header text-center reveal">
+        <span class="eyebrow">Доверие лидеров</span>
+        <h2 class="section-title">С кем мы работали</h2>
+        <p class="section-desc">
+          Создаем вирусный видеоконтент для знаковых заведений, премиальных брендов и лидеров рынка
+        </p>
+      </div>
+    </div>
+
+    <!-- Dual Full-Bleed Cinematic Running Rows (Opposite Directions) -->
+    <div class="dual-marquee-container reveal">
+      
+      <!-- ROW 1: Running Left (Logos 01-11) -->
+      <div class="marquee-row-wrapper row-left">
+        <div class="marquee-track track-left" id="marqueeTrack1">
+          <!-- Primary Set (Row 1: Top Flagships - TNT, Khabensky Foundation, Zhiznmart, Engels, Sanduny, MAMA...) -->
+          <div class="marquee-brand-item" title="Телеканал ТНТ"><img src="assets/logos/row1-01.png" alt="ТНТ" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Благотворительный Фонд Константина Хабенского"><img src="assets/logos/row1-02.png" alt="Фонд Хабенского" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Сеть магазинов Жизньмарт"><img src="assets/logos/row1-03.png" alt="Жизньмарт" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Engels кофейни и вафли"><img src="assets/logos/row1-04.png" alt="Engels" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Банный комплекс Сандуны Урал"><img src="assets/logos/row1-05.png" alt="Сандуны Урал" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Ресторан MAMA"><img src="assets/logos/row1-06.png" alt="MAMA restaurant" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Ресторан Высота 5642"><img src="assets/logos/row1-07.png" alt="Высота 5642" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Кофейня Duo"><img src="assets/logos/row1-08.png" alt="Duo" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Грузинский ресторан Супра"><img src="assets/logos/row1-09.png" alt="Супра" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Пиццерия Donna Olivia"><img src="assets/logos/row1-10.png" alt="Donna Olivia" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Винотека Barolo"><img src="assets/logos/row1-11.png" alt="Barolo" loading="eager" /></div>
+
+          <!-- Seamless Duplicate Set for Continuous Infinite Loop -->
+          <div class="marquee-brand-item" title="Телеканал ТНТ"><img src="assets/logos/row1-01.png" alt="ТНТ" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Благотворительный Фонд Константина Хабенского"><img src="assets/logos/row1-02.png" alt="Фонд Хабенского" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Сеть магазинов Жизньмарт"><img src="assets/logos/row1-03.png" alt="Жизньмарт" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Engels кофейни и вафли"><img src="assets/logos/row1-04.png" alt="Engels" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Банный комплекс Сандуны Урал"><img src="assets/logos/row1-05.png" alt="Сандуны Урал" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Ресторан MAMA"><img src="assets/logos/row1-06.png" alt="MAMA restaurant" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Ресторан Высота 5642"><img src="assets/logos/row1-07.png" alt="Высота 5642" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Кофейня Duo"><img src="assets/logos/row1-08.png" alt="Duo" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Грузинский ресторан Супра"><img src="assets/logos/row1-09.png" alt="Супра" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Пиццерия Donna Olivia"><img src="assets/logos/row1-10.png" alt="Donna Olivia" loading="eager" /></div>
+          <div class="marquee-brand-item" title="Винотека Barolo"><img src="assets/logos/row1-11.png" alt="Barolo" loading="eager" /></div>
+        </div>
+      </div>
+
+      <!-- ROW 2: Running Right (Row 2 items) -->
+      <div class="marquee-row-wrapper row-right">
+        <div class="marquee-track track-right" id="marqueeTrack2">
+          <!-- Primary Set (Row 2) -->
+          <div class="marquee-brand-item" title="Автостатус"><img src="assets/logos/row2-01.png" alt="Автостатус" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Суши Маркет"><img src="assets/logos/row2-02.png" alt="Суши Маркет" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Строительная компания СК-Ферма"><img src="assets/logos/row2-03.png" alt="СК-Ферма" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Институт пластической хирургии и косметологии"><img src="assets/logos/row2-04.png" alt="Институт хирургии" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Цифровая Стоматологическая Клиника #1"><img src="assets/logos/row2-05.png" alt="Стоматология #1" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Seven Mebel"><img src="assets/logos/row2-06.png" alt="Seven Mebel" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Студия сладких подарков Ван Лав"><img src="assets/logos/row2-07.png" alt="Ван Лав" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="OF LAB"><img src="assets/logos/row2-08.png" alt="OF LAB" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Кубик"><img src="assets/logos/row2-09.png" alt="Кубик" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="KEIN Territory"><img src="assets/logos/row2-10.png" alt="KEIN" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="ЦЕХ Barbershop"><img src="assets/logos/row2-11.png" alt="ЦЕХ" loading="lazy" /></div>
+
+          <!-- Seamless Duplicate Set for Continuous Infinite Loop -->
+          <div class="marquee-brand-item" title="Автостатус"><img src="assets/logos/row2-01.png" alt="Автостатус" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Суши Маркет"><img src="assets/logos/row2-02.png" alt="Суши Маркет" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Строительная компания СК-Ферма"><img src="assets/logos/row2-03.png" alt="СК-Ферма" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Институт пластической хирургии и косметологии"><img src="assets/logos/row2-04.png" alt="Институт хирургии" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Цифровая Стоматологическая Клиника #1"><img src="assets/logos/row2-05.png" alt="Стоматология #1" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Seven Mebel"><img src="assets/logos/row2-06.png" alt="Seven Mebel" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Студия сладких подарков Ван Лав"><img src="assets/logos/row2-07.png" alt="Ван Лав" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="OF LAB"><img src="assets/logos/row2-08.png" alt="OF LAB" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="Кубик"><img src="assets/logos/row2-09.png" alt="Кубик" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="KEIN Territory"><img src="assets/logos/row2-10.png" alt="KEIN" loading="lazy" /></div>
+          <div class="marquee-brand-item" title="ЦЕХ Barbershop"><img src="assets/logos/row2-11.png" alt="ЦЕХ" loading="lazy" /></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section: Portfolio / Cases (49 Real Kinescope Videos) -->
+  <section class="section cases-section" id="cases">
+    <div class="container">
+      
+      <div class="section-header text-center reveal">
+        <span class="eyebrow">Портфолио & Кейсы</span>
+        <h2 class="section-title">Наши работы</h2>
+        <p class="section-desc">Выберите нишу, чтобы посмотреть реальные результаты наших клиентов</p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="filter-tabs-wrapper reveal">
+        <div class="filter-tabs" id="portfolioFilter">
+          <button class="filter-btn active" data-cat="restaurants">Рестораны</button>
+          <button class="filter-btn" data-cat="experts">Эксперты</button>
+          <button class="filter-btn" data-cat="auto">Авто на заказ</button>
+          <button class="filter-btn" data-cat="houses">Загородные дома</button>
+          <button class="filter-btn" data-cat="commercial">Реклама</button>
+          <button class="filter-btn" data-cat="furniture">Мебель</button>
+          <button class="filter-btn" data-cat="aesthetic">Эстетика</button>
+          <button class="filter-btn" data-cat="community">Комьюнити</button>
+          <button class="filter-btn" data-cat="barbershops">Барбершопы</button>
+          <button class="filter-btn" data-cat="unboxing">Распаковки</button>
+        </div>
+      </div>
+
+      <!-- Real Floating Video Grid from Kinescope -->
+      <div id="portfolioGrid" class="portfolio-grid vertical-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Pricing / Work Formats -->
+  <section class="section pricing-section" id="pricing">
+    <div class="container">
+      
+      <div class="section-header text-center reveal">
+        <h2 class="section-title text-massive">Форматы работы</h2>
+        <p class="section-desc text-glow">
+          Всё включено: свет киноуровня, студийный звук, суфлёр и команда на площадке
+        </p>
+      </div>
+
+      <!-- Pricing Cards 3-column Grid -->
+      <div class="pricing-grid">
+        
+        <!-- CARD 1: 1 Месяц -->
+        <div class="price-card spotlight-card reveal">
+          <div class="price-card-header">
+            <h3 class="tier-title">1 Месяц</h3>
+            <p class="tier-tagline">Тест формата и алгоритмов</p>
+            <div class="tier-price">150 000 ₽</div>
+            <div class="tier-subprice">10 роликов • 15 000 ₽ за видео</div>
+          </div>
+
+          <ul class="tier-features">
+            <li>
+              <span class="bullet-dot"></span>
+              <span>10 Reels под ключ</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>Сценарии и смысловые хуки</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>1 съемочный день со студийным сетапом</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>Динамичный монтаж, цвет и обложки</span>
+            </li>
+          </ul>
+
+          <div class="price-card-footer">
+            <a href="https://t.me/evsevyev?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B2%D1%8B%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D1%82%D0%B0%D1%80%D0%B8%D1%84%20%C2%AB1%20%D0%9C%D0%B5%D1%81%D1%8F%D1%86%C2%BB%20(150%20000%20%E2%82%BD)" target="_blank" rel="noopener" class="btn btn-tier btn-tier-dark" data-magnetic="true">
+              Выбрать 1 месяц
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 2: 3 Месяца (FEATURED / YELLOW) -->
+        <div class="price-card price-card-featured spotlight-card reveal">
+          <div class="featured-badge">ХИТ ВЫБОРА</div>
+
+          <div class="price-card-header">
+            <h3 class="tier-title">3 Месяца</h3>
+            <p class="tier-tagline">Системный трафик и продажи</p>
+            <div class="tier-price">390 000 ₽</div>
+            <div class="tier-subprice">30 роликов • 130 000 ₽ / месяц</div>
+          </div>
+
+          <ul class="tier-features">
+            <li>
+              <span class="bullet-dot"></span>
+              <span>30 Reels (по 10 роликов в месяц)</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>Контент-воронка и сквозная стратегия</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>3 съёмочных дня под ключ</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>Сложный монтаж, саунд-дизайн и графика</span>
+            </li>
+          </ul>
+
+          <div class="price-card-footer">
+            <a href="https://t.me/evsevyev?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%B1%D1%80%D0%BE%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%20%D1%82%D0%B0%D1%80%D0%B8%D1%84%20%C2%AB3%20%D0%9C%D0%B5%D1%81%D1%8F%D1%86%D0%B0%C2%BB%20(390%20000%20%E2%82%BD)" target="_blank" rel="noopener" class="btn btn-tier btn-tier-featured" data-magnetic="true">
+              Забронировать 3 месяца
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 3: 1 Год -->
+        <div class="price-card spotlight-card reveal">
+          <div class="price-card-header">
+            <h3 class="tier-title">1 Год</h3>
+            <p class="tier-tagline">Аутсорс видео-маркетинга</p>
+            <div class="tier-price">1 200 000 ₽</div>
+            <div class="tier-subprice">120 роликов • 100 000 ₽ / месяц</div>
+          </div>
+
+          <ul class="tier-features">
+            <li>
+              <span class="bullet-dot"></span>
+              <span>120 Reels (по 10 роликов каждый месяц)</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>Фиксация минимальной цены на год</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>Личный продюсер и приоритетный график</span>
+            </li>
+            <li>
+              <span class="bullet-dot"></span>
+              <span>Кинокамеры, аренда локаций, актеры</span>
+            </li>
+          </ul>
+
+          <div class="price-card-footer">
+            <a href="https://t.me/evsevyev?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%B0%D0%BA%D1%82%20%D0%BD%D0%B0%20%C2%AB1%20%D0%93%D0%BE%D0%B4%C2%BB%20(1%20200%20000%20%E2%82%BD)" target="_blank" rel="noopener" class="btn btn-tier btn-tier-dark" data-magnetic="true">
+              Обсудить контракт
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Process / Workflow -->
+  <section class="section process-section" id="process">
+    <div class="container">
+      
+      <div class="section-header text-center reveal">
+        <span class="eyebrow">Процесс</span>
+        <h2 class="section-title">Как мы работаем</h2>
+        <p class="section-desc">Четкий 4-ступенчатый процесс от идеи до готового контента</p>
+      </div>
+
+      <div class="steps-flow">
+        
+        <div class="step-card spotlight-card reveal">
+          <div class="step-num">01</div>
+          <h3 class="step-title">Анализ и стратегия</h3>
+          <p class="step-desc">
+            Изучаем вашу нишу, сильные стороны и конкурентов. Формируем рубрикатор, темы и гипотезы воронки.
+          </p>
+        </div>
+
+        <div class="step-card spotlight-card reveal">
+          <div class="step-num">02</div>
+          <h3 class="step-title">Сценарии и хуки</h3>
+          <p class="step-desc">
+            Пишем цепляющие первые фразы (хуки), драматургию и смысловую пользу, загружаем текст в профессиональный телесуфлёр.
+          </p>
+        </div>
+
+        <div class="step-card spotlight-card reveal">
+          <div class="step-num">03</div>
+          <h3 class="step-title">Киносъемочный день</h3>
+          <p class="step-desc">
+            Привозим свет киноуровня, петлички студийного класса и суфлёр. Снимаем все 10 роликов за одну комфортную смену 3–4 часа.
+          </p>
+        </div>
+
+        <div class="step-card spotlight-card reveal">
+          <div class="step-num">04</div>
+          <h3 class="step-title">Монтаж и сдача</h3>
+          <p class="step-desc">
+            Динамичный монтаж без воды, саунд-дизайн, анимация плашек, субтитры и цветокоррекция. Отдаем готовый пул роликов.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Contacts / Final CTA -->
+  <section class="section final-cta-section" id="contacts">
+    <div class="container">
+      <div class="cta-banner spotlight-card reveal">
+        <div class="cta-content">
+          <span class="eyebrow">Связаться с нами</span>
+          <h2 class="cta-title">Начать работу над проектом</h2>
+          <p class="cta-desc">Напишите в Telegram. Обсудим ваш бизнес и варианты работы</p>
+          
+          <div class="cta-buttons">
+            <a href="https://t.me/evsevyev" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-magnetic="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+              </svg>
+              <span>Написать в Telegram</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <a href="#top" class="brand-logo">
+          <span class="logo-accent">EVSEVYEV</span>
+          <span class="logo-badge">PROD.</span>
+        </a>
+        <p class="footer-copy">© 2026 Evsevyev prod. Все права защищены.</p>
+        <p class="footer-subcopy">Креативный видеопродакшн на Урале: съемка рилсов, подкастов и видеостратегии.</p>
+      </div>
+
+      <div class="footer-links-group">
+        <div class="footer-col">
+          <h4>Навигация</h4>
+          <a href="#cases">Кейсы</a>
+          <a href="#pricing">Форматы работы</a>
+          <a href="#process">Процесс</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <a href="https://t.me/evsevyev" target="_blank" rel="noopener">Написать в Telegram</a>
+          <a href="https://instagram.com/sema.evsevyev" target="_blank" rel="noopener">Instagram</a>
+          <span class="location-tag">г. Екатеринбург / Выезды</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Creative Web Libraries -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="app.js?v=11.0"></script>
+</body>
+</html>
