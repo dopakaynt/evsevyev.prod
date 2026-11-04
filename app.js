@@ -619,7 +619,7 @@ function renderPortfolio(categoryKey) {
     card.className = 'video-card';
     card.setAttribute('data-video-id', video.id);
 
-    // If real CDN poster is defined, render image; otherwise render dark 35mm cinematic title cover
+    // If real CDN poster is defined, render image; otherwise no text placeholder
     const posterMarkup = video.poster
       ? `<img 
           class="video-native-poster" 
@@ -628,17 +628,25 @@ function renderPortfolio(categoryKey) {
           loading="eager" 
           decoding="async"
         >`
-      : `<div class="video-native-poster video-cinematic-cover">
-          <div class="cover-badge">35mm • SOVSCOPE</div>
-          <div class="cover-title">${video.title || 'EVSEVYEV PROD.'}</div>
-        </div>`;
+      : '';
 
     card.innerHTML = `
       <div class="video-ratio-box ${catData.type}">
-        <!-- 1. Deep Black Canvas & Photographic / Cinematic Cover (Guarantees zero white flash) -->
+        <!-- 1. Kinescope Stream Player (Starts hidden at opacity: 0 behind black box/loader) -->
+        <iframe 
+          src="https://kinescope.io/embed/${video.id}?autoplay=1&muted=1&loop=1&controls=0&preload=auto" 
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;" 
+          frameborder="0" 
+          allowfullscreen 
+          loading="eager"
+          allowtransparency="true"
+          style="background-color: #000000 !important; color-scheme: dark !important;">
+        </iframe>
+
+        <!-- 2. Real Poster if available (z-index: 2) -->
         ${posterMarkup}
 
-        <!-- 2. Minimalist Video Loader: Play Button & Golden Progress Bar -->
+        <!-- 3. Minimalist Video Loader: Play Button & Golden Progress Bar (z-index: 10) -->
         <div class="video-loader">
           <div class="loader-content">
             <div class="loader-play-btn">
@@ -651,81 +659,33 @@ function renderPortfolio(categoryKey) {
             </div>
           </div>
         </div>
-
-        <!-- 3. Kinescope Dedicated Embed Player (Native black canvas, instant poster thumbnail & controls) -->
-        <iframe 
-          src="https://kinescope.io/embed/${video.id}?preload=auto" 
-          allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;" 
-          frameborder="0" 
-          allowfullscreen 
-          loading="eager"
-          allowtransparency="true"
-          style="background-color: #000000 !important; color-scheme: dark !important;">
-        </iframe>
       </div>
     `;
 
     const loader = card.querySelector('.video-loader');
     const loaderLine = card.querySelector('.loader-line');
     const iframe = card.querySelector('iframe');
+    const poster = card.querySelector('.video-native-poster');
 
-    // 1. Kick off golden progress line animation
+    // 1. Start progress line animation smoothly
     requestAnimationFrame(() => {
       setTimeout(() => {
         if (loaderLine) {
           loaderLine.style.width = '100%';
         }
-      }, 50);
+      }, 40);
     });
 
-    // 2. Synchronized Seamless Reveal Engine:
-    // Ensures iframe is completely rendered & painted dark BEFORE the loader fades out!
-    let isRevealed = false;
-    let minTimeElapsed = false;
-    let iframeHasLoaded = false;
-
-    function completeReveal() {
-      if (isRevealed) return;
-      if (iframeHasLoaded && minTimeElapsed) {
-        isRevealed = true;
-        // Make iframe fully visible underneath the loader
-        if (iframe) {
-          iframe.classList.add('is-ready');
-        }
-        // Microscopic delay (90ms) for browser to paint the iframe frame before loader fades
-        setTimeout(() => {
-          if (loader && loader.parentNode) {
-            loader.classList.add('loaded');
-            // Clean up loader from DOM once CSS transition ends
-            setTimeout(() => {
-              if (loader && loader.parentNode) {
-                loader.remove();
-              }
-            }, 450);
-          }
-        }, 90);
+    // 2. Seamless Transition Engine:
+    // At 2.0s (after progress fills and video stream has buffered frames in background):
+    // First make iframe visible underneath the loader, then smoothly dissolve the loader and poster!
+    setTimeout(() => {
+      if (iframe) {
+        iframe.classList.add('is-ready');
       }
-    }
-
-    if (iframe) {
-      iframe.addEventListener('load', () => {
-        iframeHasLoaded = true;
-        completeReveal();
-      });
-    }
-
-    // Minimum display time for the progress bar (1.4s) for high-end aesthetic feedback
-    setTimeout(() => {
-      minTimeElapsed = true;
-      completeReveal();
-    }, 1400);
-
-    // Guaranteed failsafe fallback (2.4s) in case load event was suppressed by browser
-    setTimeout(() => {
-      if (!isRevealed) {
-        isRevealed = true;
-        if (iframe) {
-          iframe.classList.add('is-ready');
+      setTimeout(() => {
+        if (poster) {
+          poster.classList.add('video-hidden');
         }
         if (loader && loader.parentNode) {
           loader.classList.add('loaded');
@@ -735,8 +695,8 @@ function renderPortfolio(categoryKey) {
             }
           }, 450);
         }
-      }
-    }, 2400);
+      }, 100);
+    }, 2000);
 
     grid.appendChild(card);
   });
