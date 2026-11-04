@@ -1105,26 +1105,26 @@ function initProcessSnakeFlow() {
       );
     }
   } else {
-    // Mobile / Tablet: Cards fly in sequentially on scroll as user reaches them
-    const allCards = stage.querySelectorAll('.snake-card');
-    allCards.forEach((card, index) => {
-      const isEven = index % 2 === 0;
-      gsap.fromTo(card, 
-        { opacity: 0, x: isEven ? -40 : 40, y: 20 },
-        {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none none'
-          }
-        }
-      );
+    // Mobile / Tablet: Serpentine Flow Choreography without Horizontal Jitter (Zero-Displacement Standard)
+    const mobileTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: stage,
+        start: 'top 82%',
+        toggleActions: 'play none none none'
+      }
     });
+
+    if (card1) mobileTl.fromTo(card1, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
+    if (conn12) mobileTl.fromTo(conn12, { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.2');
+    if (card2) mobileTl.fromTo(card2, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.15');
+    if (conn23) mobileTl.fromTo(conn23, { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.2');
+    if (card3) mobileTl.fromTo(card3, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.15');
+    if (turn) mobileTl.fromTo(turn, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(1.4)' }, '-=0.1');
+    if (card4) mobileTl.fromTo(card4, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.1');
+    if (conn45) mobileTl.fromTo(conn45, { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.2');
+    if (card5) mobileTl.fromTo(card5, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.15');
+    if (conn56) mobileTl.fromTo(conn56, { opacity: 0 }, { opacity: 1, duration: 0.25 }, '-=0.2');
+    if (card6) mobileTl.fromTo(card6, { opacity: 0, y: 18, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.3)' }, '-=0.15');
   }
 
   // Tactile 3D Tilt Micro-Interaction on mousemove
