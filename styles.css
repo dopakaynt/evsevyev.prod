@@ -75,80 +75,43 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* =========================================================
-   CINEMATIC STUDIO ATMOSPHERE (Deep Velvet Canvas + Ambient Light)
-   ========================================================= */
-.cinematic-backdrop {
+/* Full-viewport Fixed Realistic Cosmic Canvas */
+.webgl-canvas-fixed {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  overflow: hidden;
-  background-color: #070709;
 }
 
-/* Dynamic Interactive Studio Spotlight tracking cursor */
-.studio-ambient-spotlight {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* Subtle Graphite Slate Ambient Space Glows */
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(160px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+}
+
+.glow-top {
+  top: -140px;
+  right: -80px;
+  width: 750px;
+  height: 750px;
+  background: radial-gradient(circle, #334155 0%, #1e293b 50%, transparent 70%);
+  opacity: 0.25;
+}
+
+.glow-center {
+  top: 40%;
+  left: -180px;
   width: 800px;
   height: 800px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(
-    circle,
-    rgba(254, 229, 0, 0.045) 0%,
-    rgba(59, 130, 246, 0.03) 35%,
-    transparent 70%
-  );
-  filter: blur(80px);
-  transform: translate(-50%, -50%);
-  opacity: 0.85;
-  transition: opacity 0.5s ease;
-  will-change: transform;
-}
-
-/* Subtle Static Studio Key & Fill Lights */
-.studio-static-glow {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(140px);
-  will-change: transform;
-}
-
-.studio-static-glow.glow-top {
-  top: -200px;
-  right: 5%;
-  width: 700px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(254, 229, 0, 0.06) 0%, rgba(217, 119, 6, 0.02) 40%, transparent 70%);
-  opacity: 0.6;
-}
-
-.studio-static-glow.glow-bottom {
-  bottom: -200px;
-  left: 5%;
-  width: 750px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(30, 58, 138, 0.08) 0%, rgba(15, 23, 42, 0.04) 50%, transparent 75%);
-  opacity: 0.7;
-}
-
-/* 35mm Cinema Film Grain Overlay (Subtle, tactile, luxury) */
-.film-grain-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  opacity: 0.032;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  mix-blend-mode: screen;
+  background: radial-gradient(circle, #1e293b 0%, #0f172a 55%, transparent 70%);
+  opacity: 0.2;
 }
 
 /* Container */
@@ -553,64 +516,23 @@ body {
 
 .iphone-device {
   position: relative;
-  width: 310px;
-  height: 630px;
+  width: 295px;
+  height: 590px;
   margin: 0 auto;
   user-select: none;
-}
-
-/* Titanium Hardware Buttons */
-.iphone-hardware-btn {
-  position: absolute;
-  background: linear-gradient(to right, #1f2026, #363842);
-  border-radius: 3px;
-  z-index: 5;
-}
-
-.btn-action {
-  top: 108px;
-  left: -3px;
-  width: 3px;
-  height: 24px;
-  box-shadow: -1px 0 3px rgba(0, 0, 0, 0.7);
-}
-
-.btn-vol-up {
-  top: 145px;
-  left: -3px;
-  width: 3px;
-  height: 46px;
-  box-shadow: -1px 0 3px rgba(0, 0, 0, 0.7);
-}
-
-.btn-vol-down {
-  top: 202px;
-  left: -3px;
-  width: 3px;
-  height: 46px;
-  box-shadow: -1px 0 3px rgba(0, 0, 0, 0.7);
-}
-
-.btn-power {
-  top: 160px;
-  right: -3px;
-  width: 3px;
-  height: 68px;
-  background: linear-gradient(to left, #1f2026, #363842);
-  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.7);
 }
 
 /* Black Titanium Bezel Rim */
 .iphone-titanium-rim {
   width: 100%;
   height: 100%;
-  border-radius: 52px;
-  background: linear-gradient(135deg, #383944 0%, #15161a 25%, #2d2e38 50%, #131418 75%, #343540 100%);
-  padding: 8px;
+  border-radius: 48px;
+  background: linear-gradient(135deg, #32333c 0%, #16171b 25%, #2a2b33 50%, #131417 75%, #2d2e37 100%);
+  padding: 7px;
   box-shadow: 
-    0 35px 80px rgba(0, 0, 0, 0.95),
-    0 15px 30px rgba(0, 0, 0, 0.7),
-    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    0 30px 80px rgba(0, 0, 0, 0.95),
+    0 12px 25px rgba(0, 0, 0, 0.7),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3),
     inset 0 -1px 2px rgba(0, 0, 0, 0.85);
   position: relative;
 }
@@ -618,7 +540,7 @@ body {
 .iphone-inner-bezel {
   width: 100%;
   height: 100%;
-  border-radius: 44px;
+  border-radius: 42px;
   background: #000000;
   position: relative;
   overflow: hidden;
@@ -628,32 +550,32 @@ body {
 /* Dynamic Island */
 .dynamic-island {
   position: absolute;
-  top: 10px;
+  top: 9px;
   left: 50%;
   transform: translateX(-50%);
-  width: 76px;
-  height: 22px;
+  width: 72px;
+  height: 18px;
   background: #000000;
   border-radius: 20px;
   z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 0 0.5px rgba(255, 255, 255, 0.08);
+  padding: 0 7px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 0 0 0 0.5px rgba(255, 255, 255, 0.08);
 }
 
 .island-camera {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   background: radial-gradient(circle at 35% 35%, #182232 0%, #06090e 70%);
   border-radius: 50%;
   box-shadow: inset 0 0 2px rgba(0, 150, 255, 0.4);
 }
 
 .island-sensor {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   background: #0d1117;
   border-radius: 50%;
 }
@@ -663,7 +585,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 44px;
+  border-radius: 42px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -677,26 +599,32 @@ body {
   inset: 0;
   z-index: 1;
   overflow: hidden;
+  background: #000000;
 }
 
+/* Perfect edge-to-edge full-bleed vertical video fitting (no black letterboxes) */
 .iphone-reel-iframe {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 50%;
+  left: 50%;
+  width: 114%;
   height: 100%;
+  transform: translate(-50%, -50%);
   border: none;
   z-index: 1;
+  background: #000000;
 }
 
 .iphone-reel-poster {
   position: absolute;
-  inset: 0;
-  width: 100%;
+  top: 50%;
+  left: 50%;
+  width: 114%;
   height: 100%;
   object-fit: cover;
+  transform: translate(-50%, -50%);
   z-index: 2;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.6s ease;
   pointer-events: none;
 }
 
@@ -705,10 +633,10 @@ body {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.45) 0%,
-    rgba(0, 0, 0, 0.02) 20%,
-    rgba(0, 0, 0, 0.02) 60%,
-    rgba(0, 0, 0, 0.85) 100%
+    rgba(0, 0, 0, 0.4) 0%,
+    transparent 16%,
+    transparent 72%,
+    rgba(0, 0, 0, 0.45) 100%
   );
   z-index: 3;
   pointer-events: none;
@@ -719,9 +647,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 18px 8px;
+  padding: 10px 16px 6px;
   color: #ffffff;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: -0.01em;
   z-index: 20;
@@ -731,26 +659,26 @@ body {
 .ios-time {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .ios-status-icons {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   color: #ffffff;
 }
 
 .ios-network {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
 }
 
 .ios-battery {
-  width: 19px;
-  height: 10px;
+  width: 18px;
+  height: 9px;
   border: 1px solid rgba(255, 255, 255, 0.85);
-  border-radius: 3px;
+  border-radius: 2.5px;
   padding: 1px;
   position: relative;
 }
@@ -759,8 +687,8 @@ body {
   content: '';
   position: absolute;
   right: -3px;
-  top: 2px;
-  width: 2px;
+  top: 1.5px;
+  width: 1.5px;
   height: 4px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 0 1px 1px 0;
@@ -770,23 +698,23 @@ body {
   width: 85%;
   height: 100%;
   background: #ffffff;
-  border-radius: 1.5px;
+  border-radius: 1px;
 }
 
-/* Sound Toggle Pill Button */
+/* Sound Toggle Pill Button (Clean, Bottom-Left) */
 .reel-sound-pill {
   position: absolute;
-  top: 48px;
-  right: 14px;
+  bottom: 20px;
+  left: 14px;
   z-index: 25;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: rgba(14, 16, 22, 0.72);
+  background: rgba(14, 16, 22, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-pill);
   color: #ffffff;
   font-family: var(--font-body);
@@ -794,39 +722,39 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .reel-sound-pill:hover {
-  background: rgba(254, 229, 0, 0.15);
-  border-color: rgba(254, 229, 0, 0.4);
+  background: rgba(254, 229, 0, 0.18);
+  border-color: rgba(254, 229, 0, 0.5);
   color: var(--accent-yellow);
   transform: scale(1.04);
 }
 
 .reel-sound-pill.unmuted {
-  background: rgba(254, 229, 0, 0.2);
+  background: rgba(254, 229, 0, 0.22);
   border-color: var(--accent-yellow);
   color: var(--accent-yellow);
 }
 
-/* Right Rail: Action Buttons */
+/* Right Rail: Action Buttons (Likes, Comments, Shares, Audio) */
 .reels-actions-rail {
   position: absolute;
   right: 12px;
-  bottom: 80px;
+  bottom: 20px;
   z-index: 22;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
 .reel-action-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   background: none;
   border: none;
   cursor: pointer;
@@ -839,7 +767,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.85));
   transition: transform 0.2s ease;
 }
 
@@ -849,7 +777,7 @@ body {
 
 .action-count {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
@@ -864,9 +792,9 @@ body {
 }
 
 .reels-audio-disc {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
   overflow: hidden;
   border: 1.5px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
@@ -877,66 +805,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* Bottom Creator & Production Info */
-.reels-bottom-info {
-  position: absolute;
-  left: 14px;
-  right: 56px;
-  bottom: 22px;
-  z-index: 22;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.reels-author-row {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.reels-author-badge {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-yellow) 0%, #d97706 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 800;
-  color: #000000;
-}
-
-.reels-author-name {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-}
-
-.reels-caption-text {
-  font-size: 12px;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.95);
-  margin: 0;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.reels-soundtrack-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.85);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .ios-home-indicator {

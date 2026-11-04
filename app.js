@@ -119,7 +119,7 @@ const portfolioData = {
 // Global Initialization
 document.addEventListener('DOMContentLoaded', () => {
   initLenisScroll();
-  initStudioAmbient();
+  initRealisticCosmos();
   initIPhoneShowcase();
   initHeroCounters();
   initClientsInteractions();
@@ -175,32 +175,171 @@ function initLenisScroll() {
 }
 
 /* =========================================================
-   MODULE 2: Cinematic Studio Ambient Lighting Engine
+   MODULE 2: Three.js Deep Cosmic Starfield (No Planet)
    ========================================================= */
-function initStudioAmbient() {
-  const spotlight = document.getElementById('studioSpotlight');
-  if (!spotlight) return;
+function initRealisticCosmos() {
+  const canvas = document.getElementById('webglCanvas');
+  if (!canvas || typeof THREE === 'undefined') return;
 
-  let mouseX = window.innerWidth * 0.7;
-  let mouseY = window.innerHeight * 0.35;
-  let currentX = mouseX;
-  let currentY = mouseY;
+  // Scene & Camera
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+  camera.position.set(0, 0, 22);
 
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  }, { passive: true });
+  // High-performance WebGL Renderer
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    alpha: true,
+    antialias: true,
+    powerPreference: 'high-performance'
+  });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  function renderLight() {
-    // Smooth lerp damping for buttery cinematic motion
-    currentX += (mouseX - currentX) * 0.045;
-    currentY += (mouseY - currentY) * 0.045;
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0x1a1d2e, 0.8);
+  scene.add(ambientLight);
 
-    spotlight.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
-    requestAnimationFrame(renderLight);
+  const keyLight = new THREE.DirectionalLight(0xfffaed, 2.2);
+  keyLight.position.set(18, 12, 14);
+  scene.add(keyLight);
+
+  const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.9);
+  rimLight.position.set(-18, -10, -8);
+  scene.add(rimLight);
+
+  // Deep Space Multi-Spectral Starfield (3,200 stars)
+  const starCount = 3200;
+  const starGeom = new THREE.BufferGeometry();
+  const starPositions = new Float32Array(starCount * 3);
+  const starColors = new Float32Array(starCount * 3);
+
+  const colorWhite = new THREE.Color(0xffffff);
+  const colorGold = new THREE.Color(0xffe082);
+  const colorBlue = new THREE.Color(0x90caf9);
+  const colorCyan = new THREE.Color(0x80deea);
+
+  for (let i = 0; i < starCount * 3; i += 3) {
+    starPositions[i] = (Math.random() - 0.5) * 120;
+    starPositions[i + 1] = (Math.random() - 0.5) * 100;
+    starPositions[i + 2] = (Math.random() - 0.5) * 120;
+
+    const rnd = Math.random();
+    let col = colorWhite;
+    if (rnd < 0.22) col = colorGold;
+    else if (rnd < 0.48) col = colorBlue;
+    else if (rnd < 0.62) col = colorCyan;
+
+    starColors[i] = col.r;
+    starColors[i + 1] = col.g;
+    starColors[i + 2] = col.b;
   }
 
-  requestAnimationFrame(renderLight);
+  starGeom.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+  starGeom.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+
+  const starMat = new THREE.PointsMaterial({
+    size: 0.045,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.88,
+    blending: THREE.AdditiveBlending
+  });
+  const starfield = new THREE.Points(starGeom, starMat);
+  scene.add(starfield);
+
+  // Periodic Shooting Meteor Streaks
+  const meteorGeom = new THREE.BufferGeometry();
+  const meteorPositions = new Float32Array(6);
+  meteorGeom.setAttribute('position', new THREE.BufferAttribute(meteorPositions, 3));
+
+  const meteorMat = new THREE.LineBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0,
+    blending: THREE.AdditiveBlending,
+    linewidth: 2
+  });
+  const meteor = new THREE.Line(meteorGeom, meteorMat);
+  scene.add(meteor);
+
+  let meteorActive = false;
+  let meteorProgress = 0;
+  let meteorStartX = 0, meteorStartY = 0, meteorStartZ = 0;
+  let meteorSpeedX = 0, meteorSpeedY = 0;
+
+  function triggerMeteor() {
+    if (meteorActive) return;
+    meteorActive = true;
+    meteorProgress = 0;
+    meteorStartX = (Math.random() - 0.2) * 40;
+    meteorStartY = 15 + Math.random() * 15;
+    meteorStartZ = -5 + Math.random() * 10;
+    meteorSpeedX = -0.7 - Math.random() * 0.5;
+    meteorSpeedY = -0.5 - Math.random() * 0.4;
+  }
+
+  setInterval(() => {
+    if (Math.random() > 0.3) triggerMeteor();
+  }, 7000);
+
+  // Mouse Parallax
+  let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+  window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - window.innerWidth / 2) * 0.00035;
+    mouseY = (e.clientY - window.innerHeight / 2) * 0.00035;
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  });
+
+  // Render Loop
+  const clock = new THREE.Clock();
+
+  function render() {
+    const elapsed = clock.getElapsedTime();
+
+    // Damped inertia mouse rotation
+    targetX += (mouseX - targetX) * 0.05;
+    targetY += (mouseY - targetY) * 0.05;
+
+    starfield.rotation.y = elapsed * 0.008 + targetX * 0.5;
+    starfield.rotation.x = targetY * 0.5;
+
+    // Meteor update
+    if (meteorActive) {
+      meteorProgress += 0.035;
+      const curX = meteorStartX + meteorSpeedX * meteorProgress * 30;
+      const curY = meteorStartY + meteorSpeedY * meteorProgress * 30;
+      const tailX = curX - meteorSpeedX * 4;
+      const tailY = curY - meteorSpeedY * 4;
+
+      const pos = meteorGeom.attributes.position.array;
+      pos[0] = curX; pos[1] = curY; pos[2] = meteorStartZ;
+      pos[3] = tailX; pos[4] = tailY; pos[5] = meteorStartZ;
+      meteorGeom.attributes.position.needsUpdate = true;
+
+      if (meteorProgress < 0.3) {
+        meteorMat.opacity = (meteorProgress / 0.3) * 0.85;
+      } else {
+        meteorMat.opacity = Math.max(0, (1 - meteorProgress) * 0.85);
+      }
+
+      if (meteorProgress >= 1) {
+        meteorActive = false;
+        meteorMat.opacity = 0;
+      }
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(render);
+  }
+
+  render();
 }
 
 /* =========================================================
