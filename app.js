@@ -403,7 +403,7 @@ function initHeroCounters() {
   }
 
   // Trigger strictly when visible
-  const statsContainer = document.getElementById('heroStats') || document.querySelector('.hero-stats-borderless') || document.getElementById('heroStatsDeck') || document.querySelector('.hero-stats-deck');
+  const statsContainer = document.getElementById('heroStats') || document.querySelector('.hero-metrics-stage') || document.querySelector('.hero-stats-borderless') || document.getElementById('heroStatsDeck');
   if (statsContainer && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -909,67 +909,24 @@ function initDirectorCinema() {
 
 
 /* =========================================================
-   MODULE 3.2: Awwwards Hero Mockup & Intro Choreography
+   MODULE 3.2: Awwwards Centered Hero Intro Choreography
    ========================================================= */
-function initHeroMockup() {
-  const mockup = document.getElementById('glassMockup');
-  const iframe = document.getElementById('mockupIframe');
-  const poster = document.getElementById('mockupPoster');
-
-  // 1. Seamless Poster Crossfade on Iframe Ready (Zero White Flash)
-  if (poster && iframe) {
-    iframe.addEventListener('load', () => {
-      setTimeout(() => {
-        poster.style.opacity = '0';
-      }, 700);
-    });
-    // Fallback timer if load event already fired
-    setTimeout(() => {
-      poster.style.opacity = '0';
-    }, 2000);
-  }
-
-  // 2. GSAP Entrance & Gentle Levitation Floating Loop
+function initHeroCenteredIntro() {
   if (typeof gsap !== 'undefined') {
-    // Staggered intro for left hero content
     const heroElements = [
       '.hero-title-massive',
       '.hero-subtitle-clean',
       '.hero-cta-group',
-      '.hero-stats-borderless'
+      '.hero-metrics-stage'
     ];
     
     gsap.fromTo(heroElements, 
       { opacity: 0, y: 32 },
       { opacity: 1, y: 0, duration: 1.0, stagger: 0.14, ease: 'power3.out', delay: 0.15 }
     );
-
-    if (mockup) {
-      // Intro entrance for phone
-      gsap.fromTo(mockup,
-        { opacity: 0, scale: 0.94, y: 24 },
-        { 
-          opacity: 1, 
-          scale: 1, 
-          y: 0, 
-          duration: 1.2, 
-          ease: 'power3.out', 
-          delay: 0.35,
-          onComplete: () => {
-            // Ambient levitation float (smooth sine curve)
-            gsap.to(mockup, {
-              y: -14,
-              duration: 3.2,
-              ease: 'sine.inOut',
-              repeat: -1,
-              yoyo: true
-            });
-          }
-        }
-      );
-    }
   }
 }
+const initHeroMockup = initHeroCenteredIntro;
 
 /* =========================================================
    MODULE 4.5: Roles Comparison Animation (Reels-Producer vs SMM)
