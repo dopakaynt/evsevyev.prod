@@ -470,19 +470,58 @@ function initCreativeInteractions() {
 
 function initPortfolioTabs() {
   const filterButtons = document.querySelectorAll('#portfolioFilter .filter-btn');
-  renderPortfolio('restaurants');
 
   filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      if (btn.classList.contains('active')) return;
+      const catKey = btn.getAttribute('data-cat');
 
+      // If user clicks the currently active category again, toggle it closed to standby
+      if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        renderPortfolioStandby();
+        return;
+      }
+
+      // Switch active button
       filterButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const catKey = btn.getAttribute('data-cat');
+      // Load and render videos on-demand only after user clicks category
       renderPortfolio(catKey);
     });
   });
+}
+
+function renderPortfolioStandby() {
+  const grid = document.getElementById('portfolioGrid');
+  if (!grid) return;
+
+  grid.className = 'portfolio-grid vertical-grid';
+  grid.innerHTML = `
+    <div class="portfolio-prompt-card">
+      <div class="prompt-glow" aria-hidden="true"></div>
+      <div class="prompt-icon-ring">
+        <span class="prompt-play-icon">▶</span>
+      </div>
+      <h3 class="prompt-title">Каталог видеороликов</h3>
+      <p class="prompt-subtitle">Выберите интересующую категорию выше, чтобы открыть подборку реальных кейсов</p>
+      <div class="prompt-tags-hint">
+        <span>✦ Рестораны</span>
+        <span>✦ Эксперты</span>
+        <span>✦ Авто</span>
+        <span>✦ Дома</span>
+        <span>✦ Реклама</span>
+      </div>
+    </div>
+  `;
+
+  if (typeof gsap !== 'undefined') {
+    gsap.fromTo(
+      grid.querySelector('.portfolio-prompt-card'),
+      { opacity: 0, y: 15, scale: 0.98 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power2.out' }
+    );
+  }
 }
 
 function renderPortfolio(categoryKey) {
@@ -598,14 +637,28 @@ function initMobileMenu() {
   const menu = document.getElementById('navMenu');
   if (!toggle || !menu) return;
 
-  toggle.addEventListener('click', () => {
-    menu.classList.toggle('open');
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = menu.classList.toggle('open');
+    toggle.classList.toggle('active', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   });
 
   document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
       menu.classList.remove('open');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
     });
+  });
+
+  // Close when clicking outside of menu and toggle
+  document.addEventListener('click', (e) => {
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !toggle.contains(e.target)) {
+      menu.classList.remove('open');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
   });
 }
 
