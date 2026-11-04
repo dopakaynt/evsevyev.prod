@@ -120,12 +120,15 @@ const portfolioData = {
 document.addEventListener('DOMContentLoaded', () => {
   initLenisScroll();
   initRealisticCosmos();
-  initHeroShowcase();
+  initHeroMockup();
   initHeroCounters();
+  initDirectorCinema();
   initClientsInteractions();
   initCreativeInteractions();
   initMobileMenu();
   initPortfolioTabs();
+  initRolesCompareAnimation();
+  initProcessSnakeFlow();
 });
 
 /* =========================================================
@@ -346,143 +349,19 @@ function initRealisticCosmos() {
 }
 
 /* =========================================================
-   MODULE 3: Director's Cinema Showreel Showcase Engine
-   (Smooth 3D Parallax, Sound Toggle & Pristine Playback)
+   MODULE 3: The Kinetic Director's Viewport Engine
+   (Running Camera Timecode, 3D Tilt & Soundwave Engine)
    ========================================================= */
 function initHeroShowcase() {
-  const showcaseFrame = document.getElementById('cinemaReelFrame') || document.getElementById('iphone3D');
-  const heroSection = document.getElementById('hero');
-  const glare = document.querySelector('.cinema-specular-glare') || document.querySelector('.screen-specular-glare');
-  const likeBtn = document.getElementById('heroLikeBtn');
-  const heartWrap = document.getElementById('heroHeartWrap');
-  const soundToggle = document.getElementById('heroSoundToggle');
-  const reelPoster = document.getElementById('heroReelPoster');
-  const reelIframe = document.getElementById('heroReelIframe');
-
-  // 1. Hide poster smoothly once iframe loads video
-  if (reelIframe && reelPoster) {
-    reelIframe.addEventListener('load', () => {
-      setTimeout(() => {
-        reelPoster.style.opacity = '0';
-      }, 700);
-    });
-  }
-
-  // 2. Sound Toggle Interactivity
-  let isMuted = true;
-  if (soundToggle && reelIframe) {
-    const iconMuted = soundToggle.querySelector('.sound-icon-muted');
-    const iconUnmuted = soundToggle.querySelector('.sound-icon-unmuted');
-    const pillText = soundToggle.querySelector('.sound-pill-text');
-
-    soundToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      isMuted = !isMuted;
-
-      // Reload iframe stream with / without mute
-      const videoBase = 'https://kinescope.io/embed/psqw8T1BitivaccPA2fWq5';
-      const muteParam = isMuted ? 1 : 0;
-      reelIframe.src = `${videoBase}?autoplay=1&muted=${muteParam}&loop=1&controls=0&preload=auto`;
-
-      if (isMuted) {
-        soundToggle.classList.remove('unmuted');
-        if (iconMuted) iconMuted.style.display = 'block';
-        if (iconUnmuted) iconUnmuted.style.display = 'none';
-        if (pillText) pillText.textContent = 'Звук';
-      } else {
-        soundToggle.classList.add('unmuted');
-        if (iconMuted) iconMuted.style.display = 'none';
-        if (iconUnmuted) iconUnmuted.style.display = 'block';
-        if (pillText) pillText.textContent = 'Вкл.';
-      }
-    });
-  }
-
-  // 2.5 TV Channel Knob Mechanical Rotation Click
-  const tvChannelKnob = document.getElementById('tvChannelKnob');
-  let currentKnobAngle = 0;
-  if (tvChannelKnob) {
-    tvChannelKnob.addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentKnobAngle = (currentKnobAngle + 30) % 360;
-      if (typeof gsap !== 'undefined') {
-        gsap.to(tvChannelKnob, {
-          rotate: currentKnobAngle,
-          duration: 0.25,
-          ease: 'back.out(2)'
-        });
-      } else {
-        tvChannelKnob.style.transform = `rotate(${currentKnobAngle}deg)`;
-      }
-    });
-  }
-
-  // 3. Subtle Like Button Interaction
-  if (likeBtn && heartWrap) {
-    likeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const countEl = likeBtn.querySelector('.action-count');
-      const heartSvg = heartWrap.querySelector('svg');
-      if (heartSvg) {
-        heartSvg.setAttribute('fill', '#ef4444');
-      }
-      if (countEl) {
-        countEl.textContent = '143K';
-      }
-      if (typeof gsap !== 'undefined') {
-        gsap.fromTo(heartWrap,
-          { scale: 0.75 },
-          { scale: 1.3, duration: 0.22, yoyo: true, repeat: 1, ease: 'back.out(3)' }
-        );
-      }
-    });
-  }
-
-  // 4. Subtle Organic Floating Sine Hover
-  if (typeof gsap !== 'undefined' && showcaseFrame) {
-    gsap.to(showcaseFrame, {
-      y: '+=6',
-      duration: 3.5,
-      yoyo: true,
-      repeat: -1,
-      ease: 'sine.inOut'
-    });
-  }
-
-  // 5. Interactive 3D Parallax Tilt on Mouse Move (Refined Director's Viewport)
-  if (heroSection && showcaseFrame) {
-    heroSection.addEventListener('mousemove', (e) => {
-      const rect = heroSection.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-      if (typeof gsap !== 'undefined') {
-        gsap.to(showcaseFrame, {
-          rotateY: x * 8,
-          rotateX: -y * 6,
-          duration: 0.6,
-          ease: 'power2.out',
-          transformPerspective: 1200
-        });
-
-        if (glare) {
-          const glareX = 50 + x * 50;
-          const glareY = 50 + y * 50;
-          glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.12) 0%, transparent 60%)`;
-        }
-      }
-    });
-
-    heroSection.addEventListener('mouseleave', () => {
-      if (typeof gsap !== 'undefined') {
-        gsap.to(showcaseFrame, {
-          rotateY: 0,
-          rotateX: 0,
-          duration: 1.0,
-          ease: 'power2.out'
-        });
-      }
-    });
+  // Kinetic Title entrance
+  if (typeof gsap !== 'undefined') {
+    const titleLines = document.querySelectorAll('.title-line-inner');
+    if (titleLines.length > 0) {
+      gsap.fromTo(titleLines, 
+        { yPercent: 110, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.12, ease: 'power3.out', delay: 0.2 }
+      );
+    }
   }
 }
 const initIPhoneShowcase = initHeroShowcase;
@@ -524,7 +403,7 @@ function initHeroCounters() {
   }
 
   // Trigger strictly when visible
-  const statsContainer = document.getElementById('heroStatsDeck') || document.querySelector('.hero-stats-deck') || document.querySelector('.hero-stats-bar');
+  const statsContainer = document.getElementById('heroStats') || document.querySelector('.hero-stats-borderless') || document.getElementById('heroStatsDeck') || document.querySelector('.hero-stats-deck');
   if (statsContainer && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -758,6 +637,553 @@ function initClientsInteractions() {
           }
         }
       }
+    });
+  });
+}
+
+
+/* =========================================================
+   MODULE 3.8: Director's Master Cinema Viewport & Reel Switcher
+   (Full-size pristine 9:16 video player with live switcher & auto-play)
+   ========================================================= */
+const heroReelPlaylist = [
+  {
+    id: "psqw8T1BitivaccPA2fWq5",
+    cat: "restaurants",
+    niche: "РЕСТОРАНЫ",
+    title: "Гастробар & Стейкхаус",
+    views: "✦ 1.8M просмотров",
+    poster: "https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg"
+  },
+  {
+    id: "6PP6PjHzCUnJKBbWUR2m9g",
+    cat: "auto",
+    niche: "АВТО НА ЗАКАЗ",
+    title: "Премиум кроссовер",
+    views: "✦ 2.4M просмотров",
+    poster: ""
+  },
+  {
+    id: "3VYZwoarHrpRzo9GqBT6P3",
+    cat: "houses",
+    niche: "ЗАГОРОДНЫЕ ДОМА",
+    title: "Виллы & Фахверк",
+    views: "✦ 950K просмотров",
+    poster: ""
+  },
+  {
+    id: "sCex4kjETwBdtttzH8DNGK",
+    cat: "experts",
+    niche: "ЭКСПЕРТЫ",
+    title: "Личный бренд & Бизнес",
+    views: "✦ 1.2M просмотров",
+    poster: ""
+  },
+  {
+    id: "0ZwY9GnjzSXtRnUS17R85L",
+    cat: "barbershops",
+    niche: "БАРБЕРШОПЫ",
+    title: "Флагманский барбершоп",
+    views: "✦ 820K просмотров",
+    poster: ""
+  },
+  {
+    id: "p6GTfaGkdb8PXWHvNSw9p3",
+    cat: "furniture",
+    niche: "МЕБЕЛЬ",
+    title: "Дизайнерские кухни",
+    views: "✦ 740K просмотров",
+    poster: ""
+  },
+  {
+    id: "8GBN4wssHrALP9hPkZXW8W",
+    cat: "commercial",
+    niche: "РЕКЛАМА",
+    title: "Имиджевый промо-ролик",
+    views: "✦ 3.1M просмотров",
+    poster: ""
+  },
+  {
+    id: "btpQx7Yjaa8hzkcHP22TdW",
+    cat: "community",
+    niche: "КОМЬЮНИТИ",
+    title: "Бизнес-клуб & Нетворкинг",
+    views: "✦ 680K просмотров",
+    poster: ""
+  }
+];
+
+function initDirectorCinema() {
+  const iframe = document.getElementById('heroPlayerIframe');
+  const poster = document.getElementById('heroPlayerPoster');
+  const nichePill = document.getElementById('heroNichePill');
+  const viewsCount = document.getElementById('heroViewsCount');
+  const caseTitle = document.getElementById('heroCaseTitle');
+  const caseLink = document.getElementById('heroCaseLink');
+  const counterEl = document.getElementById('heroReelCounter');
+  const prevBtn = document.getElementById('heroPrevBtn');
+  const nextBtn = document.getElementById('heroNextBtn');
+  const chips = document.querySelectorAll('.niche-chip');
+  const progressSegments = document.querySelectorAll('#storyProgress .progress-segment');
+  const soundBtn = document.getElementById('heroSoundBtn');
+  const cinemaStage = document.getElementById('cinemaShowcaseStage');
+
+  if (!iframe) return;
+
+  let currentIndex = 0;
+  let isMuted = true;
+  let progressInterval = null;
+  let progressPercent = 0;
+  const ROTATE_DURATION = 7500; // 7.5 seconds per reel
+  const TICK_MS = 60;
+
+  function loadReel(index) {
+    if (index < 0) index = heroReelPlaylist.length - 1;
+    if (index >= heroReelPlaylist.length) index = 0;
+    currentIndex = index;
+
+    const item = heroReelPlaylist[currentIndex];
+
+    // 1. Crossfade poster
+    if (poster) {
+      if (item.poster) {
+        poster.src = item.poster;
+        poster.style.opacity = '1';
+      } else {
+        poster.style.opacity = '0';
+      }
+    }
+
+    // 2. Load stream iframe with black background guarantee
+    const muteParam = isMuted ? 1 : 0;
+    iframe.src = `https://kinescope.io/embed/${item.id}?autoplay=1&muted=${muteParam}&loop=1&controls=0&preload=auto`;
+
+    // Once iframe loads, smoothly fade out poster
+    iframe.onload = () => {
+      setTimeout(() => {
+        if (poster) poster.style.opacity = '0';
+      }, 550);
+    };
+
+    // 3. Update meta labels
+    if (nichePill) nichePill.textContent = item.niche;
+    if (viewsCount) viewsCount.textContent = item.views;
+    if (caseTitle) caseTitle.textContent = item.title;
+    if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${heroReelPlaylist.length}`;
+
+    // 4. Update chips
+    chips.forEach((c, idx) => {
+      if (idx === currentIndex) c.classList.add('active');
+      else c.classList.remove('active');
+    });
+
+    // 5. Update progress segments
+    progressSegments.forEach((seg, idx) => {
+      const fill = seg.querySelector('.progress-bar-fill');
+      seg.classList.remove('active', 'completed');
+      if (idx < currentIndex) {
+        seg.classList.add('completed');
+        if (fill) fill.style.width = '100%';
+      } else if (idx === currentIndex) {
+        seg.classList.add('active');
+        if (fill) fill.style.width = '0%';
+      } else {
+        if (fill) fill.style.width = '0%';
+      }
+    });
+
+    // Reset progress
+    progressPercent = 0;
+  }
+
+  // Auto rotation runner
+  function startProgress() {
+    stopProgress();
+    progressInterval = setInterval(() => {
+      progressPercent += (TICK_MS / ROTATE_DURATION) * 100;
+      const activeSeg = progressSegments[currentIndex]?.querySelector('.progress-bar-fill');
+      if (activeSeg) activeSeg.style.width = `${Math.min(progressPercent, 100)}%`;
+
+      if (progressPercent >= 100) {
+        loadReel(currentIndex + 1);
+      }
+    }, TICK_MS);
+  }
+
+  function stopProgress() {
+    if (progressInterval) clearInterval(progressInterval);
+  }
+
+  // Hover pauses rotation
+  if (cinemaStage) {
+    cinemaStage.addEventListener('mouseenter', stopProgress);
+    cinemaStage.addEventListener('mouseleave', startProgress);
+  }
+
+  // Prev / Next buttons
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      loadReel(currentIndex - 1);
+      startProgress();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      loadReel(currentIndex + 1);
+      startProgress();
+    });
+  }
+
+  // Chips click
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const idx = parseInt(chip.getAttribute('data-index'), 10) || 0;
+      loadReel(idx);
+      startProgress();
+    });
+  });
+
+  // Sound toggle button
+  if (soundBtn) {
+    soundBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      isMuted = !isMuted;
+      const soundText = soundBtn.querySelector('.sound-btn-text');
+
+      const item = heroReelPlaylist[currentIndex];
+      const muteParam = isMuted ? 1 : 0;
+      iframe.src = `https://kinescope.io/embed/${item.id}?autoplay=1&muted=${muteParam}&loop=1&controls=0&preload=auto`;
+
+      if (isMuted) {
+        soundBtn.classList.remove('unmuted');
+        if (soundText) soundText.textContent = 'ЗВУК';
+      } else {
+        soundBtn.classList.add('unmuted');
+        if (soundText) soundText.textContent = 'ВКЛЮЧЕН';
+      }
+    });
+  }
+
+  // Click on case link -> scroll to #cases and activate matching category tab
+  if (caseLink) {
+    caseLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const item = heroReelPlaylist[currentIndex];
+      const targetTab = document.querySelector(`#portfolioFilter .filter-btn[data-cat="${item.cat}"]`);
+      if (targetTab) targetTab.click();
+
+      const casesSection = document.getElementById('cases');
+      if (casesSection) {
+        if (typeof lenisInstance !== 'undefined' && lenisInstance) {
+          lenisInstance.scrollTo(casesSection, { offset: -30, duration: 1.1 });
+        } else {
+          casesSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  }
+
+  // Subtle 3D tilt on hero mousemove
+  const heroSection = document.getElementById('hero');
+  if (heroSection && cinemaStage) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      cinemaStage.style.transform = `perspective(1200px) rotateY(${(x * 10).toFixed(2)}deg) rotateX(${(-y * 8).toFixed(2)}deg)`;
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      cinemaStage.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg)';
+    });
+  }
+
+  // Initialize first reel & start rotation
+  loadReel(0);
+  startProgress();
+}
+
+
+/* =========================================================
+   MODULE 3.2: Awwwards Hero Mockup & Intro Choreography
+   ========================================================= */
+function initHeroMockup() {
+  const mockup = document.getElementById('glassMockup');
+  const iframe = document.getElementById('mockupIframe');
+  const poster = document.getElementById('mockupPoster');
+
+  // 1. Seamless Poster Crossfade on Iframe Ready (Zero White Flash)
+  if (poster && iframe) {
+    iframe.addEventListener('load', () => {
+      setTimeout(() => {
+        poster.style.opacity = '0';
+      }, 700);
+    });
+    // Fallback timer if load event already fired
+    setTimeout(() => {
+      poster.style.opacity = '0';
+    }, 2000);
+  }
+
+  // 2. GSAP Entrance & Gentle Levitation Floating Loop
+  if (typeof gsap !== 'undefined') {
+    // Staggered intro for left hero content
+    const heroElements = [
+      '.hero-title-massive',
+      '.hero-subtitle-clean',
+      '.hero-cta-group',
+      '.hero-stats-borderless'
+    ];
+    
+    gsap.fromTo(heroElements, 
+      { opacity: 0, y: 32 },
+      { opacity: 1, y: 0, duration: 1.0, stagger: 0.14, ease: 'power3.out', delay: 0.15 }
+    );
+
+    if (mockup) {
+      // Intro entrance for phone
+      gsap.fromTo(mockup,
+        { opacity: 0, scale: 0.94, y: 24 },
+        { 
+          opacity: 1, 
+          scale: 1, 
+          y: 0, 
+          duration: 1.2, 
+          ease: 'power3.out', 
+          delay: 0.35,
+          onComplete: () => {
+            // Ambient levitation float (smooth sine curve)
+            gsap.to(mockup, {
+              y: -14,
+              duration: 3.2,
+              ease: 'sine.inOut',
+              repeat: -1,
+              yoyo: true
+            });
+          }
+        }
+      );
+    }
+  }
+}
+
+/* =========================================================
+   MODULE 4.5: Roles Comparison Animation (Reels-Producer vs SMM)
+   ========================================================= */
+function initRolesCompareAnimation() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  const compareSection = document.getElementById('rolesCompare');
+  if (!compareSection) return;
+
+  const producerCard = compareSection.querySelector('.compare-card-producer');
+  const smmCard = compareSection.querySelector('.compare-card-smm');
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: compareSection,
+      start: 'top 80%',
+      toggleActions: 'play none none none'
+    }
+  });
+
+  if (producerCard) {
+    tl.fromTo(producerCard, 
+      { y: 40, opacity: 0, scale: 0.96 }, 
+      { y: 0, opacity: 1, scale: 1, duration: 0.85, ease: 'power3.out' }
+    );
+  }
+
+  if (smmCard) {
+    tl.fromTo(smmCard, 
+      { y: 40, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.85, ease: 'power3.out' }, 
+      '-=0.5'
+    );
+  }
+
+  const summaryVerdict = compareSection.querySelector('.compare-summary-verdict');
+  if (summaryVerdict) {
+    tl.fromTo(summaryVerdict,
+      { y: 30, opacity: 0, scale: 0.98 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.75, ease: 'power3.out' },
+      '-=0.3'
+    );
+  }
+}
+
+/* =========================================================
+   MODULE 4.6: Serpentine Snake Process Flow & 3D Fly-In
+   (Слева направо ➔ Поворот ⤹ Справа налево + «Вылетают при скролле»)
+   ========================================================= */
+function initProcessSnakeFlow() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  const stage = document.getElementById('processSnakeStage');
+  if (!stage) return;
+
+  const card1 = stage.querySelector('.snake-card-1');
+  const conn12 = stage.querySelector('.connector-1-2');
+  const card2 = stage.querySelector('.snake-card-2');
+  const conn23 = stage.querySelector('.connector-2-3');
+  const card3 = stage.querySelector('.snake-card-3');
+  const turn = stage.querySelector('.snake-turn-transition');
+  const card4 = stage.querySelector('.snake-card-4');
+  const conn45 = stage.querySelector('.connector-4-5');
+  const card5 = stage.querySelector('.snake-card-5');
+  const conn56 = stage.querySelector('.connector-5-6');
+  const card6 = stage.querySelector('.snake-card-6');
+
+  const isDesktop = window.innerWidth > 920;
+
+  if (isDesktop) {
+    // Master Snake Choreography: 01 -> 02 -> 03 -> turn -> 04 -> 05 -> 06
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: stage,
+        start: 'top 78%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    // 01 Договор flies in from left
+    if (card1) {
+      tl.fromTo(card1, 
+        { opacity: 0, x: -70, rotateY: -10 },
+        { opacity: 1, x: 0, rotateY: 0, duration: 0.75, ease: 'power3.out' }
+      );
+    }
+
+    // Connector 1 -> 2 draws forward
+    if (conn12) {
+      tl.fromTo(conn12, 
+        { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+        { opacity: 1, scaleX: 1, duration: 0.35, ease: 'power2.out' },
+        '-=0.3'
+      );
+    }
+
+    // 02 Сценарий flies in from top
+    if (card2) {
+      tl.fromTo(card2, 
+        { opacity: 0, y: -50, scale: 0.92 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: 'power3.out' },
+        '-=0.2'
+      );
+    }
+
+    // Connector 2 -> 3 draws forward
+    if (conn23) {
+      tl.fromTo(conn23, 
+        { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+        { opacity: 1, scaleX: 1, duration: 0.35, ease: 'power2.out' },
+        '-=0.3'
+      );
+    }
+
+    // 03 Форматы flies in from right
+    if (card3) {
+      tl.fromTo(card3, 
+        { opacity: 0, x: 70, rotateY: 10 },
+        { opacity: 1, x: 0, rotateY: 0, duration: 0.75, ease: 'power3.out' },
+        '-=0.2'
+      );
+    }
+
+    // Serpentine Turn lights up
+    if (turn) {
+      tl.fromTo(turn, 
+        { opacity: 0, scale: 0.85, y: -15 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.5)' },
+        '-=0.3'
+      );
+    }
+
+    // 04 Съёмка flies in from right
+    if (card4) {
+      tl.fromTo(card4, 
+        { opacity: 0, x: 70, rotateY: 10 },
+        { opacity: 1, x: 0, rotateY: 0, duration: 0.75, ease: 'power3.out' },
+        '-=0.2'
+      );
+    }
+
+    // Connector 4 -> 5 draws leftward
+    if (conn45) {
+      tl.fromTo(conn45, 
+        { opacity: 0, scaleX: 0, transformOrigin: 'right center' },
+        { opacity: 1, scaleX: 1, duration: 0.35, ease: 'power2.out' },
+        '-=0.3'
+      );
+    }
+
+    // 05 Монтаж flies in from bottom
+    if (card5) {
+      tl.fromTo(card5, 
+        { opacity: 0, y: 50, scale: 0.92 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: 'power3.out' },
+        '-=0.2'
+      );
+    }
+
+    // Connector 5 -> 6 draws leftward
+    if (conn56) {
+      tl.fromTo(conn56, 
+        { opacity: 0, scaleX: 0, transformOrigin: 'right center' },
+        { opacity: 1, scaleX: 1, duration: 0.35, ease: 'power2.out' },
+        '-=0.3'
+      );
+    }
+
+    // 06 Отдаём ролики (Golden Finish) flies in with spring
+    if (card6) {
+      tl.fromTo(card6, 
+        { opacity: 0, x: -70, scale: 0.95 },
+        { opacity: 1, x: 0, scale: 1, duration: 0.85, ease: 'back.out(1.4)' },
+        '-=0.2'
+      );
+    }
+  } else {
+    // Mobile / Tablet: Cards fly in sequentially on scroll as user reaches them
+    const allCards = stage.querySelectorAll('.snake-card');
+    allCards.forEach((card, index) => {
+      const isEven = index % 2 === 0;
+      gsap.fromTo(card, 
+        { opacity: 0, x: isEven ? -40 : 40, y: 20 },
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    });
+  }
+
+  // Tactile 3D Tilt Micro-Interaction on mousemove
+  const allCards = stage.querySelectorAll('.snake-card');
+  allCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const tiltX = (y / (rect.height / 2)) * -6;
+      const tiltY = (x / (rect.width / 2)) * 6;
+      card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-5px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
     });
   });
 }

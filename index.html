@@ -22,7 +22,7 @@
   <link rel="dns-prefetch" href="https://edge-ams-1.kinescopecdn.net">
   <link rel="dns-prefetch" href="https://static.kinescopecdn.net">
   
-  <link rel="stylesheet" href="styles.css?v=13.0">
+  <link rel="stylesheet" href="styles.css?v=26.0">
 </head>
 <body>
 
@@ -66,22 +66,25 @@
     </div>
   </header>
 
-  <!-- Hero Section: Soviet Cinema Grandeur + 35mm Film Showcase -->
+  <!-- Hero Section: 35mm Soviet Cinema Aesthetic (Gaidai / Mosfilm) -->
   <section class="hero-section" id="hero">
+    <div class="hero-ambient-keylight" aria-hidden="true"></div>
+
     <div class="container hero-layout">
       
-      <!-- Left Column: Copywriting & Actions -->
+      <!-- Left Column: Copywriting, Actions & Borderless Integrated Stats -->
       <div class="hero-content">
         
-        <h1 class="hero-title reveal gaidai-hero-title">
-          Reels для <span class="highlight">бизнесов</span>
+        <h1 class="hero-title-massive">
+          REELS ДЛЯ <span class="highlight-gold">БИЗНЕСОВ</span>
         </h1>
 
-        <p class="hero-subtitle reveal gaidai-hero-subtitle">
+        <p class="hero-subtitle-clean">
           Создаем контент, который привлекает клиентов.
         </p>
 
-        <div class="hero-cta-group reveal">
+        <!-- Actions: Restored Classic Button Pair -->
+        <div class="hero-cta-group">
           <a href="#cases" class="btn btn-secondary btn-lg soviet-btn-secondary" data-magnetic="true">
             <span class="btn-film-icon">✦</span>
             <span>Смотреть кейсы</span>
@@ -92,69 +95,65 @@
           </a>
         </div>
 
-        <!-- High-End Creative Stats: Vault Capsules with Tabular Counters & Micro-Interactions -->
-        <div class="hero-stats-deck reveal gaidai-stats-deck" id="heroStatsDeck">
-          
-          <!-- Stat Card 1: Охваты -->
-          <div class="stat-capsule-card stat-capsule-reach">
-            <div class="stat-capsule-ambient" aria-hidden="true"></div>
-            <div class="stat-capsule-header">
-              <div class="stat-pill-tag">
-                <span class="stat-live-dot"></span>
-                <span class="stat-pill-label">ОХВАТЫ</span>
-              </div>
-              <div class="stat-meta-cue">
-                <span class="stat-spark">✦</span>
-                <span class="stat-cue-text">35MM</span>
-              </div>
+        <!-- Borderless Integrated Typography Statistics -->
+        <div class="hero-stats-borderless" id="heroStats">
+          <div class="stat-accent-item">
+            <div class="stat-accent-val">
+              <span class="stat-prefix">более </span>
+              <span class="stat-counter" data-target="50">0</span>
+              <span class="stat-suffix"> млн</span>
             </div>
-            
-            <div class="stat-capsule-body">
-              <div class="stat-prefix-label">более</div>
-              <div class="stat-capsule-val">
-                <span class="stat-counter" data-target="50">0</span>
-                <span class="stat-unit">млн</span>
-              </div>
-              <div class="stat-capsule-desc">
-                <span class="stat-desc-text">просмотров роликов</span>
-                <div class="stat-mini-graph" aria-hidden="true" title="Динамика охватов">
-                  <span class="bar bar-1"></span>
-                  <span class="bar bar-2"></span>
-                  <span class="bar bar-3"></span>
-                  <span class="bar bar-4"></span>
-                  <span class="bar bar-5"></span>
-                </div>
-              </div>
-            </div>
+            <div class="stat-accent-desc">просмотров роликов</div>
           </div>
 
-          <!-- Stat Card 2: Портфолио -->
-          <div class="stat-capsule-card stat-capsule-clients">
-            <div class="stat-capsule-ambient" aria-hidden="true"></div>
-            <div class="stat-capsule-header">
-              <div class="stat-pill-tag">
-                <span class="stat-star-icon">★</span>
-                <span class="stat-pill-label">ПОРТФОЛИО</span>
-              </div>
-              <div class="stat-meta-cue">
-                <span class="stat-spark">★</span>
-                <span class="stat-cue-text">BRANDS</span>
-              </div>
+          <div class="stat-accent-divider" aria-hidden="true"></div>
+
+          <div class="stat-accent-item">
+            <div class="stat-accent-val">
+              <span class="stat-prefix">более </span>
+              <span class="stat-counter" data-target="60">0</span>
+              <span class="stat-suffix"> клиентов</span>
             </div>
-            
-            <div class="stat-capsule-body">
-              <div class="stat-prefix-label">более</div>
-              <div class="stat-capsule-val">
-                <span class="stat-counter" data-target="60">0</span>
-                <span class="stat-unit">клиентов</span>
-              </div>
-              <div class="stat-capsule-desc">
-                <span class="stat-desc-text">брендов и экспертов</span>
-                <div class="stat-avatars-cluster" aria-hidden="true" title="Клиенты студии">
-                  <span class="avatar-dot">ТНТ</span>
-                  <span class="avatar-dot">ЖМ</span>
-                  <span class="avatar-dot dot-more">+58</span>
-                </div>
+            <div class="stat-accent-desc">брендов и экспертов</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Minimalist 3D Glassmorphism Smartphone with Autoplay Reel -->
+      <div class="hero-visual" id="heroVisual">
+        <div class="mockup-stage" id="mockupStage">
+          
+          <!-- Ambient Projection Radiance behind phone -->
+          <div class="mockup-halo" aria-hidden="true"></div>
+
+          <!-- Glassmorphism Smartphone Frame (No notches, no clutter) -->
+          <div class="glass-mockup" id="glassMockup">
+            <div class="mockup-bezel">
+              <div class="mockup-screen">
+                
+                <!-- Continuous Autoplaying Video (Loop, Muted, No UI) -->
+                <iframe 
+                  id="mockupIframe"
+                  class="mockup-iframe"
+                  src="https://kinescope.io/embed/psqw8T1BitivaccPA2fWq5?autoplay=1&muted=1&loop=1&controls=0&preload=auto"
+                  allow="autoplay; fullscreen; encrypted-media;"
+                  frameborder="0"
+                  loading="eager"
+                  style="background-color: #000000 !important; color-scheme: dark !important;">
+                </iframe>
+
+                <!-- Seamless Poster Crossfade Layer (Prevents white flash) -->
+                <img 
+                  id="mockupPoster"
+                  class="mockup-poster"
+                  src="https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg"
+                  alt="Evsevyev prod."
+                />
+
+                <!-- Specular Light Sheen Overlay -->
+                <div class="mockup-glare" aria-hidden="true"></div>
+
               </div>
             </div>
           </div>
@@ -162,111 +161,6 @@
         </div>
       </div>
 
-      <!-- Right Column: Vintage Soviet CRT Television («РУБИН Ц-202») -->
-      <div class="hero-visual reveal" id="heroVisual">
-        <div class="soviet-tv-stage" id="heroShowcaseStage">
-          
-          <!-- Ambient Warm Backlight Halo -->
-          <div class="tv-ambient-halo"></div>
-
-          <!-- Chrome Telescopic Rabbit-Ear Antennas -->
-          <div class="tv-antennas" aria-hidden="true">
-            <div class="antenna antenna-left"></div>
-            <div class="antenna antenna-right"></div>
-            <div class="antenna-mount"></div>
-          </div>
-
-          <!-- Walnut Wooden Television Cabinet -->
-          <div class="soviet-tv-cabinet" id="cinemaReelFrame">
-            
-            <!-- CRT Screen Tube Section -->
-            <div class="tv-screen-section">
-              <div class="tv-crt-bezel">
-                <div class="tv-screen-glass">
-                  
-                  <!-- Full-Bleed Video Stream Viewport -->
-                  <div class="tv-video-viewport" id="heroReelMedia">
-                    <iframe 
-                      id="heroReelIframe"
-                      src="https://kinescope.io/embed/psqw8T1BitivaccPA2fWq5?autoplay=1&muted=1&loop=1&controls=0&preload=auto" 
-                      allow="autoplay; fullscreen"
-                      class="cinema-reel-iframe tv-crt-iframe"
-                      title="Evsevyev prod. Showreel"
-                      allowtransparency="true"
-                      style="background-color: #000000 !important; color-scheme: dark !important;"
-                    ></iframe>
-                    <img 
-                      src="https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg" 
-                      alt="Evsevyev prod. Reel" 
-                      class="cinema-reel-poster tv-crt-poster"
-                      id="heroReelPoster"
-                    >
-                    <!-- CRT Phosphor Scanlines & Convex Glass Reflections -->
-                    <div class="tv-crt-scanlines" aria-hidden="true"></div>
-                    <div class="tv-crt-curve-vignette" aria-hidden="true"></div>
-                    <div class="tv-glass-glare" aria-hidden="true"></div>
-                  </div>
-
-                  <!-- Channel OSD Badge -->
-                  <div class="tv-channel-osd" aria-hidden="true">
-                    <span class="osd-dot"></span>
-                    <span class="osd-text">МОСФИЛЬМ • ЦВЕТНОЙ</span>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-            <!-- TV Control Panel (Right Side: Speaker Slits, Knobs, Model Badge) -->
-            <div class="tv-control-panel">
-              
-              <!-- Soviet Model Nameplate Badge -->
-              <div class="tv-badge-plate">
-                <span class="tv-badge-brand">РУБИН</span>
-                <span class="tv-badge-model">Ц-202</span>
-              </div>
-
-              <!-- Speaker Acoustic Grille Slats -->
-              <div class="tv-speaker-grille" aria-hidden="true">
-                <span></span><span></span><span></span><span></span><span></span>
-              </div>
-
-              <!-- Rotary Channel Selector (ПТК) -->
-              <div class="tv-control-item">
-                <span class="tv-ctrl-label">КАНАЛ</span>
-                <div class="tv-rotary-knob" id="tvChannelKnob" title="Переключить программу">
-                  <div class="knob-pointer"></div>
-                  <div class="knob-ring"></div>
-                </div>
-              </div>
-
-              <!-- Volume Control / Sound Toggle Button -->
-              <div class="tv-control-item">
-                <span class="tv-ctrl-label">ЗВУК</span>
-                <button class="tv-sound-btn" id="heroSoundToggle" aria-label="Включить звук">
-                  <span class="tv-led-sound"></span>
-                  <span class="sound-pill-text">Звук</span>
-                </button>
-              </div>
-
-              <!-- Power Row: Glowing Ruby Pilot Lamp -->
-              <div class="tv-power-row">
-                <div class="tv-power-lamp" title="Сеть 220V"></div>
-                <span class="tv-power-text">СЕТЬ</span>
-              </div>
-
-            </div>
-
-            <!-- Vintage Tapered Wooden Feet -->
-            <div class="tv-cabinet-legs" aria-hidden="true">
-              <span class="tv-leg leg-left"></span>
-              <span class="tv-leg leg-right"></span>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
     </div>
   </section>
 
@@ -500,6 +394,94 @@
         </div>
 
       </div>
+
+      <!-- Ultra-Minimalist Comparison: SMM vs Reels-Producer -->
+      <!-- Direct Two-Card Comparison: Reels-Producer vs SMM -->
+      <div class="roles-compare-section reveal" id="rolesCompare">
+        <div class="roles-compare-header text-center">
+          <span class="compare-eyebrow">✦ СРАВНЕНИЕ ПОДХОДОВ ✦</span>
+          <h3 class="compare-title">В чем разница?</h3>
+          <p class="compare-subtitle">Ключевое отличие двух подходов для вашего бизнеса</p>
+        </div>
+
+        <div class="compare-cards-duo">
+          
+          <!-- Card 1: Reels-продюсер (ЖЁЛТЫЙ СТИЛЬ) -->
+          <div class="compare-card compare-card-producer spotlight-card">
+            
+            <div class="compare-card-head">
+              <h4 class="compare-card-title highlight-gold">Reels-продюсер</h4>
+            </div>
+
+            <!-- Главное отличие: Золотое окошечко -->
+            <div class="compare-main-pill pill-gold">
+              <span class="pill-dot gold-dot">✦</span>
+              <span class="pill-text">Привлекает новую аудиторию</span>
+            </div>
+
+            <!-- Пояснение -->
+            <p class="compare-card-lead">
+              Привлекает новую холодную аудиторию и конвертирует её в заявки.
+            </p>
+
+            <!-- Пояснение влияния на результат -->
+            <div class="compare-reason-box reason-gold">
+              <div class="reason-text">
+                Создаёт постоянный приток новых клиентов и окупает вложения без закупки рекламы.
+              </div>
+            </div>
+
+            <div class="compare-card-cta">
+              <a href="#pricing" class="btn btn-producer-choice" data-magnetic="true">
+                <span>Выбрать Reels-продюсера</span>
+                <span class="btn-arrow">→</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: SMM-специалист (СЕРЕНЬКИЙ СТИЛЬ) -->
+          <div class="compare-card compare-card-smm spotlight-card">
+            
+            <div class="compare-card-head">
+              <h4 class="compare-card-title-muted">SMM-специалист</h4>
+            </div>
+
+            <!-- Главное отличие: Серенькое окошечко -->
+            <div class="compare-main-pill pill-gray">
+              <span class="pill-dot gray-dot">✦</span>
+              <span class="pill-text">Работает с подписчиками</span>
+            </div>
+
+            <!-- Пояснение -->
+            <p class="compare-card-lead-muted">
+              Оформляет профиль, коммуницирует с пришедшими подписчиками.
+            </p>
+
+            <!-- Пояснение влияния на результат -->
+            <div class="compare-reason-box reason-gray">
+              <div class="reason-text">
+                Без регулярного притока новых охватов и трафика блог неизбежно стагнирует.
+              </div>
+            </div>
+
+            <div class="compare-card-cta-muted">
+              <span class="smm-footnote">Требуются дополнительные бюджеты на трафик</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Общий вывод (По центру под кубиками) -->
+        <div class="compare-summary-verdict">
+          <div class="verdict-banner-inner">
+            <span class="verdict-banner-badge">ВАЖНО!</span>
+            <p class="verdict-banner-statement">
+              Только с <span class="highlight-gold">Reels-продюсером</span> аккаунт работать <strong>может</strong>, только с <span class="text-white-subtle">SMM-специалистом</span> аккаунт работать <strong>не может</strong>.
+            </p>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -510,39 +492,167 @@
       <div class="section-header text-center reveal">
         <span class="eyebrow">✦ ПРОЦЕСС ✦</span>
         <h2 class="section-title">Как мы работаем</h2>
-        <p class="section-desc">Три понятных шага от погружения в бизнес до готового пула видеороликов</p>
+        <p class="section-desc">6 быстрых шагов от знакомства до готового пула видео</p>
       </div>
 
-      <div class="steps-flow">
+      <!-- Serpentine Snake Process Flow (Слева направо ▶ Поворот ▼ Справа налево ◀) -->
+      <div class="process-snake-stage" id="processSnakeStage">
         
-        <!-- Step 1: Анализ и сценарии -->
-        <div class="step-card spotlight-card reveal">
-          <div class="step-num">ШАГ 01</div>
-          <h3 class="step-title">Анализ и сценарии</h3>
-          <p class="step-desc">
-            Изучаем нишу, придумываем форматы и пишем цепляющие сценарии.
-          </p>
+        <!-- Ambient Cinema Keylight Behind Snake -->
+        <div class="snake-ambient-keylight" aria-hidden="true"></div>
+
+        <!-- Row 1: Слева направо (01 Встреча и обсуждение ▶ 02 Договор ▶ 03 Форматы и сценарии) -->
+        <div class="snake-row snake-row-top">
+          
+          <!-- Card 01: Встреча и обсуждение -->
+          <div class="snake-card spotlight-card snake-card-1" data-step="1">
+            <div class="snake-card-inner">
+              <div class="snake-card-header">
+                <span class="snake-step-tag">01 / ОБСУЖДЕНИЕ</span>
+                <span class="snake-step-num">01</span>
+              </div>
+              <h3 class="snake-card-title">Встреча и обсуждение</h3>
+              <p class="snake-card-desc">Встречаемся, подробно обсуждаем цели и задачи клиента, глубоко анализируем нишу и определяем вектор продвижения.</p>
+              <div class="snake-flow-indicator">
+                <span class="flow-pulse"></span>
+                <span class="flow-text">Бриф и задачи</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connector 1 -> 2 (Same triangle style as bottom row: ▶) -->
+          <div class="snake-connector connector-right connector-1-2" aria-hidden="true">
+            <div class="connector-track">
+              <div class="connector-beam"></div>
+            </div>
+            <span class="connector-arrow">▶</span>
+          </div>
+
+          <!-- Card 02: Договор -->
+          <div class="snake-card spotlight-card snake-card-2" data-step="2">
+            <div class="snake-card-inner">
+              <div class="snake-card-header">
+                <span class="snake-step-tag">02 / ФИКСАЦИЯ</span>
+                <span class="snake-step-num">02</span>
+              </div>
+              <h3 class="snake-card-title">Договор</h3>
+              <p class="snake-card-desc">Фиксируем цели, объём, срок работы и финансовые гарантии в официальном договоре.</p>
+              <div class="snake-flow-indicator">
+                <span class="flow-pulse"></span>
+                <span class="flow-text">Официальный договор</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connector 2 -> 3 (Same triangle style as bottom row: ▶) -->
+          <div class="snake-connector connector-right connector-2-3" aria-hidden="true">
+            <div class="connector-track">
+              <div class="connector-beam"></div>
+            </div>
+            <span class="connector-arrow">▶</span>
+          </div>
+
+          <!-- Card 03: Форматы и сценарии -->
+          <div class="snake-card spotlight-card snake-card-3" data-step="3">
+            <div class="snake-card-inner">
+              <div class="snake-card-header">
+                <span class="snake-step-tag">03 / КОНЦЕПТ</span>
+                <span class="snake-step-num">03</span>
+              </div>
+              <h3 class="snake-card-title">Форматы и сценарии</h3>
+              <p class="snake-card-desc">Ищем индивидуальные форматы для каждой ниши, придумываем вирусные идеи и пишем сильные сценарии для рилсов.</p>
+              <div class="snake-flow-indicator">
+                <span class="flow-pulse"></span>
+                <span class="flow-text">Идеи и сценарии</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Step 2: Съемочный день -->
-        <div class="step-card spotlight-card reveal">
-          <div class="step-num">ШАГ 02</div>
-          <h3 class="step-title">Съемочный день</h3>
-          <p class="step-desc">
-            На площадке работают оператор и продюсер, используем профессиональное оборудование, чтобы картинка была красивой и дорогой.
-          </p>
+        <!-- Serpentine Turn Transition (Спуск и разворот справа налево) -->
+        <div class="snake-turn-transition" aria-hidden="true">
+          <div class="snake-turn-line">
+            <div class="snake-turn-beam"></div>
+          </div>
+          <div class="snake-turn-badge">
+            <span class="turn-arrow-icon">▼</span>
+            <span class="turn-label">Переход к съёмкам</span>
+          </div>
         </div>
 
-        <!-- Step 3: Монтаж -->
-        <div class="step-card spotlight-card reveal">
-          <div class="step-num">ШАГ 03</div>
-          <h3 class="step-title">Монтаж</h3>
-          <p class="step-desc">
-            Динамичный монтаж, трендовый саунд-дизайн, анимация и графика. Отдаем полностью готовые ролики.
-          </p>
+        <!-- Row 2: Справа налево (04 Съёмка ◀ 05 Монтаж ◀ 06 Отдаём ролики) -->
+        <!-- Placed in visual reverse order so 04 is directly under 03, 05 under 02, 06 under 01 -->
+        <div class="snake-row snake-row-bottom">
+          
+          <!-- Card 06: Отдаём ролики (Golden Finish Trophy) -->
+          <div class="snake-card spotlight-card snake-card-6 snake-card-gold" data-step="6">
+            <div class="snake-card-inner">
+              <div class="snake-card-header">
+                <span class="snake-step-tag snake-tag-gold">06 / РЕЗУЛЬТАТ ✦</span>
+                <span class="snake-step-num snake-num-gold">06</span>
+              </div>
+              <h3 class="snake-card-title highlight-gold">Отдаём ролики</h3>
+              <p class="snake-card-desc">Передаём готовые видео с кликабельными обложками и чёткими рекомендациями к публикации.</p>
+              <div class="snake-flow-indicator">
+                <span class="flow-pulse gold-pulse"></span>
+                <span class="flow-text highlight-gold">Готовый пул видео</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connector 5 <- 6 (Flow is 5 -> 6, so arrow points LEFT ◀) -->
+          <div class="snake-connector connector-left connector-5-6" aria-hidden="true">
+            <span class="connector-arrow">◀</span>
+            <div class="connector-track">
+              <div class="connector-beam beam-reverse"></div>
+            </div>
+          </div>
+
+          <!-- Card 05: Монтаж -->
+          <div class="snake-card spotlight-card snake-card-5" data-step="5">
+            <div class="snake-card-inner">
+              <div class="snake-card-header">
+                <span class="snake-step-tag">05 / ДИНАМИКА</span>
+                <span class="snake-step-num">05</span>
+              </div>
+              <h3 class="snake-card-title">Монтаж</h3>
+              <p class="snake-card-desc">Динамичный монтаж, современный саунд-дизайн, трендовая анимация, киношная цветокоррекция и стильные субтитры.</p>
+              <div class="snake-flow-indicator">
+                <span class="flow-pulse"></span>
+                <span class="flow-text">Пост-продакшн</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connector 4 <- 5 (Flow is 4 -> 5, so arrow points LEFT ◀) -->
+          <div class="snake-connector connector-left connector-4-5" aria-hidden="true">
+            <span class="connector-arrow">◀</span>
+            <div class="connector-track">
+              <div class="connector-beam beam-reverse"></div>
+            </div>
+          </div>
+
+          <!-- Card 04: Съёмка -->
+          <div class="snake-card spotlight-card snake-card-4" data-step="4">
+            <div class="snake-card-inner">
+              <div class="snake-card-header">
+                <span class="snake-step-tag">04 / МОТОР</span>
+                <span class="snake-step-num">04</span>
+              </div>
+              <h3 class="snake-card-title">Съёмка</h3>
+              <p class="snake-card-desc">Снимаем на профессиональную камеру с использованием профессионального оборудования, студийного света и звука.</p>
+              <div class="snake-flow-indicator">
+                <span class="flow-pulse"></span>
+                <span class="flow-text">Съёмочный день</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
+
     </div>
   </section>
 
@@ -586,11 +696,20 @@
           <a href="#process">Процесс</a>
         </div>
 
-        <div class="footer-col">
+        <div class="footer-col footer-col-contacts">
           <h4>Контакты</h4>
-          <a href="https://t.me/evsevyev" target="_blank" rel="noopener">Написать в Telegram</a>
-          <a href="https://instagram.com/sema.evsevyev" target="_blank" rel="noopener">Instagram</a>
-          <span class="location-tag">г. Екатеринбург / Выезды</span>
+          <div class="footer-social-icons">
+            <a href="https://t.me/evsevyev" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Telegram" title="Написать в Telegram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.432z"/>
+              </svg>
+            </a>
+            <a href="https://instagram.com/sema.evsevyev" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram" title="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -601,6 +720,6 @@
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="app.js?v=13.0"></script>
+  <script src="app.js?v=26.0"></script>
 </body>
 </html>
