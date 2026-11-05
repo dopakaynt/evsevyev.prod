@@ -22,7 +22,7 @@
   <link rel="dns-prefetch" href="https://edge-ams-1.kinescopecdn.net">
   <link rel="dns-prefetch" href="https://static.kinescopecdn.net">
   
-  <link rel="stylesheet" href="styles.css?v=32.0">
+  <link rel="stylesheet" href="styles.css?v=35.0">
 </head>
 <body>
 
@@ -218,7 +218,8 @@
       <!-- Category Filter Tabs styled like vintage cinema archive tags -->
       <div class="filter-tabs-wrapper reveal">
         <div class="filter-tabs" id="portfolioFilter">
-          <button class="filter-btn" data-cat="restaurants">Рестораны</button>
+          <button class="filter-btn active" data-cat="restaurants">Рестораны</button>
+          <button class="filter-btn" data-cat="microphone">Микрофон ✦</button>
           <button class="filter-btn" data-cat="experts">Эксперты</button>
           <button class="filter-btn" data-cat="auto">Авто на заказ</button>
           <button class="filter-btn" data-cat="houses">Загородные дома</button>
@@ -231,23 +232,9 @@
         </div>
       </div>
 
-      <!-- Real Floating Video Grid from Kinescope (Lazy On-Demand Loading) -->
+      <!-- Real Floating Video Grid -->
       <div id="portfolioGrid" class="portfolio-grid vertical-grid">
-        <div class="portfolio-prompt-card">
-          <div class="prompt-glow" aria-hidden="true"></div>
-          <div class="prompt-icon-ring">
-            <span class="prompt-play-icon">▶</span>
-          </div>
-          <h3 class="prompt-title">Каталог видеороликов</h3>
-          <p class="prompt-subtitle">Выберите интересующую категорию выше, чтобы открыть подборку реальных кейсов</p>
-          <div class="prompt-tags-hint">
-            <span>✦ Рестораны</span>
-            <span>✦ Эксперты</span>
-            <span>✦ Авто</span>
-            <span>✦ Дома</span>
-            <span>✦ Реклама</span>
-          </div>
-        </div>
+        <!-- Rendered dynamically by app.js with immediate autoplay -->
       </div>
     </div>
   </section>
@@ -709,6 +696,6 @@
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="app.js?v=32.0"></script>
+  <script src="app.js?v=35.0"></script>
 </body>
 </html>

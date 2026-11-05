@@ -1121,125 +1121,92 @@ body {
   margin: 0 auto;
 }
 
-/* Portfolio Initial Standby / Prompt Card (Zero Bandwidth Until Category Click) */
-.portfolio-prompt-card {
-  grid-column: 1 / -1;
-  width: 100%;
-  max-width: 680px;
-  margin: 12px auto 24px;
-  background: rgba(14, 18, 26, 0.75);
-  border: 1px dashed rgba(245, 158, 11, 0.35);
-  border-radius: 20px;
-  padding: 48px 32px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
+/* =========================================================
+   CUSTOM NATIVE VIDEO PLAYER (Zero-Iframe GPU Architecture)
+   ========================================================= */
 
-.portfolio-prompt-card:hover {
-  border-color: rgba(245, 158, 11, 0.6);
-  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.7), 0 0 35px rgba(245, 158, 11, 0.12);
-  transform: translateY(-2px);
-}
-
-.prompt-glow {
+.native-video-player {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 200px;
-  background: radial-gradient(ellipse, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
-  pointer-events: none;
-  filter: blur(40px);
-  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #000000;
 }
 
-.prompt-icon-ring {
-  position: relative;
-  z-index: 1;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1.5px solid rgba(245, 158, 11, 0.45);
+.native-video-player video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  background: #000000;
+  display: block;
+  cursor: pointer;
+}
+
+/* Sound & Control Overlays */
+.native-player-hud {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  z-index: 5;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-  box-shadow: 0 0 24px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  animation: pulsePromptIcon 2.6s infinite ease-in-out;
-}
-
-@keyframes pulsePromptIcon {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 24px rgba(245, 158, 11, 0.2);
-  }
-  50% {
-    transform: scale(1.06);
-    box-shadow: 0 0 36px rgba(245, 158, 11, 0.4);
-  }
-}
-
-.prompt-play-icon {
-  font-size: 20px;
-  color: #fee500;
-  margin-left: 3px;
-  text-shadow: 0 0 10px #f59e0b;
-}
-
-.prompt-title {
-  position: relative;
-  z-index: 1;
-  font-family: var(--font-title-poster, 'Oswald', sans-serif);
-  font-size: clamp(20px, 2.4vw, 26px);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  color: #ffffff;
-  margin-bottom: 10px;
-}
-
-.prompt-subtitle {
-  position: relative;
-  z-index: 1;
-  font-size: 14.5px;
-  color: rgba(255, 255, 255, 0.65);
-  max-width: 480px;
-  line-height: 1.55;
-  margin: 0 auto 20px;
-}
-
-.prompt-tags-hint {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
   gap: 8px;
 }
 
-.prompt-tags-hint span {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(245, 158, 11, 0.85);
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  padding: 4px 10px;
-  border-radius: 6px;
+.native-sound-btn {
+  background: rgba(14, 18, 26, 0.82);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #f59e0b;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.native-sound-btn:hover {
+  transform: scale(1.08);
+  border-color: #fee500;
+  background: rgba(22, 27, 38, 0.95);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+}
+
+.native-play-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  pointer-events: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(14, 18, 26, 0.85);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  color: #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 6;
+}
+
+.native-play-indicator.is-paused {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 /* =========================================================
@@ -1312,8 +1279,7 @@ body {
   background-color: #000000 !important;
   color-scheme: dark !important;
   display: block;
-  opacity: 0;
-  transition: opacity 0.45s ease;
+  opacity: 1;
   z-index: 1;
 }
 

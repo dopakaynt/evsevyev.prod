@@ -19,6 +19,17 @@ const portfolioData = {
       { id: "sPAyw6necPE9hQkahKpum9", title: "Азиатский концепт" }
     ]
   },
+  microphone: {
+    name: 'Микрофон',
+    type: 'vertical',
+    isNative: true,
+    videos: [
+      { id: "mic-1", src: "assets/videos/microphone/video1.mp4", title: "Микрофон 01" },
+      { id: "mic-2", src: "assets/videos/microphone/video2.mp4", title: "Микрофон 02" },
+      { id: "mic-3", src: "assets/videos/microphone/video3.mp4", title: "Микрофон 03" },
+      { id: "mic-4", src: "assets/videos/microphone/video4.mp4", title: "Микрофон: ТНТ" }
+    ]
+  },
   experts: {
     name: 'Эксперты',
     type: 'vertical',
@@ -471,57 +482,20 @@ function initCreativeInteractions() {
 function initPortfolioTabs() {
   const filterButtons = document.querySelectorAll('#portfolioFilter .filter-btn');
 
+  // Immediately render and autoplay default category (all videos play together!)
+  renderPortfolio('restaurants');
+
   filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const catKey = btn.getAttribute('data-cat');
+      if (btn.classList.contains('active')) return;
 
-      // If user clicks the currently active category again, toggle it closed to standby
-      if (btn.classList.contains('active')) {
-        btn.classList.remove('active');
-        renderPortfolioStandby();
-        return;
-      }
-
-      // Switch active button
       filterButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Load and render videos on-demand only after user clicks category
       renderPortfolio(catKey);
     });
   });
-}
-
-function renderPortfolioStandby() {
-  const grid = document.getElementById('portfolioGrid');
-  if (!grid) return;
-
-  grid.className = 'portfolio-grid vertical-grid';
-  grid.innerHTML = `
-    <div class="portfolio-prompt-card">
-      <div class="prompt-glow" aria-hidden="true"></div>
-      <div class="prompt-icon-ring">
-        <span class="prompt-play-icon">▶</span>
-      </div>
-      <h3 class="prompt-title">Каталог видеороликов</h3>
-      <p class="prompt-subtitle">Выберите интересующую категорию выше, чтобы открыть подборку реальных кейсов</p>
-      <div class="prompt-tags-hint">
-        <span>✦ Рестораны</span>
-        <span>✦ Эксперты</span>
-        <span>✦ Авто</span>
-        <span>✦ Дома</span>
-        <span>✦ Реклама</span>
-      </div>
-    </div>
-  `;
-
-  if (typeof gsap !== 'undefined') {
-    gsap.fromTo(
-      grid.querySelector('.portfolio-prompt-card'),
-      { opacity: 0, y: 15, scale: 0.98 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power2.out' }
-    );
-  }
 }
 
 function renderPortfolio(categoryKey) {
@@ -537,94 +511,104 @@ function renderPortfolio(categoryKey) {
     card.className = 'video-card';
     card.setAttribute('data-video-id', video.id);
 
-    // If real CDN poster is defined, render image; otherwise no text placeholder
-    const posterMarkup = video.poster
-      ? `<img 
-          class="video-native-poster" 
-          src="${video.poster}" 
-          alt="${video.title || 'Evsevyev prod.'}" 
-          loading="eager" 
-          decoding="async"
-        >`
-      : '';
-
-    card.innerHTML = `
-      <div class="video-ratio-box ${catData.type}">
-        <!-- 1. Kinescope Stream Player (Starts hidden at opacity: 0 behind black box/loader) -->
-        <iframe 
-          src="https://kinescope.io/embed/${video.id}?autoplay=1&muted=1&loop=1&controls=0&preload=auto" 
-          allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;" 
-          frameborder="0" 
-          allowfullscreen 
-          loading="eager"
-          allowtransparency="true"
-          style="background-color: #000000 !important; color-scheme: dark !important;">
-        </iframe>
-
-        <!-- 2. Real Poster if available (z-index: 2) -->
-        ${posterMarkup}
-
-        <!-- 3. Minimalist Video Loader: Play Button & Golden Progress Bar (z-index: 10) -->
-        <div class="video-loader">
-          <div class="loader-content">
-            <div class="loader-play-btn">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+    if (catData.isNative) {
+      // CUSTOM NATIVE VIDEO PLAYER: Pure GPU-Accelerated <video>, Zero Iframes, 0ms Autoplay
+      card.innerHTML = `
+        <div class="video-ratio-box ${catData.type}">
+          <div class="native-video-player">
+            <video 
+              src="${video.src}" 
+              ${video.poster ? `poster="${video.poster}"` : ''} 
+              playsinline 
+              muted 
+              loop 
+              autoplay 
+              preload="auto">
+            </video>
+            
+            <div class="native-play-indicator" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z"/>
               </svg>
             </div>
-            <div class="loader-track">
-              <div class="loader-line"></div>
+
+            <div class="native-player-hud">
+              <button class="native-sound-btn" aria-label="Включить звук" title="Включить/выключить звук">
+                <svg class="sound-icon-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                  <line x1="23" y1="9" x2="17" y2="15"/>
+                  <line x1="17" y1="9" x2="23" y2="15"/>
+                </svg>
+                <svg class="sound-icon-unmuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                  <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
 
-    const loader = card.querySelector('.video-loader');
-    const loaderLine = card.querySelector('.loader-line');
-    const iframe = card.querySelector('iframe');
-    const poster = card.querySelector('.video-native-poster');
+      const vid = card.querySelector('video');
+      const soundBtn = card.querySelector('.native-sound-btn');
+      const soundMuted = card.querySelector('.sound-icon-muted');
+      const soundUnmuted = card.querySelector('.sound-icon-unmuted');
+      const playInd = card.querySelector('.native-play-indicator');
 
-    // 1. Start progress line animation smoothly
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        if (loaderLine) {
-          loaderLine.style.width = '100%';
+      // Click video to toggle play / pause
+      vid.addEventListener('click', () => {
+        if (vid.paused) {
+          vid.play();
+          playInd.classList.remove('is-paused');
+        } else {
+          vid.pause();
+          playInd.classList.add('is-paused');
         }
-      }, 40);
-    });
+      });
 
-    // 2. Seamless Transition Engine:
-    // At 2.0s (after progress fills and video stream has buffered frames in background):
-    // First make iframe visible underneath the loader, then smoothly dissolve the loader and poster!
-    setTimeout(() => {
-      if (iframe) {
-        iframe.classList.add('is-ready');
+      // Sound toggle on HUD button
+      if (soundBtn) {
+        soundBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          vid.muted = !vid.muted;
+          if (vid.muted) {
+            soundMuted.style.display = 'block';
+            soundUnmuted.style.display = 'none';
+          } else {
+            soundMuted.style.display = 'none';
+            soundUnmuted.style.display = 'block';
+          }
+        });
       }
-      setTimeout(() => {
-        if (poster) {
-          poster.classList.add('video-hidden');
-        }
-        if (loader && loader.parentNode) {
-          loader.classList.add('loaded');
-          setTimeout(() => {
-            if (loader && loader.parentNode) {
-              loader.remove();
-            }
-          }, 450);
-        }
-      }, 100);
-    }, 2000);
+
+      // Ensure autoplay starts smoothly
+      vid.play().catch(() => {});
+    } else {
+      // KINESCOPE PLAYER: Immediate Autoplay Mode (All videos in category play together!)
+      card.innerHTML = `
+        <div class="video-ratio-box ${catData.type}">
+          <iframe 
+            src="https://kinescope.io/embed/${video.id}?autoplay=1&muted=1&loop=1&controls=0&preload=auto" 
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;" 
+            frameborder="0" 
+            allowfullscreen 
+            loading="eager"
+            allowtransparency="true"
+            style="background-color: #000000 !important; color-scheme: dark !important; opacity: 1 !important;">
+          </iframe>
+        </div>
+      `;
+    }
 
     grid.appendChild(card);
   });
 
-  // Stagger entrance with GSAP if available
+  // Stagger entrance with GSAP
   if (typeof gsap !== 'undefined') {
     gsap.fromTo(
       grid.querySelectorAll('.video-card'),
-      { opacity: 0, y: 24, scale: 0.96 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 0.06, ease: 'power2.out' }
+      { opacity: 0, y: 20, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' }
     );
   }
 }
