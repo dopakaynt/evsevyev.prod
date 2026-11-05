@@ -1856,11 +1856,22 @@ body {
   font-family: var(--font-display);
   font-size: clamp(28px, 3.8vw, 44px);
   font-weight: 900;
-  margin: 0 auto 16px;
+  margin: 0 auto 30px;
   color: #f5f0e6;
   text-align: center;
   max-width: 740px;
   line-height: 1.25;
+}
+
+.btn-tg-icon {
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.btn:hover .btn-tg-icon {
+  transform: scale(1.08);
 }
 
 .cta-desc {
@@ -3535,7 +3546,7 @@ body {
   }
   .cta-title {
     font-size: clamp(24px, 5.5vw, 30px) !important;
-    margin-bottom: 12px !important;
+    margin-bottom: 24px !important;
     text-align: center !important;
   }
   .cta-desc {
