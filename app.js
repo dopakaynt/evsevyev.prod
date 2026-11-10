@@ -8,15 +8,12 @@ const portfolioData = {
   restaurants: {
     name: 'Рестораны',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "psqw8T1BitivaccPA2fWq5", title: "Гастробар & Стейкхаус", poster: "https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/0c6c03ae-812e-43f6-ae7d-1cdfd46d0768/poster_lg/ec9a7476-3f22-46e9-8dbc-c315b4cd72ec.jpg" },
-      { id: "wMCt8ko4sMZZLC1MiR4C6k", title: "Мясной ресторан", poster: "https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/ba6270f8-0c8e-453d-94e5-afbd771eaef1/poster_lg/d0e54783-4f6d-4b45-bcc3-b7c515dcaf65.jpg" },
-      { id: "7DQ1zwM62tHkNMJ9tuwVgu", title: "Коктейльный бар", poster: "https://edge-dallas-1.kinescopecdn.net/748cc9ed-b657-4402-9235-db459d278535/posters/3693a728-1697-4b8d-96db-823afe56bf62/poster_lg/8c3ae369-608c-4c39-a6a6-1d31f71ac552.jpg" },
-      { id: "dfTWJRt9YLsfcGkE8UTpG8", title: "Авторская кухня" },
-      { id: "358vJ1H5u6fXmeqLkBhmAX", title: "Винный ресторан" },
-      { id: "uM1WpK3Tf1iA6HELth1A1n", title: "Шеф-тейбл" },
-      { id: "nwsGoh9iF1v8NxPYWsb5YC", title: "Кофейня & Завтраки" },
-      { id: "sPAyw6necPE9hQkahKpum9", title: "Азиатский концепт" }
+      { id: "rest-01", title: "Гастробар & Стейкхаус", src: "assets/videos/restaurants/rest-01.mp4" },
+      { id: "rest-03", title: "Коктейльный бар", src: "assets/videos/restaurants/rest-03.mp4" },
+      { id: "rest-02", title: "Мясной ресторан", src: "assets/videos/restaurants/rest-02.mp4" },
+      { id: "rest-04", title: "Авторская кухня", src: "assets/videos/restaurants/rest-04.mp4" }
     ]
   },
   microphone: {
@@ -33,96 +30,110 @@ const portfolioData = {
   experts: {
     name: 'Эксперты',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "m5RjbCyGDZvejyagbHjC6p", title: "Бизнес-консалтинг" },
-      { id: "sCex4kjETwBdtttzH8DNGK", title: "Личный бренд" },
-      { id: "35vQJrT4Shx1eY6E2gsMw4", title: "Инвестиции & Финансы" },
-      { id: "3UaBnopGYMx85xojYCJvrw", title: "Психология & Коучинг" },
-      { id: "iESYsqSaVW4owNBG86t3zS", title: "Медицина & Здоровье" },
-      { id: "i7bYAaaDEPz2Fu6fqTWhxd", title: "Недвижимость" },
-      { id: "ttyHXXRPNPy4rhR8LZh1Tf", title: "Юрист & Право" },
-      { id: "6DbyPnQw1KgEbVRSV5hnNH", title: "Маркетинг" }
+      { id: "expert-02", title: "Личный бренд", src: "assets/videos/experts/expert-02.mp4" },
+      { id: "expert-01", title: "Бизнес-консалтинг", src: "assets/videos/experts/expert-01.mp4" },
+      { id: "expert-03", title: "Инвестиции & Финансы", src: "assets/videos/experts/expert-03.mp4" },
+      { id: "expert-04", title: "Психология & Коучинг", src: "assets/videos/experts/expert-04.mp4" }
     ]
   },
   auto: {
     name: 'Авто на заказ',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "6PP6PjHzCUnJKBbWUR2m9g", title: "Премиум кроссовер" },
-      { id: "svHACvgUE8mDsCQMj8X3Bb", title: "Спорткар на заказ" },
-      { id: "9KRPNd18jL8iPZxgc91Egd", title: "Подбор авто из Кореи" },
-      { id: "nACPKuY9kq1osCiTEt3tMd", title: "Выдача автомобиля" }
+      { id: "auto-01", title: "Премиум кроссовер", src: "assets/videos/auto/auto-01.mp4" },
+      { id: "auto-02", title: "Спорткар на заказ", src: "assets/videos/auto/auto-02.mp4" },
+      { id: "auto-03", title: "Подбор авто из Кореи", src: "assets/videos/auto/auto-03.mp4" },
+      { id: "auto-04", title: "Выдача автомобиля", src: "assets/videos/auto/auto-04.mp4" }
     ]
   },
   houses: {
     name: 'Загородные дома',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "3VYZwoarHrpRzo9GqBT6P3", title: "Коттеджный поселок" },
-      { id: "vgrMZd4hYk8od8pcSretaE", title: "Строительство фахверк" },
-      { id: "3pX8M2WYZH8aMbmXbhsWnM", title: "Дизайн виллы" },
-      { id: "tQW9UdA7rvywqDQipHzjp2", title: "Рум-тур дома" }
+      { id: "house-01", title: "Коттеджный поселок", src: "assets/videos/houses/house-01.mp4" },
+      { id: "house-02", title: "Строительство фахверк", src: "assets/videos/houses/house-02.mp4" },
+      { id: "house-03", title: "Дизайн виллы", src: "assets/videos/houses/house-03.mp4" },
+      { id: "house-04", title: "Рум-тур дома", src: "assets/videos/houses/house-04.mp4" }
     ]
   },
   commercial: {
     name: 'Реклама',
     type: 'horizontal',
+    isNative: true,
     videos: [
-      { id: "8GBN4wssHrALP9hPkZXW8W", title: "Имиджевый промо-ролик" },
-      { id: "vaVFDUV3KxUXLc2KFcHbc8", title: "Корпоративное видео" },
-      { id: "eFFmtmZVVG5ydQ6ubYXXU9", title: "Рекламный ролик" }
+      { id: "reklama-03", title: "Рекламный ролик продукта", src: "assets/videos/reklama/reklama-03.mp4" },
+      { id: "reklama-01", title: "Логард — Имиджевый промо-ролик", src: "assets/videos/reklama/reklama-01.mp4" },
+      { id: "reklama-02", title: "Корпоративное видео для бизнеса", src: "assets/videos/reklama/reklama-02.mp4" },
+      { id: "reklama-04", title: "Промо-контент для бренда", src: "assets/videos/reklama/reklama-04.mp4" }
     ]
   },
   furniture: {
     name: 'Мебель',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "p6GTfaGkdb8PXWHvNSw9p3", title: "Дизайнерские кухни" },
-      { id: "8jWYVWjXbHKJNEoSxoY9Hh", title: "Шоурум мебели" },
-      { id: "oABWBRTwuS2CFvGitXcWXd", title: "Мягкая мебель" },
-      { id: "dUQnwRWcJUVcq12N9NHAPa", title: "Премиум гардеробные" }
+      { id: "mebel-01", title: "Дизайнерские кухни", src: "assets/videos/mebel/mebel-01.mp4" },
+      { id: "mebel-02", title: "Шоурум мебели", src: "assets/videos/mebel/mebel-02.mp4" },
+      { id: "mebel-04", title: "Премиум гардеробные", src: "assets/videos/mebel/mebel-04.mp4" },
+      { id: "mebel-03", title: "Мягкая мебель", src: "assets/videos/mebel/mebel-03.mp4" }
     ]
   },
-  aesthetic: {
-    name: 'Эстетика',
+  wildberries: {
+    name: 'Wildberries',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "qnmay4R5a1VnX86hzuGsdE", title: "Атмосферный визуал" },
-      { id: "4ReyZGqv91TFDQ7EKFtgEe", title: "Лайфстайл контент" },
-      { id: "3H9HsteHA9aoqAP9RX2zEE", title: "Кинематографичный свет" },
-      { id: "5DovRTtWsgaC9r1vnaTmDC", title: "Эстетика кадра" }
+      { id: "wb-04", title: "Стайлер-расческа", src: "assets/videos/wildberries/wb-04.mp4" },
+      { id: "wb-01", title: "Керамическая кружка", src: "assets/videos/wildberries/wb-01.mp4" },
+      { id: "wb-03", title: "Органайзер для дома", src: "assets/videos/wildberries/wb-03.mp4" },
+      { id: "wb-02", title: "Алмазная мозаика", src: "assets/videos/wildberries/wb-02.mp4" }
     ]
   },
   community: {
     name: 'Комьюнити',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "btpQx7Yjaa8hzkcHP22TdW", title: "Бизнес-клуб" },
-      { id: "iQKxeSQCSfDaaeuWvm36NQ", title: "Мастермайнд & Форум" },
-      { id: "mMswtDDiZVG5q2AeaNf3JA", title: "Закрытое мероприятие" },
-      { id: "w8doD7oRaG3ANGs4CED2nh", title: "Нетворкинг вечер" }
+      { id: "community-01", title: "Бизнес-клуб", src: "assets/videos/community/community-01.mp4" },
+      { id: "community-02", title: "Мастермайнд & Форум", src: "assets/videos/community/community-02.mp4" },
+      { id: "community-03", title: "Закрытое мероприятие", src: "assets/videos/community/community-03.mp4" },
+      { id: "community-04", title: "Нетворкинг вечер", src: "assets/videos/community/community-04.mp4" }
+    ]
+  },
+  events: {
+    name: 'Events',
+    type: 'vertical',
+    isNative: true,
+    videos: [
+      { id: "event-03", title: "Фестиваль & Шоу", src: "assets/videos/events/event-03.mp4" },
+      { id: "event-02", title: "Вечеринка & Презентация", src: "assets/videos/events/event-02.mp4" },
+      { id: "event-01", title: "Масштабный ивент", src: "assets/videos/events/event-01.mp4" }
     ]
   },
   barbershops: {
     name: 'Барбершопы',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "0ZwY9GnjzSXtRnUS17R85L", title: "Флагманский барбершоп" },
-      { id: "vuW1BcDXA1Jx15Hor8w14z", title: "Премиум стрижка" },
-      { id: "8jhhFGBZQxKnmqn1Drcynm", title: "Мастер в кадре" },
-      { id: "5SoXgA4SrSozB2LSKzYbzt", title: "Атмосфера салона" },
-      { id: "gR96uxXwKKivqnmnrYBwEX", title: "Мужской уход" },
-      { id: "346ARN1UELaQkFaHQw5FpL", title: "Команда барберов" }
+      { id: "barber-01", title: "Флагманский барбершоп", src: "assets/videos/barbershop/barber-01.mp4" },
+      { id: "barber-03", title: "Мастер в кадре", src: "assets/videos/barbershop/barber-03.mp4" },
+      { id: "barber-02", title: "Премиум стрижка", src: "assets/videos/barbershop/barber-02.mp4" },
+      { id: "barber-04", title: "Атмосфера салона", src: "assets/videos/barbershop/barber-04.mp4" }
     ]
   },
   unboxing: {
     name: 'Распаковки',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "paQqnKSjWm1KCfZXrJopYV", title: "Распаковка премиум-бренда" },
-      { id: "igiKvDRLY5qGdYG2zH6gtJ", title: "Обзор новинки" },
-      { id: "cSGWyw6346foBpUGFZEQCy", title: "Детали и макросъемка" },
-      { id: "b1wCG5th3cYoWHAxra3fgf", title: "Эмоции от распаковки" }
+      { id: "unbox-04", title: "Эмоции от распаковки", src: "assets/videos/unboxing/unbox-04.mp4" },
+      { id: "unbox-01", title: "Распаковка премиум-бренда", src: "assets/videos/unboxing/unbox-01.mp4" },
+      { id: "unbox-03", title: "Детали и макросъемка", src: "assets/videos/unboxing/unbox-03.mp4" },
+      { id: "unbox-02", title: "Обзор новинки", src: "assets/videos/unboxing/unbox-02.mp4" }
     ]
   }
 };
@@ -772,9 +783,11 @@ function renderPortfolio(categoryKey) {
           <iframe 
             id="${uniqueId}"
             src="https://kinescope.io/embed/${video.id}?autoplay=1&muted=1&loop=1&controls=0&preload=auto&quality=720p&dnt=1&playsinline=1" 
-            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;" 
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
             frameborder="0" 
             allowfullscreen 
+            width="1080" 
+            height="1920"
             loading="eager"
             allowtransparency="true"
             style="background-color: #000000 !important; color-scheme: dark !important; opacity: 1 !important;">
