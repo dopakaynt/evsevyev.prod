@@ -475,8 +475,166 @@ function initCreativeInteractions() {
 }
 
 /* =========================================================
-   MODULE 5: Portfolio Grid & Per-Card Loading Engine
+   MODULE 5: Portfolio Grid & Per-Card Video Controls Engine
    ========================================================= */
+
+// Active Kinescope Player instances map (iframeId -> player)
+const activeKinescopePlayers = new Map();
+
+// Global callback when Kinescope IFrame Player API finishes loading
+if (typeof window !== 'undefined') {
+  window.onKinescopeIframeAPIReady = function (playerFactory) {
+    document.querySelectorAll('.video-card iframe').forEach(iframe => {
+      if (iframe.id && !activeKinescopePlayers.has(iframe.id)) {
+        playerFactory.create(iframe.id).then(player => {
+          activeKinescopePlayers.set(iframe.id, player);
+        }).catch(() => {});
+      }
+    });
+  };
+}
+
+function attachKinescopePlayer(iframe) {
+  if (!iframe || !iframe.id) return;
+  if (typeof window !== 'undefined' && window.Kinescope && window.Kinescope.IframePlayer) {
+    try {
+      window.Kinescope.IframePlayer.create(iframe.id).then(player => {
+        activeKinescopePlayers.set(iframe.id, player);
+      }).catch(() => {});
+    } catch (e) {}
+  }
+}
+
+function applyKinescopeSound(iframe, shouldUnmute) {
+  if (!iframe) return;
+
+  // 1. Direct Kinescope Player API SDK if attached
+  const player = activeKinescopePlayers.get(iframe.id);
+  if (player) {
+    if (shouldUnmute) {
+      if (typeof player.unmute === 'function') player.unmute().catch(() => {});
+      if (typeof player.setMuted === 'function') player.setMuted(false).catch(() => {});
+      if (typeof player.setVolume === 'function') player.setVolume(1).catch(() => {});
+    } else {
+      if (typeof player.mute === 'function') player.mute().catch(() => {});
+      if (typeof player.setMuted === 'function') player.setMuted(true).catch(() => {});
+    }
+  }
+
+  // 2. High-compatibility multi-protocol postMessage fallback
+  if (iframe.contentWindow) {
+    const action = shouldUnmute ? 'unmute' : 'mute';
+    const origins = ['*', 'https://kinescope.io', 'https://player.kinescope.io'];
+
+    origins.forEach(origin => {
+      try {
+        iframe.contentWindow.postMessage(JSON.stringify({ method: action }), origin);
+        iframe.contentWindow.postMessage(JSON.stringify({ type: action }), origin);
+        iframe.contentWindow.postMessage(JSON.stringify({ action: action }), origin);
+        iframe.contentWindow.postMessage({ method: action }, origin);
+        iframe.contentWindow.postMessage({ type: action }, origin);
+        iframe.contentWindow.postMessage({ action: action }, origin);
+        iframe.contentWindow.postMessage({ type: `kinescope.player.${action}` }, origin);
+
+        if (shouldUnmute) {
+          iframe.contentWindow.postMessage(JSON.stringify({ method: 'setVolume', value: 1 }), origin);
+          iframe.contentWindow.postMessage({ type: 'setVolume', value: 1 }, origin);
+        }
+      } catch (err) {}
+    });
+  }
+}
+
+function muteAllOtherVideos(exceptCard) {
+  document.querySelectorAll('.video-card').forEach(c => {
+    if (c === exceptCard) return;
+    const sBtn = c.querySelector('.sound-btn');
+    const sMuted = c.querySelector('.sound-icon-muted');
+    const sUnmuted = c.querySelector('.sound-icon-unmuted');
+    const ifr = c.querySelector('iframe');
+    const vid = c.querySelector('video');
+
+    if (sBtn && sBtn.getAttribute('data-state') === 'unmuted') {
+      sBtn.setAttribute('data-state', 'muted');
+      sBtn.classList.remove('is-active');
+      sBtn.setAttribute('title', 'Включить звук');
+      sBtn.setAttribute('aria-label', 'Включить звук');
+      if (sMuted) sMuted.style.display = 'block';
+      if (sUnmuted) sUnmuted.style.display = 'none';
+      if (ifr) applyKinescopeSound(ifr, false);
+      if (vid) vid.muted = true;
+    }
+  });
+}
+
+function toggleCardFullscreen(videoBox, iframe, fsBtn, fsIconEnter, fsIconExit) {
+  const isCurrentlyFullscreen = 
+    document.fullscreenElement === videoBox || 
+    document.webkitFullscreenElement === videoBox ||
+    document.fullscreenElement === iframe ||
+    document.webkitFullscreenElement === iframe ||
+    (document.fullscreenElement && videoBox && videoBox.contains(document.fullscreenElement));
+
+  if (isCurrentlyFullscreen) {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+    const player = iframe ? activeKinescopePlayers.get(iframe.id) : null;
+    if (player && typeof player.setFullscreen === 'function') {
+      player.setFullscreen(false).catch(() => {});
+    }
+  } else {
+    const target = videoBox || iframe;
+    if (target.requestFullscreen) {
+      target.requestFullscreen().catch(() => {
+        if (iframe && iframe.requestFullscreen) {
+          iframe.requestFullscreen().catch(() => {});
+        }
+      });
+    } else if (target.webkitRequestFullscreen) {
+      target.webkitRequestFullscreen();
+    } else if (iframe && iframe.webkitEnterFullscreen) {
+      iframe.webkitEnterFullscreen();
+    }
+
+    const player = iframe ? activeKinescopePlayers.get(iframe.id) : null;
+    if (player && typeof player.setFullscreen === 'function') {
+      player.setFullscreen(true).catch(() => {});
+    }
+  }
+}
+
+function handleFullscreenChange() {
+  const fsElem = document.fullscreenElement || document.webkitFullscreenElement;
+  document.querySelectorAll('.video-card').forEach(card => {
+    const box = card.querySelector('.video-ratio-box');
+    const ifr = card.querySelector('iframe');
+    const fsBtn = card.querySelector('.fullscreen-btn');
+    const enterIcon = card.querySelector('.fs-icon-enter');
+    const exitIcon = card.querySelector('.fs-icon-exit');
+    if (!fsBtn || !enterIcon || !exitIcon) return;
+
+    const isActive = fsElem && (fsElem === box || fsElem === ifr || (box && box.contains(fsElem)));
+    if (isActive) {
+      enterIcon.style.display = 'none';
+      exitIcon.style.display = 'block';
+      fsBtn.setAttribute('title', 'Выйти из полноэкранного режима');
+      fsBtn.setAttribute('aria-label', 'Выйти из полноэкранного режима');
+      fsBtn.classList.add('is-active');
+    } else {
+      enterIcon.style.display = 'block';
+      exitIcon.style.display = 'none';
+      fsBtn.setAttribute('title', 'Во весь экран');
+      fsBtn.setAttribute('aria-label', 'Во весь экран');
+      fsBtn.classList.remove('is-active');
+    }
+  });
+}
+
+document.addEventListener('fullscreenchange', handleFullscreenChange);
+document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 
 function initPortfolioTabs() {
   const filterButtons = document.querySelectorAll('#portfolioFilter .filter-btn');
@@ -502,6 +660,7 @@ function renderPortfolio(categoryKey) {
   const catData = portfolioData[categoryKey];
   if (!grid || !catData) return;
 
+  activeKinescopePlayers.clear();
   grid.className = `portfolio-grid ${catData.type === 'horizontal' ? 'horizontal-grid' : 'vertical-grid'}`;
   grid.innerHTML = '';
 
@@ -509,6 +668,8 @@ function renderPortfolio(categoryKey) {
     const card = document.createElement('div');
     card.className = 'video-card';
     card.setAttribute('data-video-id', video.id);
+
+    const uniqueId = `kinescope-${categoryKey}-${index}-${video.id}`;
 
     if (catData.isNative) {
       // CUSTOM NATIVE VIDEO PLAYER: Pure GPU-Accelerated <video>, Zero Iframes, 0ms Autoplay
@@ -531,16 +692,24 @@ function renderPortfolio(categoryKey) {
               </svg>
             </div>
 
-            <div class="native-player-hud">
-              <button class="native-sound-btn" aria-label="Включить звук" title="Включить/выключить звук">
-                <svg class="sound-icon-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-                  <line x1="23" y1="9" x2="17" y2="15"/>
-                  <line x1="17" y1="9" x2="23" y2="15"/>
+            <div class="video-card-hud">
+              <button class="video-hud-btn sound-btn" aria-label="Включить звук" title="Включить звук" data-state="muted">
+                <svg class="sound-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <line x1="23" y1="9" x2="17" y2="15"></line>
+                  <line x1="17" y1="9" x2="23" y2="15"></line>
                 </svg>
-                <svg class="sound-icon-unmuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
-                  <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                <svg class="sound-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+              </button>
+              <button class="video-hud-btn fullscreen-btn" aria-label="Во весь экран" title="Во весь экран" data-state="normal">
+                <svg class="fs-icon-enter" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+                </svg>
+                <svg class="fs-icon-exit" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                  <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7"></path>
                 </svg>
               </button>
             </div>
@@ -549,12 +718,15 @@ function renderPortfolio(categoryKey) {
       `;
 
       const vid = card.querySelector('video');
-      const soundBtn = card.querySelector('.native-sound-btn');
+      const soundBtn = card.querySelector('.sound-btn');
       const soundMuted = card.querySelector('.sound-icon-muted');
       const soundUnmuted = card.querySelector('.sound-icon-unmuted');
+      const fsBtn = card.querySelector('.fullscreen-btn');
+      const fsIconEnter = card.querySelector('.fs-icon-enter');
+      const fsIconExit = card.querySelector('.fs-icon-exit');
       const playInd = card.querySelector('.native-play-indicator');
+      const videoBox = card.querySelector('.video-ratio-box');
 
-      // Click video to toggle play / pause
       vid.addEventListener('click', () => {
         if (vid.paused) {
           vid.play();
@@ -565,29 +737,40 @@ function renderPortfolio(categoryKey) {
         }
       });
 
-      // Sound toggle on HUD button
-      if (soundBtn) {
-        soundBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          vid.muted = !vid.muted;
-          if (vid.muted) {
-            soundMuted.style.display = 'block';
-            soundUnmuted.style.display = 'none';
-          } else {
-            soundMuted.style.display = 'none';
-            soundUnmuted.style.display = 'block';
-          }
-        });
-      }
+      soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        vid.muted = !vid.muted;
+        if (!vid.muted) {
+          muteAllOtherVideos(card);
+          soundBtn.setAttribute('data-state', 'unmuted');
+          soundBtn.classList.add('is-active');
+          soundBtn.setAttribute('title', 'Выключить звук');
+          soundBtn.setAttribute('aria-label', 'Выключить звук');
+          soundMuted.style.display = 'none';
+          soundUnmuted.style.display = 'block';
+        } else {
+          soundBtn.setAttribute('data-state', 'muted');
+          soundBtn.classList.remove('is-active');
+          soundBtn.setAttribute('title', 'Включить звук');
+          soundBtn.setAttribute('aria-label', 'Включить звук');
+          soundMuted.style.display = 'block';
+          soundUnmuted.style.display = 'none';
+        }
+      });
 
-      // Ensure autoplay starts smoothly
+      fsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCardFullscreen(videoBox, vid, fsBtn, fsIconEnter, fsIconExit);
+      });
+
       vid.play().catch(() => {});
     } else {
-      // KINESCOPE PLAYER: Immediate Autoplay Mode (All videos in category play together!)
+      // KINESCOPE PLAYER: Immediate Autoplay Mode with 720p Optimized Stream & Boutique HUD Controls
       card.innerHTML = `
         <div class="video-ratio-box ${catData.type}">
           <iframe 
-            src="https://kinescope.io/embed/${video.id}?autoplay=1&muted=1&loop=1&controls=0&preload=auto" 
+            id="${uniqueId}"
+            src="https://kinescope.io/embed/${video.id}?autoplay=1&muted=1&loop=1&controls=0&preload=auto&quality=720p&dnt=1&playsinline=1" 
             allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;" 
             frameborder="0" 
             allowfullscreen 
@@ -595,8 +778,72 @@ function renderPortfolio(categoryKey) {
             allowtransparency="true"
             style="background-color: #000000 !important; color-scheme: dark !important; opacity: 1 !important;">
           </iframe>
+
+          <div class="video-card-hud">
+            <button class="video-hud-btn sound-btn" aria-label="Включить звук" title="Включить звук" data-state="muted">
+              <svg class="sound-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+              <svg class="sound-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </button>
+            <button class="video-hud-btn fullscreen-btn" aria-label="Во весь экран" title="Во весь экран" data-state="normal">
+              <svg class="fs-icon-enter" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+              </svg>
+              <svg class="fs-icon-exit" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       `;
+
+      const iframe = card.querySelector('iframe');
+      const videoBox = card.querySelector('.video-ratio-box');
+      const soundBtn = card.querySelector('.sound-btn');
+      const soundMuted = card.querySelector('.sound-icon-muted');
+      const soundUnmuted = card.querySelector('.sound-icon-unmuted');
+      const fsBtn = card.querySelector('.fullscreen-btn');
+      const fsIconEnter = card.querySelector('.fs-icon-enter');
+      const fsIconExit = card.querySelector('.fs-icon-exit');
+
+      // Attach to Kinescope Player API SDK
+      attachKinescopePlayer(iframe);
+
+      // Sound button handler
+      soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isMuted = soundBtn.getAttribute('data-state') === 'muted';
+        if (isMuted) {
+          muteAllOtherVideos(card);
+          soundBtn.setAttribute('data-state', 'unmuted');
+          soundBtn.classList.add('is-active');
+          soundBtn.setAttribute('title', 'Выключить звук');
+          soundBtn.setAttribute('aria-label', 'Выключить звук');
+          soundMuted.style.display = 'none';
+          soundUnmuted.style.display = 'block';
+          applyKinescopeSound(iframe, true);
+        } else {
+          soundBtn.setAttribute('data-state', 'muted');
+          soundBtn.classList.remove('is-active');
+          soundBtn.setAttribute('title', 'Включить звук');
+          soundBtn.setAttribute('aria-label', 'Включить звук');
+          soundMuted.style.display = 'block';
+          soundUnmuted.style.display = 'none';
+          applyKinescopeSound(iframe, false);
+        }
+      });
+
+      // Fullscreen button handler
+      fsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCardFullscreen(videoBox, iframe, fsBtn, fsIconEnter, fsIconExit);
+      });
     }
 
     grid.appendChild(card);
@@ -790,9 +1037,9 @@ function initDirectorCinema() {
       }
     }
 
-    // 2. Load stream iframe with black background guarantee
+    // 2. Load stream iframe with black background guarantee & 720p optimization
     const muteParam = isMuted ? 1 : 0;
-    iframe.src = `https://kinescope.io/embed/${item.id}?autoplay=1&muted=${muteParam}&loop=1&controls=0&preload=auto`;
+    iframe.src = `https://kinescope.io/embed/${item.id}?autoplay=1&muted=${muteParam}&loop=1&controls=0&preload=auto&quality=720p&dnt=1&playsinline=1`;
 
     // Once iframe loads, smoothly fade out poster
     iframe.onload = () => {
@@ -891,7 +1138,8 @@ function initDirectorCinema() {
 
       const item = heroReelPlaylist[currentIndex];
       const muteParam = isMuted ? 1 : 0;
-      iframe.src = `https://kinescope.io/embed/${item.id}?autoplay=1&muted=${muteParam}&loop=1&controls=0&preload=auto`;
+      iframe.src = `https://kinescope.io/embed/${item.id}?autoplay=1&muted=${muteParam}&loop=1&controls=0&preload=auto&quality=720p&dnt=1&playsinline=1`;
+      applyKinescopeSound(iframe, !isMuted);
 
       if (isMuted) {
         soundBtn.classList.remove('unmuted');
