@@ -22,11 +22,12 @@ const portfolioData = {
   microphone: {
     name: 'Микрофон',
     type: 'vertical',
+    isNative: true,
     videos: [
-      { id: "892boXdgNMyANo7rr1Lb69", title: "Микрофон 01" },
-      { id: "bcmBh8CM1D1Nb4dezh9QTe", title: "Микрофон 02" },
-      { id: "9rKXC6GLFQYunRXuv1Nqoj", title: "Микрофон 03" },
-      { id: "tqdxHimtMDncyMLymtjpe4", title: "Микрофон: ТНТ" }
+      { id: "mic-01", title: "Микрофон 01", src: "assets/videos/microphone/mic-01.mp4" },
+      { id: "mic-02", title: "Микрофон 02", src: "assets/videos/microphone/mic-02.mp4" },
+      { id: "mic-03", title: "Микрофон 03", src: "assets/videos/microphone/mic-03.mp4" },
+      { id: "mic-tnt", title: "Микрофон: ТНТ", src: "assets/videos/microphone/mic-tnt.mp4" }
     ]
   },
   experts: {
