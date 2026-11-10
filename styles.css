@@ -226,17 +226,13 @@ body {
   justify-content: space-between;
 }
 
-/* Original Brand Logo */
+/* Brand Logo — Restored Clean Original Horizontal Identity with Delicate Amber Glow */
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none;
-  font-family: var(--font-title-poster, 'Oswald', sans-serif);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  transition: var(--transition-fast);
+  transition: transform var(--transition-fast);
 }
 
 .brand-logo:hover {
@@ -244,21 +240,59 @@ body {
 }
 
 .logo-accent {
-  color: #ffffff;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  color: #ffffff !important;
+  font-family: var(--font-title-poster, 'Oswald', sans-serif);
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .logo-badge {
-  background: var(--accent-gold);
+  background: #e89a08;
   color: #0c0d11;
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 800;
+  font-family: var(--font-title-poster, 'Oswald', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
   padding: 3px 8px;
-  border-radius: 4px;
+  border-radius: 5px;
   letter-spacing: 0.06em;
-  box-shadow: 0 0 12px var(--accent-gold-glow);
+  text-transform: uppercase;
+  line-height: 1.2;
+  box-shadow: 0 0 10px rgba(232, 154, 8, 0.45);
+  transition: box-shadow var(--transition-fast);
+}
+
+.brand-logo:hover .logo-badge {
+  box-shadow: 0 0 16px rgba(232, 154, 8, 0.7);
+}
+
+.brand-logo-img {
+  height: 34px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.footer-brand .brand-logo {
+  gap: 12px;
+}
+
+.footer-brand .logo-accent {
+  font-size: 24px;
+}
+
+.footer-brand .logo-badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(232, 154, 8, 0.45);
+}
+
+.footer-brand .brand-logo-img {
+  height: 42px;
+  width: auto;
 }
 
 .nav-menu {
@@ -1892,15 +1926,29 @@ body {
   margin: 0 auto;
 }
 
+.final-cta-section {
+  position: relative;
+  z-index: 2;
+  padding: 60px 0 20px;
+}
+
 /* =========================================================
    CENTERED FOOTER (LUXURY STUDIO SIGNATURE)
+   Atmospheric Silk Gradient Fade (Zero Hard Cuts)
    ========================================================= */
 .site-footer {
   position: relative;
   z-index: 2;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 64px 0 44px;
-  background: #060709;
+  border-top: none;
+  padding: 96px 0 54px;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 7, 9, 0) 0%,
+    rgba(6, 7, 9, 0.35) 22%,
+    rgba(6, 7, 9, 0.75) 52%,
+    rgba(6, 7, 9, 0.95) 80%,
+    #060709 100%
+  );
   text-align: center;
 }
 
@@ -1913,17 +1961,6 @@ body {
   gap: 22px;
   max-width: 680px;
   margin: 0 auto;
-}
-
-.footer-brand .brand-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  font-family: var(--font-title-poster, 'Oswald', sans-serif);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
 }
 
 .footer-nav-centered {
@@ -3114,12 +3151,15 @@ body {
     padding: 0 16px !important;
     position: relative !important;
   }
+  .brand-logo-img {
+    height: 28px !important;
+  }
   .brand-logo .logo-accent {
-    font-size: 17px !important;
+    font-size: 18px !important;
   }
   .brand-logo .logo-badge {
     font-size: 10px !important;
-    padding: 2px 5px !important;
+    padding: 2px 7px !important;
   }
   .header-actions {
     gap: 10px !important;
