@@ -651,7 +651,7 @@ document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 function initPortfolioTabs() {
   const filterButtons = document.querySelectorAll('#portfolioFilter .filter-btn');
 
-  // Immediately render and autoplay default category (all videos play together!)
+  // Immediately render and autoplay default category
   renderPortfolio('restaurants');
 
   filterButtons.forEach(btn => {
@@ -665,6 +665,31 @@ function initPortfolioTabs() {
       renderPortfolio(catKey);
     });
   });
+
+  // Preload all category poster images during browser idle time so tab switches are 0ms instant
+  preloadAllPosters();
+}
+
+function preloadAllPosters() {
+  function runPreload() {
+    Object.values(portfolioData).forEach(cat => {
+      if (cat.videos) {
+        cat.videos.forEach(v => {
+          const posterUrl = v.poster || (v.src ? v.src.replace('.mp4', '-poster.jpg') : '');
+          if (posterUrl) {
+            const img = new Image();
+            img.src = posterUrl;
+          }
+        });
+      }
+    });
+  }
+
+  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+    window.requestIdleCallback(runPreload);
+  } else {
+    setTimeout(runPreload, 1200);
+  }
 }
 
 function renderPortfolio(categoryKey) {
@@ -672,9 +697,32 @@ function renderPortfolio(categoryKey) {
   const catData = portfolioData[categoryKey];
   if (!grid || !catData) return;
 
-  activeKinescopePlayers.clear();
-  grid.className = `portfolio-grid ${catData.type === 'horizontal' ? 'horizontal-grid' : 'vertical-grid'}`;
-  grid.innerHTML = '';
+  // 1. Deactivate current active pane and pause background videos to save CPU
+  const activePane = grid.querySelector('.portfolio-pane.active-pane');
+  if (activePane) {
+    if (activePane.getAttribute('data-cat') === categoryKey) return; // already active
+    activePane.classList.remove('active-pane');
+    activePane.querySelectorAll('video').forEach(v => {
+      try { v.pause(); } catch(e) {}
+    });
+  }
+
+  // 2. High-Performance DOM Keep-Alive Cache:
+  // If this tab was opened previously, it is already buffered in memory!
+  let targetPane = grid.querySelector(`.portfolio-pane[data-cat="${categoryKey}"]`);
+  if (targetPane) {
+    targetPane.classList.add('active-pane');
+    // Instantly resume playback with 0ms delay!
+    targetPane.querySelectorAll('video').forEach(v => {
+      v.play().catch(() => {});
+    });
+    return;
+  }
+
+  // 3. First time opening this tab: construct the pane with instant sharp posters
+  targetPane = document.createElement('div');
+  targetPane.className = `portfolio-pane active-pane ${catData.type === 'horizontal' ? 'horizontal-grid' : 'vertical-grid'}`;
+  targetPane.setAttribute('data-cat', categoryKey);
 
   catData.videos.forEach((video, index) => {
     const card = document.createElement('div');
@@ -682,15 +730,16 @@ function renderPortfolio(categoryKey) {
     card.setAttribute('data-video-id', video.id);
 
     const uniqueId = `kinescope-${categoryKey}-${index}-${video.id}`;
+    const posterSrc = video.poster || (video.src ? video.src.replace('.mp4', '-poster.jpg') : '');
 
     if (catData.isNative) {
-      // CUSTOM NATIVE VIDEO PLAYER: Pure GPU-Accelerated <video>, Zero Iframes, 0ms Autoplay
+      // CUSTOM NATIVE VIDEO PLAYER: Pure GPU-Accelerated <video>, Zero Iframes, 0ms Autoplay with Instant Sharp Poster
       card.innerHTML = `
         <div class="video-ratio-box ${catData.type}">
           <div class="native-video-player">
             <video 
               src="${video.src}" 
-              ${video.poster ? `poster="${video.poster}"` : ''} 
+              poster="${posterSrc}" 
               playsinline 
               muted 
               loop 
@@ -860,15 +909,17 @@ function renderPortfolio(categoryKey) {
       });
     }
 
-    grid.appendChild(card);
+    targetPane.appendChild(card);
   });
 
-  // Stagger entrance with GSAP
+  grid.appendChild(targetPane);
+
+  // Stagger entrance with GSAP for newly created pane
   if (typeof gsap !== 'undefined') {
     gsap.fromTo(
-      grid.querySelectorAll('.video-card'),
-      { opacity: 0, y: 20, scale: 0.97 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' }
+      targetPane.querySelectorAll('.video-card'),
+      { opacity: 0, y: 16, scale: 0.98 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.04, ease: 'power2.out' }
     );
   }
 }
@@ -1237,6 +1288,7 @@ function initRolesCompareAnimation() {
 
   const producerCard = compareSection.querySelector('.compare-card-producer');
   const smmCard = compareSection.querySelector('.compare-card-smm');
+  const summaryVerdict = compareSection.querySelector('.compare-summary-verdict');
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -1248,24 +1300,23 @@ function initRolesCompareAnimation() {
 
   if (producerCard) {
     tl.fromTo(producerCard, 
-      { y: 40, opacity: 0, scale: 0.96 }, 
-      { y: 0, opacity: 1, scale: 1, duration: 0.85, ease: 'power3.out' }
+      { y: 35, opacity: 0, scale: 0.97 }, 
+      { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' }
     );
   }
 
   if (smmCard) {
     tl.fromTo(smmCard, 
-      { y: 40, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.85, ease: 'power3.out' }, 
+      { y: 35, opacity: 0, scale: 0.97 }, 
+      { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' }, 
       '-=0.5'
     );
   }
 
-  const summaryVerdict = compareSection.querySelector('.compare-summary-verdict');
   if (summaryVerdict) {
     tl.fromTo(summaryVerdict,
-      { y: 30, opacity: 0, scale: 0.98 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.75, ease: 'power3.out' },
+      { y: 25, opacity: 0, scale: 0.98 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out' },
       '-=0.3'
     );
   }
