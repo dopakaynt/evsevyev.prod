@@ -143,13 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initLenisScroll();
   initRealisticCosmos();
   initHeroMockup();
-  initHeroCounters();
+  initPricingCarousel();
   initDirectorCinema();
   initClientsInteractions();
   initCreativeInteractions();
   initMobileMenu();
   initPortfolioTabs();
   initRolesCompareAnimation();
+  initAudienceMap();
   initProcessSnakeFlow();
 });
 
@@ -157,6 +158,68 @@ document.addEventListener('DOMContentLoaded', () => {
    MODULE 1: Lenis Smooth Scroll Engine
    ========================================================= */
 let lenisInstance = null;
+
+function initPricingCarousel() {
+  const grid = document.querySelector('.pricing-grid');
+  if (!grid) return;
+  const cards = [...grid.querySelectorAll('.price-card')];
+  if (cards.length !== 3) return;
+
+  const mobile = document.createElement('div');
+  mobile.className = 'pricing-mobile';
+  mobile.innerHTML = `<div class="pricing-switch" role="group" aria-label="Выберите срок тарифа">
+    <span class="pricing-switch-indicator" aria-hidden="true"></span>
+    <button type="button" aria-pressed="true">1 месяц</button>
+    <button type="button" aria-pressed="false">3 месяца</button>
+    <button type="button" aria-pressed="false">1 год</button>
+  </div><div class="pricing-mobile-content" aria-live="polite" aria-atomic="true">
+    <div class="pricing-mobile-price"></div><p class="pricing-mobile-details"></p><p class="pricing-mobile-saving"></p>
+    <div class="pricing-mobile-rule" aria-hidden="true"></div>
+  </div><a class="btn btn-primary pricing-mobile-cta" target="_blank" rel="noopener"></a>`;
+  grid.before(mobile);
+  const buttons = [...mobile.querySelectorAll('.pricing-switch button')];
+  const price = mobile.querySelector('.pricing-mobile-price');
+  const details = mobile.querySelector('.pricing-mobile-details');
+  const saving = mobile.querySelector('.pricing-mobile-saving');
+  const content = mobile.querySelector('.pricing-mobile-content');
+  const cta = mobile.querySelector('.pricing-mobile-cta');
+  let current = -1;
+  function select(index, animate = true) {
+    if (index === current) return;
+    current = index;
+    const card = cards[index];
+    const link = card.querySelector('.price-card-footer a');
+    mobile.querySelector('.pricing-switch').style.setProperty('--pricing-index', index);
+    buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
+    price.textContent = card.querySelector('.tier-price').textContent.trim();
+    const detail = card.querySelector('.tier-subprice').textContent.trim().replace('за видео', 'за ролик');
+    const parts = detail.split('•');
+    details.replaceChildren(document.createTextNode((parts[0] || '').trim() + ' · '));
+    const unit = document.createElement('strong');
+    unit.textContent = (parts[1] || '').trim();
+    details.append(unit);
+    saving.textContent = ['', 'На 2 000 ₽ дешевле за ролик', 'На 5 000 ₽ дешевле за ролик'][index];
+    cta.href = link.href;
+    cta.textContent = link.textContent.trim();
+    if (animate) {
+      content.classList.remove('is-changing');
+      void content.offsetWidth;
+      content.classList.add('is-changing');
+    }
+  }
+  buttons.forEach((button, i) => {
+    button.addEventListener('click', () => select(i));
+    button.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const next = (i + (event.key === 'ArrowRight' ? 1 : -1) + buttons.length) % buttons.length;
+      buttons[next].focus();
+      select(next);
+    });
+  });
+  select(0, false);
+  grid.classList.add('pricing-grid-enhanced');
+}
 
 function initLenisScroll() {
   if (typeof Lenis === 'undefined') return;
@@ -166,7 +229,7 @@ function initLenisScroll() {
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
-    smoothWheel: true,
+    smoothWheel: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     wheelMultiplier: 0.9,
     touchMultiplier: 1.2
   });
@@ -194,7 +257,15 @@ function initLenisScroll() {
       const targetElem = document.querySelector(targetId);
       if (targetElem) {
         e.preventDefault();
-        lenisInstance.scrollTo(targetElem, { offset: -50, duration: 1.0 });
+        const header = document.querySelector('.site-header');
+        const offset = -(header.offsetHeight + 12);
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const destination = targetId === '#top' ? 0 : targetElem;
+        if (reduceMotion) {
+          lenisInstance.scrollTo(destination, { offset, immediate: true });
+        } else {
+          lenisInstance.scrollTo(destination, { offset, duration: 1.0 });
+        }
       }
     });
   });
@@ -329,6 +400,10 @@ function initRealisticCosmos() {
   const clock = new THREE.Clock();
 
   function render() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      requestAnimationFrame(render);
+      return;
+    }
     const elapsed = clock.getElapsedTime();
 
     // Damped inertia mouse rotation
@@ -387,59 +462,6 @@ function initHeroShowcase() {
   }
 }
 const initIPhoneShowcase = initHeroShowcase;
-
-/* =========================================================
-   MODULE 3.5: Non-Jittery Cinematic Counter Engine
-   (Smooth single count-up on scroll with tabular numbers)
-   ========================================================= */
-function initHeroCounters() {
-  const counterElements = document.querySelectorAll('.stat-counter');
-  let hasAnimated = false;
-
-  function runCounters() {
-    if (hasAnimated) return;
-    hasAnimated = true;
-
-    counterElements.forEach(el => {
-      const target = parseFloat(el.getAttribute('data-target')) || 0;
-      const duration = 1800; // ms
-      const startTime = performance.now();
-
-      function update(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        // Smooth exponential ease-out curve
-        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        const currentVal = Math.round(ease * target);
-        el.textContent = currentVal;
-
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        } else {
-          el.textContent = target;
-        }
-      }
-
-      requestAnimationFrame(update);
-    });
-  }
-
-  // Trigger strictly when visible
-  const statsContainer = document.getElementById('heroStats') || document.querySelector('.hero-metrics-stage') || document.querySelector('.hero-stats-borderless') || document.getElementById('heroStatsDeck');
-  if (statsContainer && 'IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          runCounters();
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.15 });
-    observer.observe(statsContainer);
-  } else {
-    runCounters();
-  }
-}
 
 /* =========================================================
    MODULE 4: Creative Interactions (Spotlight Cards & Magnets)
@@ -932,6 +954,15 @@ function initMobileMenu() {
   const menu = document.getElementById('navMenu');
   if (!toggle || !menu) return;
 
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('open')) {
+      menu.classList.remove('open');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    }
+  });
+
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
     const isOpen = menu.classList.toggle('open');
@@ -1261,25 +1292,67 @@ function initDirectorCinema() {
    MODULE 3.2: Awwwards Centered Hero Intro Choreography
    ========================================================= */
 function initHeroCenteredIntro() {
-  if (typeof gsap !== 'undefined') {
-    const heroElements = [
-      '.hero-title-massive',
-      '.hero-subtitle-clean',
-      '.hero-cta-group',
-      '.hero-metrics-stage'
-    ];
-    
-    gsap.fromTo(heroElements, 
-      { opacity: 0, y: 32 },
-      { opacity: 1, y: 0, duration: 1.0, stagger: 0.14, ease: 'power3.out', delay: 0.15 }
-    );
+  const hero = document.querySelector('.hero-wall');
+  if (!hero) return;
+  const videos = [...hero.querySelectorAll('video')];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let userPaused = reduced.matches;
+  let visible = true;
+  const sync = () => {
+    const running = visible && !document.hidden && !userPaused;
+    hero.classList.toggle('wall-paused', !running);
+    hero.classList.toggle('wall-motion-enabled', running);
+    videos.forEach(video => {
+      if (running) {
+        if (!video.src) video.src = video.dataset.src;
+        video.play().catch(() => {});
+      } else video.pause();
+    });
+  };
+  reduced.addEventListener('change', () => { userPaused = reduced.matches; sync(); });
+  document.addEventListener('visibilitychange', sync);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold: 0.05}).observe(hero);
   }
+  sync();
 }
 const initHeroMockup = initHeroCenteredIntro;
 
 /* =========================================================
    MODULE 4.5: Roles Comparison Animation (Reels-Producer vs SMM)
    ========================================================= */
+function initAudienceMap() {
+  const map = document.querySelector('#rolesCompare .audience-map');
+  if (!map) return;
+  const controls = map.querySelector('.audience-map-controls');
+  const buttons = [...controls.querySelectorAll('button')];
+  const caption = map.querySelector('.audience-map-mode');
+  const captions = { all: 'Привлечение и работа с аудиторией', reels: 'Новая аудитория', smm: 'Работа с аудиторией' };
+  let selected = 'all';
+  const show = mode => { map.dataset.mode = mode; caption.textContent = captions[mode]; };
+  controls.hidden = false;
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      selected = button.dataset.audienceMode;
+      buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      show(selected);
+    });
+    button.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') show(button.dataset.audienceMode); });
+    button.addEventListener('pointerleave', () => show(selected));
+    button.addEventListener('focus', () => show(button.dataset.audienceMode));
+    button.addEventListener('blur', () => show(selected));
+  });
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        map.classList.add('audience-arrived');
+        observer.disconnect();
+      }
+    }, { threshold: .25 });
+    observer.observe(map);
+  }
+}
+
 function initRolesCompareAnimation() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
