@@ -4582,3 +4582,28 @@ body {
   .recent-case-count { font-size: clamp(10px, 2.8vw, 12px); }
   .recent-case-play { width: 10px; height: 10px; }
 }
+
+/* Keep both halves aligned and distinguish the role from its purpose. */
+@media (max-width: 768px) {
+  #rolesCompare .audience-map-layout { align-items: stretch; }
+  #rolesCompare .audience-role h4 {
+    display: flex;
+    align-items: center;
+    min-height: 3.1em;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(232,192,125,.22);
+  }
+}
+
+/* Comparison switch: an understated two-line Reels label on both layouts. */
+#rolesCompare .audience-reels-label { display: flex; flex-direction: column; align-items: center; line-height: 1; gap: 3px; }
+#rolesCompare .audience-reels-label span:first-child { font-size: 13px; letter-spacing: .14em; }
+#rolesCompare .audience-reels-label span:last-child { font-size: 9px; letter-spacing: .035em; }
+@media (max-width: 768px) {
+  #rolesCompare .audience-map-layout { display: block; }
+  #rolesCompare .audience-role { display: none; }
+  #rolesCompare .audience-map-visual { margin: 0 auto; }
+  #rolesCompare .audience-map-controls:not([hidden]) { display: flex; width: min(100%, 320px); margin-inline: auto; }
+  #rolesCompare .audience-map-controls button { flex: 1; min-width: 0; }
+}

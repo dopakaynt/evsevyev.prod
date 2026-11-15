@@ -1364,7 +1364,7 @@ function initAudienceMap() {
   const controls = map.querySelector('.audience-map-controls');
   const buttons = [...controls.querySelectorAll('button')];
   const caption = map.querySelector('.audience-map-mode');
-  const captions = { all: 'Привлечение и работа с аудиторией', reels: 'Новая аудитория', smm: 'Работа с аудиторией' };
+  const captions = { all: 'Привлечение и работа с аудиторией', reels: 'Приводит аудиторию', smm: 'Работает с подписчиками' };
   let selected = 'all';
   const show = mode => { map.dataset.mode = mode; caption.textContent = captions[mode]; };
   controls.hidden = false;
