@@ -4346,3 +4346,166 @@ body {
 .wall-kicker .site-icon { width:.8em; height:.8em; margin:0 9px; color:#f9bd43; vertical-align:0; }
 .wall-footer .site-icon { width:.8em; height:.8em; margin:0 .35em; }
 #rolesCompare .audience-role-highlight .site-icon { width:19px; height:19px; }
+
+/* Recent cases: three editorial posters, real results, no invented counters. */
+.recent-cases { position:relative; overflow:hidden; padding:75px 0 65px; }
+.recent-cases-inner { max-width:1180px; }
+.recent-cases-head { display:block; margin-bottom:32px; }
+.recent-cases-title { margin:14px 0 0; color:#f5f1e9; font:700 clamp(46px,6.4vw,86px)/.95 var(--font-title-poster,'Oswald',sans-serif); text-transform:uppercase; letter-spacing:-.025em; }
+.recent-cases-title span { color:#eab34f; }
+.recent-cases-intro { margin:0 0 4px; color:#d0c9bd; font-size:16px; }
+.recent-cases-track { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(20px,3.2vw,46px); align-items:start; }
+.recent-case { min-width:0; }
+.recent-case:nth-child(1) { padding-top:24px; }
+.recent-case:nth-child(3) { padding-top:48px; }
+.recent-case-image { position:relative; display:block; overflow:hidden; background:#141315; text-decoration:none; outline-offset:5px; transition:transform .65s cubic-bezier(.16,1,.3,1),box-shadow .65s; }
+.recent-case-image:focus-visible { outline:2px solid #f5bc49; }
+.recent-case-image img { display:block; width:100%; height:auto; aspect-ratio:9/16; object-fit:contain; transition:transform .8s cubic-bezier(.16,1,.3,1); }
+.recent-case-index { position:absolute; top:12px; left:12px; color:#f4e7c5; background:rgba(7,7,9,.75); padding:5px 8px; font:600 11px/1 var(--font-mono,monospace); letter-spacing:.08em; }
+.recent-case-watch { position:absolute; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:20px 14px 12px; color:#fff; background:linear-gradient(transparent,rgba(4,4,5,.86)); font:600 13px/1.2 var(--font-title-poster,'Oswald',sans-serif); letter-spacing:.04em; text-transform:uppercase; }
+.recent-case-watch svg,.recent-cases-all svg { width:17px; height:17px; flex:none; }
+.recent-case-result { border-top:1px solid rgba(234,179,79,.52); margin-top:16px; padding-top:14px; display:flex; align-items:baseline; gap:12px; color:#f7f2e8; }
+.recent-case-count { font:700 clamp(48px,5vw,68px)/1 var(--font-title-poster,'Oswald',sans-serif); letter-spacing:-.03em; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.recent-case-count small { font-size:.4em; letter-spacing:0; color:#eab34f; }
+.recent-case-caption { color:#bdb7ac; font-size:14px; }
+.recent-cases-bottom { display:none; }
+.recent-cases-all { display:inline-flex; align-items:center; gap:14px; padding:11px 0; border-bottom:1px solid rgba(234,179,79,.6); color:#f4e7d0; text-decoration:none; font:700 15px/1.2 var(--font-title-poster,'Oswald',sans-serif); text-transform:uppercase; letter-spacing:.04em; }
+.recent-cases-all:hover { color:#f5bc49; }
+.recent-cases-all:focus-visible { outline:2px solid #f5bc49; outline-offset:5px; }
+.recent-cases-controls { display:none; align-items:center; gap:13px; }
+.recent-cases-controls[hidden] { display:none !important; }
+.recent-cases-controls button { display:grid; place-items:center; width:44px; height:44px; padding:10px; color:#eab34f; border:1px solid rgba(234,179,79,.38); border-radius:50%; background:transparent; cursor:pointer; }
+.recent-cases-controls button:disabled { opacity:.3; cursor:default; }
+.recent-cases-controls button:focus-visible { outline:2px solid #f5bc49; outline-offset:3px; }
+.recent-case-position { color:#c6b28e; font:600 12px/1 var(--font-mono,monospace); white-space:nowrap; }
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+ .recent-case-image:hover { transform:translateY(-6px); box-shadow:0 16px 40px #0008; }
+ .recent-case-image:hover img { transform:scale(1.025); }
+}
+@media (prefers-reduced-motion:no-preference) {
+ .recent-cases-arrived .recent-case { animation:recent-case-enter .9s cubic-bezier(.16,1,.3,1) backwards; }
+ .recent-cases-arrived .recent-case:nth-child(2) { animation-delay:.1s; }
+ .recent-cases-arrived .recent-case:nth-child(3) { animation-delay:.2s; }
+ @keyframes recent-case-enter { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+}
+@media(max-width:768px) {
+ .recent-cases { padding:48px 0 42px; }
+ .recent-cases-head { display:block; margin-bottom:25px; }
+ .recent-cases-title { font-size:clamp(43px,10vw,68px); max-width:520px; }
+ .recent-cases-intro { margin-top:12px; font-size:15px; }
+ .recent-cases-track { display:flex; gap:16px; overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; padding:0 0 5px; }
+ .recent-cases-track::-webkit-scrollbar { display:none; }
+ .recent-case { flex:0 0 min(82%,300px); scroll-snap-align:start; }
+ .recent-case:nth-child(1),.recent-case:nth-child(3) { padding-top:0; }
+ .recent-case-count { font-size:52px; }
+ .recent-case-caption { font-size:13px; }
+ .recent-cases-bottom { display:flex; justify-content:center; margin-top:12px; }
+ .recent-cases-controls:not([hidden]) { display:flex; }
+}
+@media (prefers-reduced-motion:reduce) {
+ .recent-case-image,.recent-case-image img { transition:none; }
+ .recent-cases-track { scroll-behavior:auto; }
+}
+
+.recent-cases-controls button svg { width:100%; height:100%; }
+
+/* Recent cases: a level, compact premiere row. */
+.recent-cases-inner { max-width: 1050px; }
+.recent-cases-track { gap: clamp(20px, 3vw, 40px); }
+.recent-case:nth-child(1), .recent-case:nth-child(3) { padding-top: 0; }
+.recent-case-image { aspect-ratio: 9 / 16; }
+.recent-case-image img { width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; }
+.recent-case-result { min-height: 78px; }
+@media (hover:hover) and (pointer:fine) {
+  .recent-case-image:hover { transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion:no-preference) {
+  .recent-cases-arrived .recent-case { animation-duration: .65s; }
+  .recent-cases-arrived .recent-case:nth-child(2) { animation-delay: .08s; }
+  .recent-cases-arrived .recent-case:nth-child(3) { animation-delay: .16s; }
+}
+@media (max-width:768px) {
+  .recent-case { flex-basis: min(78vw, 270px); }
+  .recent-case-result { min-height: 0; }
+}
+.recent-cases-all { min-height: 48px; padding: 14px 22px; border-radius: var(--radius-sm); text-align:center; }
+.recent-cases-all:hover { color:#0c0a08; }
+@media (max-width:768px) {
+  .recent-cases-bottom { flex-wrap: wrap; }
+  .recent-cases-all { width: 100%; justify-content: center; }
+}
+
+/* Recent-case results sit in the frame, like an editorial film title. */
+.recent-case { position: relative; }
+.recent-case-image::before {
+  content: ''; position: absolute; z-index: 1; inset: 45% 0 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(5,5,7,.08) 25%, rgba(5,5,7,.7) 78%, rgba(5,5,7,.88) 100%);
+}
+.recent-case-watch { z-index: 3; background: none; padding-top: 12px; }
+.recent-case-result {
+  position: absolute; z-index: 2; left: 18px; right: 14px; bottom: 50px;
+  min-height: 0; margin: 0; padding: 0; border: 0; pointer-events: none;
+  display: flex; align-items: baseline; flex-wrap: wrap; column-gap: 9px; row-gap: 0;
+  text-shadow: 0 2px 18px rgba(0,0,0,.75);
+  transition: transform .65s cubic-bezier(.16,1,.3,1);
+}
+.recent-case-count { font-size: clamp(54px,5.6vw,76px); line-height: .95; }
+.recent-case-count small { color: #f6c66d; font-size: .35em; }
+.recent-case-caption { color: #eee7d9; font-size: 13px; letter-spacing: .015em; }
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .recent-case:has(.recent-case-image:hover) .recent-case-result { transform: translateY(-3px); }
+}
+@media (max-width:768px) {
+  .recent-case-result { left: 15px; right: 12px; bottom: 47px; column-gap: 7px; }
+  .recent-case-count { font-size: clamp(54px,15vw,68px); }
+  .recent-case-caption { font-size: 12px; }
+}
+@media (prefers-reduced-motion:reduce) { .recent-case-result { transition: none; } }
+/* Let the result cross the edge of the frame; keep the link beneath it. */
+.recent-case { padding-bottom: 102px; }
+.recent-case-image { overflow: visible; }
+.recent-case-image::before { inset: 70% 0 0; background: linear-gradient(180deg,transparent,rgba(5,5,7,.76)); }
+.recent-case-watch { bottom: -86px; padding: 10px 0; color: #e8dfd0; }
+.recent-case-result { bottom: 74px; left: 12px; right: 8px; }
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .recent-case-image:hover img { transform: none; }
+}
+@media (max-width:768px) {
+  .recent-case { padding-bottom: 93px; }
+  .recent-case-result { bottom: 67px; left: 12px; right: 8px; }
+  .recent-case-watch { bottom: -79px; }
+}
+
+/* Section spacing: keep transitions compact without crowding content. */
+.recent-cases { padding-top: 48px; padding-bottom: 20px; }
+.cases-section { padding-top: 24px; padding-bottom: 42px; }
+.pricing-section, .process-section { padding-top: 42px; padding-bottom: 42px; }
+.final-cta-section { padding-top: 48px; padding-bottom: 70px; }
+.roles-compare-section { margin-top: 42px; padding-top: 24px; }
+@media (max-width: 768px) {
+  .recent-cases { padding-top: 34px; padding-bottom: 12px; }
+  .cases-section { padding-top: 20px; padding-bottom: 32px; }
+  .pricing-section, .process-section { padding-top: 32px; padding-bottom: 32px; }
+  .final-cta-section { padding-top: 36px; padding-bottom: 52px; }
+  .roles-compare-section { margin-top: 32px; padding-top: 20px; }
+}
+
+
+/* Swipe through cases on touch screens without arrow controls. */
+.recent-cases-bottom { display: none; }
+
+/* Three compact posters on phones, with one consistent typeface for the results. */
+.recent-case-count small { font: inherit; color: inherit; }
+.recent-case-watch { font-family: var(--font-title-poster, 'Oswald', sans-serif); }
+@media (max-width: 768px) {
+  .recent-cases-track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; overflow: visible; }
+  .recent-case { padding-bottom: 22px; }
+  .recent-case-result { left: 4px; right: 0; bottom: 10px; white-space: nowrap; }
+  .recent-case-count { font-size: clamp(16px, 5vw, 25px); line-height: 1; }
+  .recent-case-watch { display: none; }
+}
+
+/* Align case results and their links with the centre of each cover. */
+.recent-case-result { left: 0; right: 0; justify-content: center; text-align: center; }
+.recent-case-count small { color: var(--accent-gold, #f5b83f); }
+.recent-case-watch { justify-content: center; gap: 10px; text-align: center; }

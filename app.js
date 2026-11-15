@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initRealisticCosmos();
   initHeroMockup();
   initPricingCarousel();
+  initRecentCases();
   initDirectorCinema();
   initClientsInteractions();
   initCreativeInteractions();
@@ -158,6 +159,42 @@ document.addEventListener('DOMContentLoaded', () => {
    MODULE 1: Lenis Smooth Scroll Engine
    ========================================================= */
 let lenisInstance = null;
+
+function initRecentCases() {
+  const track = document.getElementById('recentCasesTrack');
+  const controls = document.querySelector('.recent-cases-controls');
+  if (!track || !controls) return;
+  const cards = [...track.querySelectorAll('.recent-case')];
+  const prev = controls.querySelector('.recent-case-prev');
+  const next = controls.querySelector('.recent-case-next');
+  const position = controls.querySelector('.recent-case-position');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let current = 0;
+  function sync() {
+    const center = track.getBoundingClientRect().left + track.clientWidth / 2;
+    current = cards.reduce((best, card, i) => Math.abs(card.getBoundingClientRect().left + card.offsetWidth / 2 - center) < Math.abs(cards[best].getBoundingClientRect().left + cards[best].offsetWidth / 2 - center) ? i : best, 0);
+    position.textContent = String(current + 1).padStart(2, '0') + ' / 03';
+    prev.disabled = current === 0;
+    next.disabled = current === cards.length - 1;
+  }
+  function move(index) {
+    const target = Math.max(0, Math.min(cards.length - 1, index));
+    track.scrollTo({ left: cards[target].offsetLeft - track.offsetLeft, behavior: reduce.matches ? 'instant' : 'smooth' });
+  }
+  prev.addEventListener('click', () => move(current - 1));
+  next.addEventListener('click', () => move(current + 1));
+  track.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
+  controls.hidden = false;
+  sync();
+  if ('IntersectionObserver' in window && !reduce.matches) {
+    const section = document.querySelector('.recent-cases');
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { section.classList.add('recent-cases-arrived'); observer.disconnect(); }
+    }, { threshold: .1 });
+    observer.observe(section);
+  }
+}
 
 function initPricingCarousel() {
   const grid = document.querySelector('.pricing-grid');
@@ -1007,7 +1044,7 @@ function initClientsInteractions() {
           }
         }
       } else {
-        const casesSection = document.getElementById('cases');
+        const casesSection = document.getElementById('portfolio');
         if (casesSection) {
           if (typeof lenisInstance !== 'undefined' && lenisInstance) {
             lenisInstance.scrollTo(casesSection, { offset: -30, duration: 1.2 });
@@ -1255,7 +1292,7 @@ function initDirectorCinema() {
       const targetTab = document.querySelector(`#portfolioFilter .filter-btn[data-cat="${item.cat}"]`);
       if (targetTab) targetTab.click();
 
-      const casesSection = document.getElementById('cases');
+      const casesSection = document.getElementById('portfolio');
       if (casesSection) {
         if (typeof lenisInstance !== 'undefined' && lenisInstance) {
           lenisInstance.scrollTo(casesSection, { offset: -30, duration: 1.1 });
