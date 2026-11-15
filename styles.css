@@ -4340,3 +4340,9 @@ body {
 }
 @media (prefers-reduced-motion: reduce) { .clients-section .marquee-track { animation: none; } }
 
+
+/* Fixed vector icons render consistently across browsers and devices. */
+.site-icon { display:inline-block; flex:none; width:1em; height:1em; vertical-align:-.1em; }
+.wall-kicker .site-icon { width:.8em; height:.8em; margin:0 9px; color:#f9bd43; vertical-align:0; }
+.wall-footer .site-icon { width:.8em; height:.8em; margin:0 .35em; }
+#rolesCompare .audience-role-highlight .site-icon { width:19px; height:19px; }
