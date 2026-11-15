@@ -1365,7 +1365,7 @@ function initAudienceMap() {
   const buttons = [...controls.querySelectorAll('button')];
   const caption = map.querySelector('.audience-map-mode');
   const captions = { all: 'Привлечение и работа с аудиторией', reels: 'Приводит аудиторию', smm: 'Работает с подписчиками' };
-  let selected = 'all';
+  let selected = 'reels';
   const show = mode => { map.dataset.mode = mode; caption.textContent = captions[mode]; };
   controls.hidden = false;
   buttons.forEach(button => {

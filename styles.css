@@ -4607,3 +4607,24 @@ body {
   #rolesCompare .audience-map-controls:not([hidden]) { display: flex; width: min(100%, 320px); margin-inline: auto; }
   #rolesCompare .audience-map-controls button { flex: 1; min-width: 0; }
 }
+
+/* Compact, paired hero actions with breathing room on mobile. */
+@media (max-width: 768px) {
+  .wall-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: min(calc(100% - 40px), 360px); gap: 8px; }
+  .wall-actions .btn { width: 100%; min-width: 0; min-height: 48px; padding: 10px 6px; gap: 5px; font-size: clamp(10px, 3vw, 12px); white-space: nowrap; }
+  .wall-actions .site-icon { width: 12px; height: 12px; flex: none; }
+}
+
+@media (min-width: 769px) {
+  .recent-case-count { font-size: clamp(18px, 1.6vw, 21px); }
+  .recent-case-play { width: 16px; height: 16px; }
+}
+
+/* Seven Mebel: the mark and wordmark share one client tile. */
+.clients-section .marquee-brand-seven { flex-direction: column; gap: 2px; padding-block: 7px; }
+.clients-section .marquee-brand-seven .seven-mark { width: 23px; height: 23px; }
+.clients-section .marquee-brand-seven .seven-name { width: 100px; height: 26px; }
+@media (max-width: 768px) {
+  .clients-section .marquee-brand-seven .seven-mark { width: 20px; height: 20px; }
+  .clients-section .marquee-brand-seven .seven-name { width: 90px; height: 22px; }
+}
