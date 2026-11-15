@@ -4628,3 +4628,9 @@ body {
   .clients-section .marquee-brand-seven .seven-mark { width: 20px; height: 20px; }
   .clients-section .marquee-brand-seven .seven-name { width: 90px; height: 22px; }
 }
+
+/* Client marquees can be grabbed without blocking vertical touch scrolling. */
+.clients-section .marquee-row-wrapper { touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+.clients-section .marquee-row-wrapper.marquee-is-dragging { cursor: grabbing; }
+.clients-section .marquee-track.marquee-is-controlled { animation: none !important; }
+.clients-section .marquee-row-wrapper.marquee-is-dragging .marquee-brand-item { cursor: grabbing; }

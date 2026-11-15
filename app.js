@@ -1029,31 +1029,125 @@ function initMobileMenu() {
    MODULE 7: Dual Running Marquee & Brand Interactions
    ========================================================= */
 function initClientsInteractions() {
-  const brandItems = document.querySelectorAll('.marquee-brand-item');
+  initDraggableClientMarquees();
+}
 
-  brandItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const text = item.textContent.toLowerCase();
-      if (text.includes('твой бренд')) {
-        const contactSection = document.getElementById('contacts');
-        if (contactSection) {
-          if (typeof lenisInstance !== 'undefined' && lenisInstance) {
-            lenisInstance.scrollTo(contactSection, { offset: -30, duration: 1.2 });
-          } else {
-            contactSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      } else {
-        const casesSection = document.getElementById('portfolio');
-        if (casesSection) {
-          if (typeof lenisInstance !== 'undefined' && lenisInstance) {
-            lenisInstance.scrollTo(casesSection, { offset: -30, duration: 1.2 });
-          } else {
-            casesSection.scrollIntoView({ behavior: 'smooth' });
-          }
+// Keep the existing CSS marquee until the user takes control. After a drag,
+// resume it at the exact same phase so the duplicated logos never jump.
+function initDraggableClientMarquees() {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll('.clients-section .marquee-row-wrapper').forEach(row => {
+    const track = row.querySelector('.marquee-track');
+    if (!track || track.children.length < 2) return;
+    const isRight = track.classList.contains('track-right');
+    const duration = isRight ? 66 : 60;
+    let offset = 0;
+    let pointer = null;
+    let inertiaFrame = 0;
+    let suppressClick = false;
+    let releaseClickTimer = 0;
+
+    const period = () => track.offsetWidth / 2 + (parseFloat(getComputedStyle(track).columnGap) || 0) / 2;
+    const normalize = x => {
+      const span = period();
+      return span ? -(((-x % span) + span) % span) : 0;
+    };
+    const render = () => { track.style.transform = `translate3d(${normalize(offset)}px, 0, 0)`; };
+    // Start the first row so TNT reaches the centre four seconds after load.
+    if (track.id === 'marqueeTrack1') {
+      const logo = track.firstElementChild;
+      const span = period();
+      if (logo && span) {
+        const logoLeft = logo.getBoundingClientRect().left - track.getBoundingClientRect().left;
+        const centreOffset = row.clientWidth / 2 - logoLeft - logo.offsetWidth / 2;
+        if (reducedMotion.matches) {
+          offset = normalize(centreOffset);
+          track.classList.add('marquee-is-controlled');
+          render();
+        } else {
+          const startOffset = normalize(centreOffset + span * 4 / duration);
+          track.style.animationDelay = `${startOffset / span * duration}s`;
         }
       }
+    }
+    const takeControl = () => {
+      cancelAnimationFrame(inertiaFrame);
+      inertiaFrame = 0;
+      const matrix = getComputedStyle(track).transform;
+      offset = matrix && matrix !== 'none' ? new DOMMatrixReadOnly(matrix).m41 : 0;
+      track.classList.add('marquee-is-controlled');
+      render();
+    };
+    const releaseControl = () => {
+      row.classList.remove('marquee-is-dragging');
+      if (reducedMotion.matches) { render(); return; }
+      const span = period();
+      if (!span) return;
+      const x = normalize(offset);
+      const phase = isRight ? 1 + x / span : -x / span;
+      track.style.animationDelay = `${-phase * duration}s`;
+      track.style.removeProperty('transform');
+      track.classList.remove('marquee-is-controlled');
+    };
+    const coast = velocity => {
+      if (reducedMotion.matches || Math.abs(velocity) < 25) { releaseControl(); return; }
+      let last = performance.now();
+      const frame = now => {
+        const dt = Math.min((now - last) / 1000, .04);
+        last = now;
+        offset += velocity * dt;
+        velocity *= Math.exp(-4.5 * dt);
+        render();
+        if (Math.abs(velocity) < 12) { inertiaFrame = 0; releaseControl(); }
+        else inertiaFrame = requestAnimationFrame(frame);
+      };
+      inertiaFrame = requestAnimationFrame(frame);
+    };
+
+    row.addEventListener('pointerdown', event => {
+      if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+      clearTimeout(releaseClickTimer);
+      suppressClick = false;
+      takeControl();
+      pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX,
+        lastTime: performance.now(), velocity: 0, axis: null };
     });
+    window.addEventListener('pointermove', event => {
+      if (!pointer || pointer.id !== event.pointerId) return;
+      const dx = event.clientX - pointer.x, dy = event.clientY - pointer.y;
+      if (!pointer.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
+        pointer.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+        if (pointer.axis === 'vertical') { pointer = null; releaseControl(); return; }
+        suppressClick = true;
+        row.classList.add('marquee-is-dragging');
+        try { row.setPointerCapture(event.pointerId); } catch (_) { /* pointer may have ended */ }
+      }
+      if (pointer.axis !== 'horizontal') return;
+      const now = performance.now();
+      const elapsed = Math.max((now - pointer.lastTime) / 1000, .008);
+      const delta = event.clientX - pointer.lastX;
+      offset += delta;
+      pointer.velocity = Math.max(-1800, Math.min(1800, pointer.velocity * .35 + delta / elapsed * .65));
+      pointer.lastX = event.clientX;
+      pointer.lastTime = now;
+      render();
+    }, { passive: true });
+    const end = event => {
+      if (!pointer || pointer.id !== event.pointerId) return;
+      const drag = pointer.axis === 'horizontal';
+      const velocity = performance.now() - pointer.lastTime < 100 ? pointer.velocity : 0;
+      pointer = null;
+      if (drag) {
+        coast(event.type === 'pointercancel' ? 0 : velocity);
+        releaseClickTimer = setTimeout(() => { suppressClick = false; }, 350);
+      } else releaseControl();
+    };
+    window.addEventListener('pointerup', end);
+    window.addEventListener('pointercancel', end);
+    row.addEventListener('click', event => {
+      if (suppressClick) { event.preventDefault(); event.stopPropagation(); suppressClick = false; }
+    }, true);
+    row.addEventListener('dragstart', event => event.preventDefault());
   });
 }
 
