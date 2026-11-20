@@ -57,7 +57,8 @@
   <link rel="dns-prefetch" href="https://edge-dallas-1.kinescopecdn.net">
   <link rel="dns-prefetch" href="https://static.kinescopecdn.net">
   
-  <link rel="stylesheet" href="styles.css?v=106.0">
+  <link rel="preload" href="assets/mascot/plush-fur.png" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css?v=116.1">
 </head>
 <body>
 
@@ -168,8 +169,29 @@
     </div>
     <div class="wall-shade" aria-hidden="true"></div>
     <div class="wall-copy">
-      <p class="wall-kicker">EVSEVYEV PROD. <svg class="site-icon site-icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 3v18M3 12h18M5.64 5.64l12.72 12.72M18.36 5.64 5.64 18.36"/></svg> КРЕАТИВНЫЙ REELS-ПРОДАКШН</p>
-      <h1 class="wall-title"><span class="wall-title-first">КОНТЕНТ, КОТОРЫЙ</span><span class="wall-title-second">ПРИВОДИТ <strong>КЛИЕНТОВ</strong></span></h1>
+      <p class="wall-kicker">EVSEVYEV PROD. <svg class="site-icon site-icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 3v18M3 12h18M5.64 5.64l12.72 12.72M18.36 5.64 5.64 18.36"/></svg> КРЕАТИВНЫЙ <span class="plush-final-perch">REELS-ПРОДАКШН<span class="plush-ball plush-mobile-seat" aria-hidden="true">
+        <span class="plush-body"><span class="plush-sprite">
+          <img class="plush-fur" src="assets/mascot/plush-fur.png" width="288" height="216" alt="" draggable="false">
+          <span class="plush-face">
+            <span class="plush-eye plush-eye-left"><span class="plush-pupil"></span></span>
+            <span class="plush-eye plush-eye-right"><span class="plush-pupil"></span></span>
+          </span>
+        </span></span>
+      </span></span></p>
+      <h1 class="wall-title"><span class="wall-title-first">КОНТЕНТ, КОТОРЫ<span class="plush-start">Й<button class="plush-ball" id="plush-ball" type="button" data-mood="rest"
+      aria-label="Мохнатый шарик. Нажмите, чтобы подбросить, или потяните и отпустите.">
+      <span class="plush-body" aria-hidden="true">
+        <span class="plush-sprite">
+          <img class="plush-fur" src="assets/mascot/plush-fur.png" width="288" height="216" fetchpriority="high" alt="" draggable="false">
+          <span class="plush-face">
+            <span class="plush-eye plush-eye-left"><span class="plush-pupil"></span></span>
+            <span class="plush-eye plush-eye-right"><span class="plush-pupil"></span></span>
+          </span>
+        </span>
+      </span>
+      <span class="plush-chuckle" aria-hidden="true">хе-хе</span>
+      <span class="plush-caption plush-talk" aria-hidden="true"></span>
+    </button></span></span><span class="wall-title-second">ПРИВОДИТ <strong>КЛИЕНТОВ</strong></span></h1>
       <p class="wall-subtitle">Помогаем бизнесу выделяться и продавать через соцсети</p>
       <div class="wall-actions"><a href="#cases" class="btn btn-lg btn-primary">СМОТРЕТЬ КЕЙСЫ <svg class="site-icon site-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M8 5h11v11"/></svg></a><a href="#pricing" class="btn btn-lg btn-secondary"><span class="hero-pricing-desktop">ТАРИФЫ И ФОРМАТЫ</span><span class="hero-pricing-mobile">ТАРИФЫ И ОПЛАТЫ</span> <svg class="site-icon site-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M8 5h11v11"/></svg></a></div>
     </div>
@@ -263,13 +285,62 @@
       </div>
       <div class="recent-cases-track" id="recentCasesTrack" aria-label="Недавние кейсы" tabindex="0">
         <article class="recent-case">
-          <a class="recent-case-image" href="https://www.instagram.com/reel/Dak90h5tL8K/?rpxt=ZnMzNThiNHNiZ29m" target="_blank" rel="noopener noreferrer" aria-label="Смотреть ролик «Любимое блюдо из детства» в Instagram (откроется в новой вкладке)"><img src="assets/recent-cases/03.jpg" alt="" loading="lazy" decoding="async"><span class="recent-case-result"><svg class="recent-case-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4.5 2.75a.75.75 0 0 1 1.14-.64l7.06 5.25a.8.8 0 0 1 0 1.28l-7.06 5.25a.75.75 0 0 1-1.14-.6z"/></svg><span class="recent-case-count">13,6 млн</span></span></a>
+          <div class="recent-case-stage">
+            <div class="recent-case-underlay">
+              <div class="recent-case-vignette recent-case-vignette--toilet">
+                <div class="recent-case-vignette-art">
+                  <img src="assets/mascot/case-toilet.png" width="512" height="512" alt="Мохнатый шарик на унитазе с газетой" loading="lazy" decoding="async">
+                  <div class="recent-case-vignette-face" aria-hidden="true">
+                    <span class="recent-case-vignette-eye"><i></i></span>
+                    <span class="recent-case-vignette-eye"><i></i></span>
+                    <span class="recent-case-vignette-mouth"></span>
+                  </div>
+                </div>
+                <p class="recent-case-vignette-line">Закроой!</p>
+              </div>
+            </div>
+            <a class="recent-case-image" aria-keyshortcuts="Space" href="https://www.instagram.com/reel/Dak90h5tL8K/?rpxt=ZnMzNThiNHNiZ29m" target="_blank" rel="noopener noreferrer" aria-label="Смотреть ролик «Любимое блюдо из детства» в Instagram (откроется в новой вкладке)"><img src="assets/recent-cases/03.jpg" alt="" loading="lazy" decoding="async"><span class="recent-case-result"><svg class="recent-case-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4.5 2.75a.75.75 0 0 1 1.14-.64l7.06 5.25a.8.8 0 0 1 0 1.28l-7.06 5.25a.75.75 0 0 1-1.14-.6z"/></svg><span class="recent-case-count">13,6 млн</span></span></a>
+          </div>
         </article>
         <article class="recent-case">
-          <a class="recent-case-image" href="https://www.instagram.com/reel/DbxmhRusU6Q/?exln=MXMwYjNvNzZkcDd1eg==" target="_blank" rel="noopener noreferrer" aria-label="Смотреть ролик «Преображение Спартака» в Instagram (откроется в новой вкладке)"><img src="assets/recent-cases/01.jpg" alt="" loading="lazy" decoding="async"><span class="recent-case-result"><svg class="recent-case-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4.5 2.75a.75.75 0 0 1 1.14-.64l7.06 5.25a.8.8 0 0 1 0 1.28l-7.06 5.25a.75.75 0 0 1-1.14-.6z"/></svg><span class="recent-case-count">2,5 млн</span></span></a>
+          <div class="recent-case-stage">
+            <div class="recent-case-underlay">
+              <div class="recent-case-vignette recent-case-vignette--popcorn">
+                <div class="recent-case-vignette-art">
+                  <img src="assets/mascot/case-popcorn.png" width="512" height="384" alt="Мохнатый шарик тайком смотрит телевизор" loading="lazy" decoding="async">
+                  <video class="recent-case-vignette-screen" src="assets/videos/hero-wall/restaurant.webm" muted loop playsinline preload="none" aria-hidden="true"></video>
+                  <div class="recent-case-vignette-face" aria-hidden="true">
+                    <span class="recent-case-vignette-eye"><i></i></span>
+                    <span class="recent-case-vignette-eye"><i></i></span>
+                    <span class="recent-case-vignette-mouth"></span>
+                  </div>
+                </div>
+                <p class="recent-case-vignette-line">Я на паузе.</p>
+              </div>
+            </div>
+            <a class="recent-case-image" aria-keyshortcuts="Space" href="https://www.instagram.com/reel/DbxmhRusU6Q/?exln=MXMwYjNvNzZkcDd1eg==" target="_blank" rel="noopener noreferrer" aria-label="Смотреть ролик «Преображение Спартака» в Instagram (откроется в новой вкладке)"><img src="assets/recent-cases/01.jpg" alt="" loading="lazy" decoding="async"><span class="recent-case-result"><svg class="recent-case-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4.5 2.75a.75.75 0 0 1 1.14-.64l7.06 5.25a.8.8 0 0 1 0 1.28l-7.06 5.25a.75.75 0 0 1-1.14-.6z"/></svg><span class="recent-case-count">2,5 млн</span></span></a>
+          </div>
         </article>
         <article class="recent-case">
-          <a class="recent-case-image" href="https://www.instagram.com/reel/Dcd-xBxtlj8/?srtk=ODlyYzBuajQ3NWI3" target="_blank" rel="noopener noreferrer" aria-label="Смотреть ролик «Бассейн или качалка» в Instagram (откроется в новой вкладке)"><img src="assets/recent-cases/02.jpg" alt="" loading="lazy" decoding="async"><span class="recent-case-result"><svg class="recent-case-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4.5 2.75a.75.75 0 0 1 1.14-.64l7.06 5.25a.8.8 0 0 1 0 1.28l-7.06 5.25a.75.75 0 0 1-1.14-.6z"/></svg><span class="recent-case-count">1,6 млн</span></span></a>
+          <div class="recent-case-stage">
+            <div class="recent-case-underlay">
+              <div class="recent-case-vignette recent-case-vignette--mirror">
+                <div class="recent-case-vignette-art">
+                  <img src="assets/mascot/case-mirror.png" width="256" height="384" alt="" loading="lazy" decoding="async">
+                  <div class="recent-case-vignette-performer">
+                    <img src="assets/mascot/plush-fur.png" alt="Мохнатый шарик репетирует перед зеркалом" loading="lazy" decoding="async">
+                    <div class="recent-case-vignette-face" aria-hidden="true">
+                      <span class="recent-case-vignette-eye"><i></i></span>
+                      <span class="recent-case-vignette-eye"><i></i></span>
+                      <span class="recent-case-vignette-mouth"></span>
+                    </div>
+                  </div>
+                </div>
+                <p class="recent-case-vignette-line">Я репетирую.</p>
+              </div>
+            </div>
+            <a class="recent-case-image" aria-keyshortcuts="Space" href="https://www.instagram.com/reel/Dcd-xBxtlj8/?srtk=ODlyYzBuajQ3NWI3" target="_blank" rel="noopener noreferrer" aria-label="Смотреть ролик «Бассейн или качалка» в Instagram (откроется в новой вкладке)"><img src="assets/recent-cases/02.jpg" alt="" loading="lazy" decoding="async"><span class="recent-case-result"><svg class="recent-case-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4.5 2.75a.75.75 0 0 1 1.14-.64l7.06 5.25a.8.8 0 0 1 0 1.28l-7.06 5.25a.75.75 0 0 1-1.14-.6z"/></svg><span class="recent-case-count">1,6 млн</span></span></a>
+          </div>
         </article>
       </div>
       <div class="recent-cases-bottom">
@@ -681,6 +752,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://player.kinescope.io/latest/iframe.player.js" defer></script>
-  <script src="app.js?v=99.0"></script>
+  <script src="app.js?v=100.3"></script>
+  <script src="plush-character.js?v=1.5" defer></script>
+  <script src="plush-riot.js?v=3.3" defer></script>
+  <script src="plush.js?v=5.3" defer></script>
 </body>
 </html>

@@ -169,6 +169,7 @@ function initRecentCases() {
   const next = controls.querySelector('.recent-case-next');
   const position = controls.querySelector('.recent-case-position');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  cards.forEach(card => initRecentCasePeek(card, reduce));
   let current = 0;
   function sync() {
     const center = track.getBoundingClientRect().left + track.clientWidth / 2;
@@ -194,6 +195,146 @@ function initRecentCases() {
     }, { threshold: .1 });
     observer.observe(section);
   }
+}
+
+function initRecentCasePeek(card, reduce) {
+  const cover = card.querySelector('.recent-case-image');
+  const scene = card.querySelector('.recent-case-vignette-art');
+  const television = scene?.querySelector('.recent-case-vignette-screen');
+  if (!cover) return;
+  let pointer;
+  let floating;
+  let origin;
+  let returning;
+  let offset = { x: 0, y: 0 };
+  let suppressClick = false;
+  let heldByKey = false;
+  const transform = (x, y) => `translate3d(${x}px,${y}px,0)`;
+
+  function reveal(x, y) {
+    if (!scene) return;
+    const frame = scene.getBoundingClientRect();
+    if (!frame.width || !frame.height) return;
+    const overlapWidth = Math.max(0, Math.min(frame.right, origin.right + x) - Math.max(frame.left, origin.left + x));
+    const overlapHeight = Math.max(0, Math.min(frame.bottom, origin.bottom + y) - Math.max(frame.top, origin.top + y));
+    const cleared = overlapWidth * overlapHeight < frame.width * frame.height * .52;
+    if (television && cleared !== card.hasAttribute('data-case-cleared')) {
+      if (cleared && !reduce.matches) television.play().catch(() => {});
+      else television.pause();
+    }
+    card.toggleAttribute('data-case-cleared', cleared);
+    if (cleared && !card.hasAttribute('data-case-reaction')) card.dataset.caseReaction = '';
+  }
+
+  function move(x, y) {
+    if (!floating) {
+      origin = cover.getBoundingClientRect();
+      floating = cover.cloneNode(true);
+      floating.classList.add('recent-case-floating');
+      floating.removeAttribute('href');
+      floating.setAttribute('aria-hidden', 'true');
+      Object.assign(floating.style, {
+        left: `${origin.left}px`, top: `${origin.top}px`,
+        width: `${origin.width}px`, height: `${origin.height}px`
+      });
+      document.body.append(floating);
+    }
+    offset = { x, y };
+    card.dataset.peek = '';
+    reveal(x, y);
+    floating.style.transform = transform(x, y);
+  }
+
+  function clear() {
+    television?.pause();
+    returning = null;
+    floating?.remove();
+    floating = null;
+    delete card.dataset.peek;
+    delete card.dataset.caseCleared;
+    delete card.dataset.caseReaction;
+    offset = { x: 0, y: 0 };
+  }
+
+  function release() {
+    if (!floating) return;
+    television?.pause();
+    delete card.dataset.caseCleared;
+    const { x, y } = offset;
+    if (reduce.matches || !floating.animate) {
+      clear();
+      return;
+    }
+    const target = cover.getBoundingClientRect();
+    const endX = target.left - origin.left;
+    const endY = target.top - origin.top;
+    const bounce = delta => Math.max(-9, Math.min(9, delta * .038));
+    const animation = floating.animate([
+      { transform: transform(x, y), easing: 'cubic-bezier(.17,.78,.26,1)' },
+      { transform: transform(endX - bounce(x - endX), endY - bounce(y - endY)), offset: .73, easing: 'ease-out' },
+      { transform: transform(endX, endY) }
+    ], { duration: 470, fill: 'forwards' });
+    returning = animation;
+    animation.onfinish = () => {
+      if (returning !== animation) return;
+      clear();
+      animation.cancel();
+    };
+  }
+
+  cover.addEventListener('dragstart', event => event.preventDefault());
+  cover.addEventListener('pointerdown', event => {
+    if (!event.isPrimary || event.button !== 0 || pointer || heldByKey) return;
+    suppressClick = false;
+    if (returning) {
+      returning.cancel();
+      clear();
+    }
+    pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
+    cover.setPointerCapture(event.pointerId);
+  });
+  cover.addEventListener('pointermove', event => {
+    if (event.pointerId !== pointer?.id) return;
+    const x = event.clientX - pointer.x;
+    const y = event.clientY - pointer.y;
+    if (!pointer.moved && Math.hypot(x, y) < 8) return;
+    if (event.pointerType === 'touch' && !pointer.moved && Math.abs(y) > Math.abs(x)) return;
+    pointer.moved = true;
+    suppressClick = true;
+    move(x, y);
+  });
+  function endPointer(event) {
+    if (event.pointerId !== pointer?.id) return;
+    const { moved } = pointer;
+    pointer = null;
+    if (moved) release();
+  }
+  for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+    cover.addEventListener(event, endPointer);
+  }
+  cover.addEventListener('click', event => {
+    if (suppressClick && event.detail > 0) event.preventDefault();
+    suppressClick = false;
+  });
+
+  cover.addEventListener('keydown', event => {
+    if (event.code !== 'Space' || pointer) return;
+    event.preventDefault();
+    if (heldByKey) return;
+    if (returning) {
+      returning.cancel();
+      clear();
+    }
+    heldByKey = true;
+    move(cover.offsetWidth * .8, 0);
+  });
+  const endKey = () => {
+    if (!heldByKey) return;
+    heldByKey = false;
+    release();
+  };
+  cover.addEventListener('keyup', event => { if (event.code === 'Space') endKey(); });
+  cover.addEventListener('blur', endKey);
 }
 
 function initPricingCarousel() {
