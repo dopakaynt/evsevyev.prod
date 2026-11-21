@@ -378,18 +378,21 @@ function initPricingCarousel() {
   mobile.className = 'pricing-mobile';
   mobile.innerHTML = `<div class="pricing-switch" role="group" aria-label="Выберите срок тарифа">
     <span class="pricing-switch-indicator" aria-hidden="true"></span>
-    <button type="button" aria-pressed="true">1 месяц</button>
-    <button type="button" aria-pressed="false">3 месяца</button>
-    <button type="button" aria-pressed="false">1 год</button>
   </div><div class="pricing-mobile-content" aria-live="polite" aria-atomic="true">
-    <div class="pricing-mobile-price"></div><p class="pricing-mobile-details"></p><p class="pricing-mobile-saving"></p>
-    <div class="pricing-mobile-rule" aria-hidden="true"></div>
   </div><a class="btn btn-primary pricing-mobile-cta" target="_blank" rel="noopener"></a>`;
+  const termSwitch = mobile.querySelector('.pricing-switch');
+  const buttons = cards.map(card => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    const term = document.createElement('span');
+    term.textContent = card.querySelector('.tier-term').textContent;
+    button.append(term);
+    const discount = card.querySelector('.tier-discount');
+    if (discount) button.append(discount.cloneNode(true));
+    termSwitch.append(button);
+    return button;
+  });
   grid.before(mobile);
-  const buttons = [...mobile.querySelectorAll('.pricing-switch button')];
-  const price = mobile.querySelector('.pricing-mobile-price');
-  const details = mobile.querySelector('.pricing-mobile-details');
-  const saving = mobile.querySelector('.pricing-mobile-saving');
   const content = mobile.querySelector('.pricing-mobile-content');
   const cta = mobile.querySelector('.pricing-mobile-cta');
   let current = -1;
@@ -398,16 +401,11 @@ function initPricingCarousel() {
     current = index;
     const card = cards[index];
     const link = card.querySelector('.price-card-footer a');
-    mobile.querySelector('.pricing-switch').style.setProperty('--pricing-index', index);
+    termSwitch.style.setProperty('--pricing-index', index);
     buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
-    price.textContent = card.querySelector('.tier-price').textContent.trim();
-    const detail = card.querySelector('.tier-subprice').textContent.trim().replace('за видео', 'за ролик');
-    const parts = detail.split('•');
-    details.replaceChildren(document.createTextNode((parts[0] || '').trim() + ' · '));
-    const unit = document.createElement('strong');
-    unit.textContent = (parts[1] || '').trim();
-    details.append(unit);
-    saving.textContent = ['', 'На 2 000 ₽ дешевле за ролик', 'На 5 000 ₽ дешевле за ролик'][index];
+    const details = card.querySelector('.price-card-header').cloneNode(true);
+    details.querySelector('.tier-discount')?.remove();
+    content.replaceChildren(details);
     cta.href = link.href;
     cta.textContent = link.textContent.trim();
     if (animate) {
@@ -426,7 +424,7 @@ function initPricingCarousel() {
       select(next);
     });
   });
-  select(0, false);
+  select(Math.max(0, cards.findIndex(card => card.classList.contains('price-card-featured'))), false);
   grid.classList.add('pricing-grid-enhanced');
 }
 
