@@ -58,10 +58,29 @@
   <link rel="dns-prefetch" href="https://static.kinescopecdn.net">
   
   <link rel="preload" href="assets/mascot/plush-fur.png" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=116.2">
+  <link rel="stylesheet" href="styles.css?v=116.8">
 </head>
 <body>
 
+  <div class="portfolio-blackout" id="portfolioBlackout" aria-hidden="true">
+    <div class="portfolio-power-matte">
+      <canvas class="portfolio-power-light"></canvas>
+    </div>
+    <span class="portfolio-power-mascot">
+      <span class="plush-sprite">
+        <img class="plush-fur" src="assets/mascot/plush-fur.png" width="288" height="216" alt="">
+        <span class="plush-face">
+          <span class="plush-eye plush-eye-left"><span class="plush-pupil"></span></span>
+          <span class="plush-eye plush-eye-right"><span class="plush-pupil"></span></span>
+        </span>
+      </span>
+      <span class="portfolio-power-torch">
+        <span class="portfolio-power-lens"></span>
+        <span class="portfolio-power-ray"></span>
+      </span>
+      <span class="portfolio-power-paw"></span>
+    </span>
+  </div>
 
   <!-- Authentic 35mm Analog Film Grain Overlay & Projector Aperture Vignette -->
   <div class="film-grain-overlay" aria-hidden="true"></div>
@@ -359,6 +378,13 @@
       <div class="section-header text-center reveal">
         <span class="eyebrow">✦ ПОРТФОЛИО ✦</span>
         <h2 class="section-title">Наши работы</h2>
+        <button class="portfolio-power-switch" id="portfolioPower" type="button" aria-label="Щёлкнуть рубильником. Не трогать" hidden>
+          <span class="portfolio-power-sign" aria-hidden="true"></span>
+          <span class="portfolio-power-hardware" aria-hidden="true">
+            <span class="portfolio-power-plate"></span>
+            <span class="portfolio-power-lever"></span>
+          </span>
+        </button>
         <p class="section-desc">Выберите категорию и смотрите работы.</p>
       </div>
 
@@ -752,9 +778,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://player.kinescope.io/latest/iframe.player.js" defer></script>
-  <script src="app.js?v=100.4"></script>
+  <script src="app.js?v=100.11"></script>
   <script src="plush-character.js?v=1.5" defer></script>
   <script src="plush-riot.js?v=3.3" defer></script>
-  <script src="plush.js?v=5.3" defer></script>
+  <script src="plush.js?v=5.4" defer></script>
 </body>
 </html>

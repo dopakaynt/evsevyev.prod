@@ -564,12 +564,24 @@
     if (Math.abs(y - rows[0].y) > Math.abs(y - rows.at(-1).y)) rows.reverse();
 
     let fromLeft = Math.abs(x - rows[0].left) < Math.abs(x - rows[0].right);
-    return rows.flatMap(row => {
+    const sweeps = rows.flatMap(row => {
       const start = { x: fromLeft ? row.left : row.right, y: row.y };
       const end = { x: fromLeft ? row.right : row.left, y: row.y };
       fromLeft = !fromLeft;
       return [{ point: start, lift: 5 }, { point: end, lift: 8 }];
     });
+    const corridor = kickerCorridor();
+    if (!corridor || y > corridor.middle || sweeps[0].point.y <= corridor.middle) return sweeps;
+
+    const { side, below } = corridor;
+    const above = Math.min(y, corridor.above);
+    const exit = [];
+    if (y > above + 1) exit.push({ point: { x, y: above }, lift: 4, duration: 0.17 });
+    exit.push(
+      { point: { x: side.x, y: above }, lift: 6 },
+      { point: { x: side.x, y: below }, lift: 0, duration: 0.27, grip: side.blocked }
+    );
+    return [...exit, ...sweeps];
   }
 
   function smashContacts(horizontal, vertical) {
@@ -607,13 +619,11 @@
     return closest;
   }
 
-  function kickerClimb() {
-    const choices = finalPerches.map(glyph => perchPoint(glyph, kickerBoxes)).filter(Boolean);
-    const perches = choices.length ? choices : kickerBoxes.map(glyph => perchPoint(glyph, kickerBoxes)).filter(Boolean);
-    if (!perches.length) return [];
-
+  function kickerCorridor() {
+    if (!kickerBoxes.length) return null;
     const left = Math.min(...kickerBoxes.map(box => box.left));
     const right = Math.max(...kickerBoxes.map(box => box.right));
+    const top = Math.min(...kickerBoxes.map(box => box.top));
     const bottom = Math.max(...kickerBoxes.map(box => box.bottom));
     const sides = [
       clamp(left - radius - 9, world.left, world.right),
@@ -623,15 +633,30 @@
       blocked: kickerBoxes.some(box => sideX + radius > box.left && sideX - radius < box.right)
     })).sort((first, second) => Number(first.blocked) - Number(second.blocked)
       || Math.abs(first.x - x) - Math.abs(second.x - x));
-    const side = sides[0];
+    return {
+      side: sides[0],
+      middle: (top + bottom) / 2,
+      above: Math.max(world.top, top - radius - 7),
+      below: Math.min(world.bottom, bottom + radius + 7)
+    };
+  }
+
+  function kickerClimb() {
+    const corridor = kickerCorridor();
+    if (!corridor) return [];
+    const choices = finalPerches.map(glyph => perchPoint(glyph, kickerBoxes)).filter(Boolean);
+    const perches = choices.length ? choices : kickerBoxes.map(glyph => perchPoint(glyph, kickerBoxes)).filter(Boolean);
+    if (!perches.length) return [];
+
+    const { side, above, below } = corridor;
     const landing = perches.sort((first, second) => Math.abs(first.x - side.x) - Math.abs(second.x - side.x))[0];
-    const base = clamp(Math.max(bottom + radius + 6, y), world.top, world.bottom);
-    const above = Math.max(world.top, landing.y - radius * 0.35);
+    const base = Math.max(below, y);
     return [
-      { point: { x: side.x, y: base }, lift: 8, duration: 0.28 },
+      { point: { x: side.x, y: base }, lift: Math.min(8, base - below), duration: 0.28 },
       { point: { x: side.x, y: (base + above) * 0.5 }, lift: 11, duration: 0.23, grip: side.blocked },
       { point: { x: side.x, y: above }, lift: 11, duration: 0.29, grip: side.blocked },
-      { point: landing, lift: 7, duration: 0.34 }
+      { point: { x: landing.x, y: above }, lift: 6, duration: 0.28 },
+      { point: landing, lift: 0, duration: 0.16 }
     ];
   }
 

@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCreativeInteractions();
   initMobileMenu();
   initPortfolioTabs();
+  initPortfolioPower();
   initRolesCompareAnimation();
   initAudienceMap();
   initProcessSnakeFlow();
@@ -898,6 +899,178 @@ function initPortfolioTabs() {
 
   // Preload all category poster images during browser idle time so tab switches are 0ms instant
   preloadAllPosters();
+}
+
+function initPortfolioPower() {
+  const button = document.getElementById('portfolioPower');
+  const shade = document.getElementById('portfolioBlackout');
+  const hardware = button?.querySelector('.portfolio-power-hardware');
+  const mascot = shade?.querySelector('.portfolio-power-mascot');
+  if (!hardware || !mascot) return;
+  const lighting = createPortfolioLighting(shade);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let previousTap = -Infinity;
+  let timer;
+  let enterFromLeft;
+  button.hidden = false;
+
+  function alignMascot() {
+    if (!shade.dataset.power) return;
+    const rect = hardware.getBoundingClientRect();
+    const x = rect.left + rect.width * .5;
+    const y = rect.top + rect.height * .5;
+    const entryX = enterFromLeft ? -x - 88 : -Math.min(210, x - 80);
+    const entryY = enterFromLeft ? 0 : -y - 55;
+    const exit = document.documentElement.clientWidth - x + 82;
+    const aim = Math.atan2(-entryY, -entryX) * 180 / Math.PI;
+    shade.style.setProperty('--power-x', `${x}px`);
+    shade.style.setProperty('--power-y', `${y}px`);
+    shade.style.setProperty('--power-entry-x', `${entryX}px`);
+    shade.style.setProperty('--power-entry-y', `${entryY}px`);
+    shade.style.setProperty('--power-exit', `${exit}px`);
+    shade.style.setProperty('--power-aim', `${aim}deg`);
+    lighting?.resize();
+  }
+
+  function reset() {
+    window.clearTimeout(timer);
+    lighting?.stop();
+    delete shade.dataset.power;
+    shade.removeAttribute('data-angry');
+    button.removeAttribute('data-off');
+    button.removeAttribute('data-tugging');
+    button.removeAttribute('aria-disabled');
+  }
+
+  function restorePower() {
+    if (shade.dataset.power !== 'search') return;
+    window.clearTimeout(timer);
+    alignMascot();
+    lighting?.stop();
+    button.removeAttribute('data-off');
+    button.removeAttribute('data-tugging');
+    shade.dataset.power = 'restored';
+    timer = window.setTimeout(reset, reduceMotion.matches ? 710 : 790);
+  }
+
+  button.addEventListener('click', () => {
+    if (shade.dataset.power) return;
+    const now = performance.now();
+    const angry = now - previousTap <= 30000;
+    previousTap = angry ? -Infinity : now;
+    enterFromLeft = window.innerWidth <= 650;
+    shade.dataset.power = 'search';
+    shade.toggleAttribute('data-angry', angry);
+    alignMascot();
+    button.setAttribute('data-off', '');
+    button.toggleAttribute('data-tugging', angry);
+    button.setAttribute('aria-disabled', 'true');
+    lighting?.start();
+    timer = window.setTimeout(restorePower, reduceMotion.matches ? 1920 : 2090);
+  });
+
+  mascot.addEventListener('animationend', event => {
+    if (event.target !== mascot) return;
+    if (event.animationName === 'portfolio-power-approach' || event.animationName === 'portfolio-power-angry') restorePower();
+    if (event.animationName === 'portfolio-power-scamper') reset();
+  });
+  window.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && shade.dataset.power) reset();
+  });
+  window.addEventListener('resize', alignMascot, { passive: true });
+  window.addEventListener('scroll', alignMascot, { passive: true });
+  window.addEventListener('pagehide', reset);
+}
+
+function createPortfolioLighting(shade) {
+  const canvas = shade.querySelector('.portfolio-power-light');
+  const lens = shade.querySelector('.portfolio-power-lens');
+  const ray = shade.querySelector('.portfolio-power-ray');
+  const context = canvas.getContext('2d');
+  if (!context) return null;
+
+  const beam = document.createElement('canvas');
+  beam.width = 296;
+  beam.height = 216;
+  const stamp = beam.getContext('2d');
+  if (!stamp) return null;
+  let frame;
+  let scale;
+
+  function resize() {
+    const width = shade.clientWidth;
+    const height = shade.clientHeight;
+    const nextScale = Math.min(1.25, window.devicePixelRatio || 1, 1200 / width);
+    const pixelsWide = Math.round(width * nextScale);
+    const pixelsHigh = Math.round(height * nextScale);
+    if (canvas.width === pixelsWide && canvas.height === pixelsHigh && scale === nextScale) return;
+    scale = nextScale;
+    canvas.width = pixelsWide;
+    canvas.height = pixelsHigh;
+    if (frame) draw();
+  }
+
+  function draw() {
+    const source = lens.getBoundingClientRect();
+    const direction = ray.getBoundingClientRect();
+    context.setTransform(scale, 0, 0, scale, 0, 0);
+    context.globalAlpha = 1;
+    context.globalCompositeOperation = 'copy';
+    context.fillStyle = 'rgba(7, 6, 8, .972)';
+    context.fillRect(0, 0, canvas.width / scale, canvas.height / scale);
+    context.save();
+    context.translate(source.x, source.y);
+    context.rotate(Math.atan2(direction.y - source.y, direction.x - source.x));
+    context.globalCompositeOperation = 'destination-out';
+    const spill = context.createRadialGradient(12, 0, 0, 12, 0, 43);
+    spill.addColorStop(0, '#0009');
+    spill.addColorStop(.48, '#0005');
+    spill.addColorStop(1, '#0000');
+    context.fillStyle = spill;
+    context.fillRect(-31, -43, 86, 86);
+    context.drawImage(beam, 0, -beam.height / 2);
+    context.globalCompositeOperation = 'source-over';
+    context.globalAlpha = .22;
+    context.drawImage(beam, 0, -beam.height / 2);
+    context.restore();
+  }
+
+  function paint() {
+    draw();
+    frame = window.requestAnimationFrame(paint);
+  }
+
+  function start() {
+    if (!shade.hasAttribute('data-lighting')) {
+      const image = stamp.createImageData(beam.width, beam.height);
+      for (let y = 0; y < beam.height; y += 1) {
+        for (let x = 0; x < beam.width; x += 1) {
+          const dy = y - beam.height / 2;
+          const angle = Math.abs(Math.atan2(dy, x + 5));
+          const distance = Math.hypot(x, dy);
+          const edge = Math.max(0, Math.min(1, (.39 - angle) / .18));
+          const falloff = 1 / (1 + (distance / 165) ** 2);
+          const fade = Math.max(0, 1 - (distance / beam.width) ** 3);
+          const pixel = (y * beam.width + x) * 4;
+          image.data[pixel] = 255;
+          image.data[pixel + 1] = 218;
+          image.data[pixel + 2] = 157;
+          image.data[pixel + 3] = Math.round(242 * edge * edge * falloff * fade);
+        }
+      }
+      stamp.putImageData(image, 0, 0);
+      shade.setAttribute('data-lighting', '');
+    }
+    resize();
+    paint();
+  }
+
+  function stop() {
+    window.cancelAnimationFrame(frame);
+    frame = undefined;
+  }
+
+  return { resize, start, stop };
 }
 
 function preloadAllPosters() {
