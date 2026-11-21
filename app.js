@@ -205,20 +205,27 @@ function initRecentCasePeek(card, reduce) {
   let pointer;
   let floating;
   let origin;
+  let sceneFrame;
+  let startScrollX;
+  let startScrollY;
   let returning;
+  let dragFrame = 0;
   let offset = { x: 0, y: 0 };
   let suppressClick = false;
   let heldByKey = false;
   const transform = (x, y) => `translate3d(${x}px,${y}px,0)`;
 
   function reveal(x, y) {
-    if (!scene) return;
-    const frame = scene.getBoundingClientRect();
+    const frame = sceneFrame;
+    if (!frame) return;
     if (!frame.width || !frame.height) return;
+    x += window.scrollX - startScrollX;
+    y += window.scrollY - startScrollY;
     const overlapWidth = Math.max(0, Math.min(frame.right, origin.right + x) - Math.max(frame.left, origin.left + x));
     const overlapHeight = Math.max(0, Math.min(frame.bottom, origin.bottom + y) - Math.max(frame.top, origin.top + y));
     const cleared = overlapWidth * overlapHeight < frame.width * frame.height * .52;
-    if (television && cleared !== card.hasAttribute('data-case-cleared')) {
+    if (cleared === card.hasAttribute('data-case-cleared')) return;
+    if (television) {
       if (cleared && !reduce.matches) television.play().catch(() => {});
       else television.pause();
     }
@@ -226,23 +233,36 @@ function initRecentCasePeek(card, reduce) {
     if (cleared && !card.hasAttribute('data-case-reaction')) card.dataset.caseReaction = '';
   }
 
-  function move(x, y) {
-    if (!floating) {
-      origin = cover.getBoundingClientRect();
-      floating = cover.cloneNode(true);
-      floating.classList.add('recent-case-floating');
-      floating.removeAttribute('href');
-      floating.setAttribute('aria-hidden', 'true');
-      Object.assign(floating.style, {
-        left: `${origin.left}px`, top: `${origin.top}px`,
-        width: `${origin.width}px`, height: `${origin.height}px`
-      });
-      document.body.append(floating);
-    }
-    offset = { x, y };
-    card.dataset.peek = '';
-    reveal(x, y);
+  function renderDrag() {
+    dragFrame = 0;
+    const { x, y } = offset;
     floating.style.transform = transform(x, y);
+    reveal(x, y);
+  }
+
+  function move(x, y) {
+    offset = { x, y };
+    if (floating) {
+      if (!dragFrame) dragFrame = requestAnimationFrame(renderDrag);
+      return;
+    }
+    origin = cover.getBoundingClientRect();
+    sceneFrame = scene?.getBoundingClientRect();
+    startScrollX = window.scrollX;
+    startScrollY = window.scrollY;
+    floating = cover.cloneNode(true);
+    floating.classList.add('recent-case-floating');
+    floating.removeAttribute('href');
+    floating.setAttribute('aria-hidden', 'true');
+    const poster = floating.querySelector('img');
+    if (poster) poster.loading = 'eager';
+    Object.assign(floating.style, {
+      left: `${origin.left}px`, top: `${origin.top}px`,
+      width: `${origin.width}px`, height: `${origin.height}px`
+    });
+    renderDrag();
+    document.body.append(floating);
+    card.dataset.peek = '';
   }
 
   function clear() {
@@ -258,6 +278,8 @@ function initRecentCasePeek(card, reduce) {
 
   function release() {
     if (!floating) return;
+    cancelAnimationFrame(dragFrame);
+    dragFrame = 0;
     television?.pause();
     delete card.dataset.caseCleared;
     const { x, y } = offset;
@@ -283,6 +305,9 @@ function initRecentCasePeek(card, reduce) {
   }
 
   cover.addEventListener('dragstart', event => event.preventDefault());
+  cover.addEventListener('contextmenu', event => {
+    if (pointer?.isTouch || event.pointerType === 'touch') event.preventDefault();
+  });
   cover.addEventListener('pointerdown', event => {
     if (!event.isPrimary || event.button !== 0 || pointer || heldByKey) return;
     suppressClick = false;
@@ -290,17 +315,19 @@ function initRecentCasePeek(card, reduce) {
       returning.cancel();
       clear();
     }
-    pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
-    cover.setPointerCapture(event.pointerId);
+    pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false, isTouch: event.pointerType === 'touch' };
+    if (!pointer.isTouch) cover.setPointerCapture(event.pointerId);
   });
   cover.addEventListener('pointermove', event => {
     if (event.pointerId !== pointer?.id) return;
     const x = event.clientX - pointer.x;
     const y = event.clientY - pointer.y;
     if (!pointer.moved && Math.hypot(x, y) < 8) return;
-    if (event.pointerType === 'touch' && !pointer.moved && Math.abs(y) > Math.abs(x)) return;
-    pointer.moved = true;
-    suppressClick = true;
+    if (!pointer.moved) {
+      pointer.moved = true;
+      suppressClick = true;
+      if (pointer.isTouch) cover.setPointerCapture(event.pointerId);
+    }
     move(x, y);
   });
   function endPointer(event) {
@@ -309,11 +336,14 @@ function initRecentCasePeek(card, reduce) {
     pointer = null;
     if (moved) release();
   }
-  for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+  for (const event of ['pointerup', 'pointercancel']) {
     cover.addEventListener(event, endPointer);
   }
+  cover.addEventListener('lostpointercapture', event => {
+    if (event.target === cover) endPointer(event);
+  });
   cover.addEventListener('click', event => {
-    if (suppressClick && event.detail > 0) event.preventDefault();
+    if (suppressClick && (event.detail > 0 || event.pointerType)) event.preventDefault();
     suppressClick = false;
   });
 

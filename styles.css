@@ -4519,7 +4519,15 @@ body {
 .recent-case-play { width:15px; height:15px; flex:none; }
 
 .recent-case-stage { position: relative; isolation: isolate; }
-.recent-case-stage > .recent-case-image { z-index: 1; touch-action: pan-y; user-select: none; }
+.recent-case-stage > .recent-case-image {
+  z-index: 1;
+  touch-action: none;
+  touch-action: pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.recent-case-stage > .recent-case-image img { pointer-events: none; }
 .recent-case[data-peek] .recent-case-stage > .recent-case-image {
   opacity: 0;
   transform: none;
@@ -4534,6 +4542,7 @@ body {
   transition: none;
   pointer-events: none;
   user-select: none;
+  will-change: transform;
 }
 
 .recent-case-underlay {
