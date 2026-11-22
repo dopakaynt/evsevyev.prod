@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initRealisticCosmos();
   initHeroMockup();
   initPricingCarousel();
+  initPricingCashToss();
   initRecentCases();
   initDirectorCinema();
   initClientsInteractions();
@@ -426,6 +427,201 @@ function initPricingCarousel() {
   });
   select(Math.max(0, cards.findIndex(card => card.classList.contains('price-card-featured'))), false);
   grid.classList.add('pricing-grid-enhanced');
+}
+
+function initPricingCashToss() {
+  const mascot = document.querySelector('.pricing-cash-mascot');
+  if (!mascot || typeof mascot.animate !== 'function') return;
+  const paw = mascot.querySelector('.pricing-cash-paw');
+  const body = mascot.querySelector('.pricing-cash-body');
+  const release = mascot.querySelector('.pricing-cash-release');
+  const card = mascot.parentElement;
+  const heading = mascot.closest('#pricing').querySelector('.section-header');
+  const desktop = window.matchMedia('(min-width: 769px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const layer = document.createElement('div');
+  layer.className = 'pricing-cash-flight';
+  layer.setAttribute('aria-hidden', 'true');
+
+  const paths = [
+    { reach: .8, lift: 26, drift: .38, tilt: 27, time: 2100 },
+    { reach: .48, lift: 45, drift: .72, tilt: -32, time: 2290 },
+    { reach: 1, lift: 34, drift: .61, tilt: 20, time: 1940 },
+    { reach: .64, lift: 50, drift: .25, tilt: -25, time: 2210 }
+  ];
+  const timers = new Set();
+  let autoTimer;
+  let played = false;
+  let clicks = 0;
+  let run;
+
+  function schedule(callback, delay) {
+    const timer = window.setTimeout(() => {
+      timers.delete(timer);
+      callback();
+    }, delay);
+    timers.add(timer);
+  }
+
+  function toss({ reach, lift, drift, tilt, time }, direction = 1, spread = 1) {
+    if (layer.childElementCount >= (desktop.matches ? 48 : 24)) return;
+    const { x, y } = release.getBoundingClientRect();
+    const room = direction < 0 ? x - 32 : window.innerWidth - x - 36;
+    const sideways = direction * Math.max(12, Math.min(142 * spread, room));
+    const fall = window.innerHeight - y + 54;
+    const bill = document.createElement('span');
+    bill.className = 'pricing-cash-falling-note';
+    bill.style.left = `${x}px`;
+    bill.style.top = `${y}px`;
+    bill.innerHTML = '<span class="pricing-cash-paper"><span></span><span></span></span>';
+    const paper = bill.firstElementChild;
+    layer.append(bill);
+    if (!layer.isConnected) document.body.append(layer);
+    const movement = bill.animate([
+      { transform: `translate3d(${-20 * direction}px, 0, 0) scale(.7)`, opacity: .85, easing: 'cubic-bezier(.15,.6,.32,1)' },
+      { transform: `translate3d(${sideways * reach}px, ${-lift}px, 0) scale(.96)`, opacity: 1, offset: .19, easing: 'cubic-bezier(.33,.06,.66,.6)' },
+      { transform: `translate3d(${sideways * drift - 18 * direction}px, ${fall * .36}px, 0)`, offset: .57, easing: 'cubic-bezier(.33,.26,.66,.65)' },
+      { transform: `translate3d(${sideways * reach - 34 * direction}px, ${fall}px, 0)` }
+    ], { duration: time, fill: 'both' });
+    paper.animate([
+      { transform: `rotateZ(${-tilt / 2}deg) rotateX(12deg)` },
+      { transform: `rotateZ(${tilt}deg) rotateX(153deg)`, offset: .25 },
+      { transform: `rotateZ(${-tilt}deg) rotateX(228deg)`, offset: .52 },
+      { transform: `rotateZ(${tilt / 2}deg) rotateX(350deg)`, offset: .78 },
+      { transform: `rotateZ(${-tilt * 1.2}deg) rotateX(470deg)` }
+    ], { duration: time, fill: 'both' });
+    function finish() {
+      if (!bill.isConnected) return;
+      bill.remove();
+      if (!layer.childElementCount) layer.remove();
+    }
+    movement.finished.then(finish, finish);
+  }
+
+  function clearScene() {
+    window.clearTimeout(autoTimer);
+    timers.forEach(timer => window.clearTimeout(timer));
+    timers.clear();
+    run?.cancel();
+    run = undefined;
+    delete mascot.dataset.cashAngry;
+    restDirection();
+    clicks = 0;
+    for (const animation of mascot.getAnimations({ subtree: true })) {
+      if (animation.effect?.target === paw || animation.effect?.target === body) animation.cancel();
+    }
+    layer.replaceChildren();
+    layer.remove();
+  }
+
+  function flick() {
+    paw.animate([
+      { transform: 'translateX(0) rotate(14deg)' },
+      { transform: 'translate(-13px, 5px) rotate(30deg)', offset: .28 },
+      { transform: 'translate(9px,-5px) rotate(-29deg)', offset: .49 },
+      { transform: 'translateX(0) rotate(14deg)' }
+    ], { duration: 232, easing: 'ease-out' });
+    body.animate([
+      { transform: 'none' },
+      { transform: 'rotate(-5deg) scale(1.04,.97)' },
+      { transform: 'rotate(5deg) scale(.98,1.02)' },
+      { transform: 'none' }
+    ], { duration: 232, easing: 'ease-out' });
+  }
+
+  function throwFromPaw(path, spread) {
+    toss(path, mascot.dataset.cashDirection === 'left' ? -1 : 1, spread);
+  }
+
+  function playBurst() {
+    const burstPaths = desktop.matches ? paths : paths.slice(0, 3);
+    for (const [index, path] of burstPaths.entries()) {
+      const cue = index * 285;
+      schedule(flick, cue);
+      schedule(() => throwFromPaw(path, 1), cue + 105);
+    }
+  }
+
+  function startRun() {
+    const compact = !desktop.matches;
+    const duration = compact ? 1840 : 2210;
+    mascot.dataset.cashAngry = '';
+    mascot.dataset.cashDirection = 'left';
+    const distance = compact ? Math.min(154, heading.clientWidth * .44) : Math.min(420, card.clientWidth * 1.45);
+    const poses = [
+      [0, 0, 0, 0], [.06, 0, 2, 7], [.13, .03, -13, -12],
+      [.22, .29, -3, -9], [.32, .65, -12, -7], [.43, .93, -2, 8],
+      [.49, 1, -10, 13], [.57, .94, -4, -9], [.67, .67, -13, 8],
+      [.77, .39, -3, 11], [.86, .14, -11, 8], [.94, 0, 3, -7], [1, 0, 0, 0]
+    ];
+    run = mascot.animate(poses.map(([offset, progress, y, turn]) => ({
+      offset,
+      transform: `translate3d(${-distance * progress}px,${y - (compact ? Math.sin(Math.PI * offset) * 32 : 0)}px,0) rotate(${turn}deg)`
+    })), { duration });
+    const animation = run;
+    schedule(() => { mascot.dataset.cashDirection = 'right'; }, duration * .507);
+    const noteCount = compact ? 12 : 18;
+    for (let index = 0; index < noteCount; index += 1) {
+      const cue = 130 + index * (compact ? 126 : 103);
+      if (index % 3 === 0) schedule(flick, cue);
+      const path = paths[index % paths.length];
+      schedule(() => throwFromPaw({
+        ...path,
+        reach: path.reach * (.7 + (index % 5) * .11),
+        lift: path.lift + index % 4 * 6,
+        tilt: path.tilt + index % 6 * 7
+      }, 1.3), cue + 87);
+    }
+    animation.finished.then(() => {
+      if (run !== animation) return;
+      run = undefined;
+      delete mascot.dataset.cashAngry;
+      restDirection();
+    }, () => {});
+  }
+
+  function restDirection() {
+    mascot.dataset.cashDirection = desktop.matches ? 'right' : 'left';
+  }
+
+  function syncPerch() {
+    clearScene();
+    const compact = !desktop.matches;
+    heading.classList.toggle('has-cash-mascot', compact && !reducedMotion.matches);
+    if (compact) heading.append(mascot);
+    else card.prepend(mascot);
+    mascot.hidden = reducedMotion.matches;
+  }
+
+  function canPlay() { return !reducedMotion.matches && !document.hidden; }
+
+  mascot.addEventListener('click', () => {
+    if (!canPlay()) return;
+    window.clearTimeout(autoTimer);
+    played = true;
+    if (!run && ++clicks === 3) {
+      clicks = 0;
+      startRun();
+    } else {
+      playBurst();
+    }
+  });
+  syncPerch();
+  const observer = new IntersectionObserver(([entry]) => {
+    window.clearTimeout(autoTimer);
+    if (entry.intersectionRatio >= .75 && !played && desktop.matches && canPlay()) {
+      autoTimer = window.setTimeout(() => {
+        if (!desktop.matches || !canPlay()) return;
+        played = true;
+        playBurst();
+      }, 550);
+    }
+  }, { threshold: .75, rootMargin: '0px 0px -15% 0px' });
+  observer.observe(mascot);
+  desktop.addEventListener('change', syncPerch);
+  reducedMotion.addEventListener('change', syncPerch);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) clearScene(); });
+  window.addEventListener('pagehide', clearScene);
 }
 
 function initLenisScroll() {

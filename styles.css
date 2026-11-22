@@ -4653,6 +4653,175 @@ body {
   #pricing .price-card:hover { transform: none; }
 }
 
+.pricing-cash-mascot {
+  display: none;
+  position: absolute;
+  right: 16px;
+  bottom: calc(100% - 5px);
+  z-index: 4;
+  width: 92px;
+  height: 69px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  .pricing-cash-mascot { display: block; }
+}
+
+.pricing-cash-mascot:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 4px;
+}
+
+.pricing-cash-body {
+  position: absolute;
+  inset: 0;
+  transform-origin: 55% 93%;
+}
+
+.pricing-cash-mascot .plush-face {
+  --left-open: .62;
+  --right-open: .78;
+  --left-tilt: 11deg;
+  --right-tilt: -8deg;
+  --plush-gaze-x: 3px;
+  --plush-gaze-y: 1px;
+}
+
+.pricing-cash-mascot .plush-eye { animation: plush-blink 7.4s infinite; }
+
+#plan-3:has(.pricing-cash-mascot[data-cash-angry]) { z-index: 11; }
+
+.pricing-cash-mascot[data-cash-direction='left'] .pricing-cash-body { scale: -1 1; }
+.pricing-cash-mascot[data-cash-direction='left'] .pricing-cash-release { left: -10px; right: auto; }
+
+.pricing-cash-mascot[data-cash-angry] .plush-face {
+  --left-open: .98;
+  --right-open: .65;
+  --left-tilt: 28deg;
+  --right-tilt: -30deg;
+  --plush-gaze-x: 4px;
+  --pupil-size: .75;
+}
+
+.pricing-cash-mascot[data-cash-angry] .plush-eye { animation: none; }
+
+.pricing-cash-mascot[data-cash-angry] .plush-face::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 48%;
+  left: 25%;
+  width: 50%;
+  height: 14%;
+  background:
+    linear-gradient(22deg, transparent 39%, #201817 42% 63%, transparent 67%) left / 48% 100% no-repeat,
+    linear-gradient(-22deg, transparent 39%, #201817 42% 63%, transparent 67%) right / 48% 100% no-repeat;
+}
+
+.pricing-cash-mascot[data-cash-angry] .plush-face::after {
+  opacity: 1;
+  border-radius: 47% 35% 38% 48%;
+  background: linear-gradient(#e0c9a1 0 29%, #351814 35% 76%, #782b23);
+  transform: translateY(2px) rotate(-12deg) scale(1.78, 1.35);
+}
+
+.pricing-cash-stack {
+  position: absolute;
+  right: 6px;
+  bottom: 3px;
+  width: 32px;
+  height: 13.5px;
+  border-radius: 1px;
+  background: url('assets/mascot/note-100-front.jpg') center / cover;
+  box-shadow: 0 2px #8f8f68, 0 3px #4a4732, 0 6px 8px #0008;
+  transform: rotate(-11deg);
+}
+
+.pricing-cash-paw {
+  position: absolute;
+  right: -3px;
+  bottom: 17px;
+  width: 29px;
+  height: 14px;
+  border-radius: 50%;
+  background: url('assets/mascot/plush-fur.png') 55% 58% / 205% auto;
+  box-shadow: 0 2px 4px #0007;
+  transform: rotate(14deg);
+  transform-origin: 12% 65%;
+}
+
+.pricing-cash-release { position: absolute; right: -10px; bottom: 29px; }
+
+.pricing-cash-flight {
+  position: fixed;
+  z-index: 12;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.pricing-cash-falling-note {
+  position: absolute;
+  width: clamp(34px, 3.25vw, 43px);
+  aspect-ratio: 156 / 67;
+  perspective: 180px;
+}
+
+.pricing-cash-paper {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.pricing-cash-paper > span {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 1px;
+  background: url('assets/mascot/note-100-front.jpg') center / 100% 100%;
+}
+
+.pricing-cash-paper > span + span {
+  background-image: url('assets/mascot/note-100-back.jpg');
+  transform: rotateX(180deg);
+}
+
+@media (max-width: 768px) {
+  #pricing .section-header.has-cash-mascot {
+    display: grid;
+    grid-template-columns: minmax(0, max-content) 60px;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
+  }
+
+  #pricing .has-cash-mascot .eyebrow { grid-column: 1 / -1; }
+
+  #pricing .has-cash-mascot .section-title {
+    margin: 0;
+    font-size: clamp(25px, 7.5vw, 32px);
+  }
+
+  .has-cash-mascot .pricing-cash-mascot {
+    display: block;
+    position: relative;
+    inset: auto;
+    width: 60px;
+    height: 46px;
+  }
+
+  .pricing-cash-mascot .pricing-cash-stack { width: 23px; height: 10px; right: 4px; }
+  .pricing-cash-mascot .pricing-cash-paw { width: 19px; height: 9px; bottom: 11px; }
+  .pricing-cash-mascot .pricing-cash-release { bottom: 18px; }
+  .pricing-cash-falling-note { width: 30px; }
+}
+
 /* Distinguish the two roles at a glance. */
 #rolesCompare .audience-role-highlight { display:inline-flex; align-items:center; gap:9px; max-width:100%; margin:0 0 14px; padding:8px 12px; border:1px solid rgba(245,177,48,.48); border-radius:4px; background:rgba(229,169,60,.12); color:#f5bc49; font:700 14px/1.25 var(--font-title-poster,'Oswald',sans-serif); letter-spacing:.035em; }
 #rolesCompare .audience-role-highlight span { font-size:19px; line-height:1; }
