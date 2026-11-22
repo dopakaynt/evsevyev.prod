@@ -2827,6 +2827,7 @@ body {
   transition: opacity 205ms ease-out;
 }
 .portfolio-power-light { display: block; width: 100%; height: 100%; }
+.portfolio-blackout:not([data-lighting]) .portfolio-power-light { visibility: hidden; }
 .portfolio-blackout:not([data-lighting]) .portfolio-power-matte::before {
   content: '';
   background: #070608f7;

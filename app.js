@@ -905,7 +905,8 @@ function initPortfolioPower() {
   const hardware = button?.querySelector('.portfolio-power-hardware');
   const mascot = shade?.querySelector('.portfolio-power-mascot');
   if (!hardware || !mascot) return;
-  const lighting = createPortfolioLighting(shade);
+  const touchLayout = window.matchMedia('(max-width: 768px), (pointer: coarse)');
+  const lighting = createPortfolioLighting(shade, touchLayout);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let previousTap = -Infinity;
   let timer;
@@ -927,7 +928,6 @@ function initPortfolioPower() {
     shade.style.setProperty('--power-entry-y', `${entryY}px`);
     shade.style.setProperty('--power-exit', `${exit}px`);
     shade.style.setProperty('--power-aim', `${aim}deg`);
-    lighting?.resize();
   }
 
   function reset() {
@@ -943,12 +943,11 @@ function initPortfolioPower() {
   function restorePower() {
     if (shade.dataset.power !== 'search') return;
     window.clearTimeout(timer);
-    alignMascot();
+    timer = window.setTimeout(reset, reduceMotion.matches ? 710 : 790);
     lighting?.stop();
     button.removeAttribute('data-off');
     button.removeAttribute('data-tugging');
     shade.dataset.power = 'restored';
-    timer = window.setTimeout(reset, reduceMotion.matches ? 710 : 790);
   }
 
   button.addEventListener('click', () => {
@@ -957,6 +956,7 @@ function initPortfolioPower() {
     const angry = now - previousTap <= 30000;
     previousTap = angry ? -Infinity : now;
     enterFromLeft = window.innerWidth <= 650;
+    timer = window.setTimeout(restorePower, reduceMotion.matches ? 1920 : 2090);
     shade.dataset.power = 'search';
     shade.toggleAttribute('data-angry', angry);
     alignMascot();
@@ -964,7 +964,6 @@ function initPortfolioPower() {
     button.toggleAttribute('data-tugging', angry);
     button.setAttribute('aria-disabled', 'true');
     lighting?.start();
-    timer = window.setTimeout(restorePower, reduceMotion.matches ? 1920 : 2090);
   });
 
   mascot.addEventListener('animationend', event => {
@@ -975,12 +974,18 @@ function initPortfolioPower() {
   window.addEventListener('keydown', event => {
     if (event.key === 'Escape' && shade.dataset.power) reset();
   });
-  window.addEventListener('resize', alignMascot, { passive: true });
+  window.addEventListener('resize', () => {
+    alignMascot();
+    lighting?.resize();
+  }, { passive: true });
   window.addEventListener('scroll', alignMascot, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && shade.dataset.power) reset();
+  });
   window.addEventListener('pagehide', reset);
 }
 
-function createPortfolioLighting(shade) {
+function createPortfolioLighting(shade, touchLayout) {
   const canvas = shade.querySelector('.portfolio-power-light');
   const lens = shade.querySelector('.portfolio-power-lens');
   const ray = shade.querySelector('.portfolio-power-ray');
@@ -994,18 +999,20 @@ function createPortfolioLighting(shade) {
   if (!stamp) return null;
   let frame;
   let scale;
+  let lastPaint;
+  let beamReady = false;
 
-  function resize() {
+  function sizeCanvas() {
     const width = shade.clientWidth;
     const height = shade.clientHeight;
-    const nextScale = Math.min(1.25, window.devicePixelRatio || 1, 1200 / width);
-    const pixelsWide = Math.round(width * nextScale);
-    const pixelsHigh = Math.round(height * nextScale);
+    const resolution = touchLayout.matches ? .65 : 1.25;
+    const nextScale = Math.min(resolution, window.devicePixelRatio || 1, 1200 / width);
+    const pixelsWide = Math.max(1, Math.round(width * nextScale));
+    const pixelsHigh = Math.max(1, Math.round(height * nextScale));
     if (canvas.width === pixelsWide && canvas.height === pixelsHigh && scale === nextScale) return;
     scale = nextScale;
     canvas.width = pixelsWide;
     canvas.height = pixelsHigh;
-    if (frame) draw();
   }
 
   function draw() {
@@ -1013,33 +1020,50 @@ function createPortfolioLighting(shade) {
     const direction = ray.getBoundingClientRect();
     context.setTransform(scale, 0, 0, scale, 0, 0);
     context.globalAlpha = 1;
-    context.globalCompositeOperation = 'copy';
+    context.globalCompositeOperation = 'source-over';
+    context.clearRect(0, 0, canvas.width / scale, canvas.height / scale);
     context.fillStyle = 'rgba(7, 6, 8, .972)';
     context.fillRect(0, 0, canvas.width / scale, canvas.height / scale);
     context.save();
-    context.translate(source.x, source.y);
-    context.rotate(Math.atan2(direction.y - source.y, direction.x - source.x));
-    context.globalCompositeOperation = 'destination-out';
-    const spill = context.createRadialGradient(12, 0, 0, 12, 0, 43);
-    spill.addColorStop(0, '#0009');
-    spill.addColorStop(.48, '#0005');
-    spill.addColorStop(1, '#0000');
-    context.fillStyle = spill;
-    context.fillRect(-31, -43, 86, 86);
-    context.drawImage(beam, 0, -beam.height / 2);
-    context.globalCompositeOperation = 'source-over';
-    context.globalAlpha = .22;
-    context.drawImage(beam, 0, -beam.height / 2);
-    context.restore();
+    try {
+      context.translate(source.x, source.y);
+      context.rotate(Math.atan2(direction.y - source.y, direction.x - source.x));
+      context.globalCompositeOperation = 'destination-out';
+      const spill = context.createRadialGradient(12, 0, 0, 12, 0, 43);
+      spill.addColorStop(0, '#0009');
+      spill.addColorStop(.48, '#0005');
+      spill.addColorStop(1, '#0000');
+      context.fillStyle = spill;
+      context.fillRect(-31, -43, 86, 86);
+      context.drawImage(beam, 0, -beam.height / 2);
+      context.globalCompositeOperation = 'source-over';
+      context.globalAlpha = .22;
+      context.drawImage(beam, 0, -beam.height / 2);
+    } finally {
+      context.restore();
+    }
   }
 
-  function paint() {
-    draw();
-    frame = window.requestAnimationFrame(paint);
+  function useFallback() {
+    stop();
+    shade.removeAttribute('data-lighting');
   }
 
-  function start() {
-    if (!shade.hasAttribute('data-lighting')) {
+  function paint(now) {
+    // The soft beam does not need a full-canvas repaint on every display frame.
+    try {
+      if (!touchLayout.matches || now - lastPaint >= 32) {
+        draw();
+        lastPaint = now;
+      }
+      frame = window.requestAnimationFrame(paint);
+    } catch {
+      useFallback();
+    }
+  }
+
+  function prepareBeam() {
+    if (!beamReady) {
       const image = stamp.createImageData(beam.width, beam.height);
       for (let y = 0; y < beam.height; y += 1) {
         for (let x = 0; x < beam.width; x += 1) {
@@ -1057,10 +1081,35 @@ function createPortfolioLighting(shade) {
         }
       }
       stamp.putImageData(image, 0, 0);
-      shade.setAttribute('data-lighting', '');
+      beamReady = true;
     }
-    resize();
-    paint();
+  }
+
+  function start() {
+    try {
+      if (context.isContextLost?.()) {
+        useFallback();
+        return;
+      }
+      prepareBeam();
+      sizeCanvas();
+      draw();
+      shade.setAttribute('data-lighting', '');
+      lastPaint = performance.now();
+      frame = window.requestAnimationFrame(paint);
+    } catch {
+      useFallback();
+    }
+  }
+
+  function resize() {
+    if (frame === undefined) return;
+    try {
+      sizeCanvas();
+      draw();
+    } catch {
+      useFallback();
+    }
   }
 
   function stop() {
@@ -1068,6 +1117,7 @@ function createPortfolioLighting(shade) {
     frame = undefined;
   }
 
+  canvas.addEventListener('contextlost', useFallback);
   return { resize, start, stop };
 }
 
