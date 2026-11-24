@@ -2245,6 +2245,7 @@ function initProcessSnakeFlow() {
         '-=0.2'
       );
     }
+    tl.duration(3);
   } else {
     // Mobile 2x3 Grid Entrance: Smooth, responsive, vertical emergence (Zero Horizontal Displacement)
     const mobileTl = gsap.timeline({
